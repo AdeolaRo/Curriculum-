@@ -2,9 +2,9 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Simple Cv pour Tous</title>
-    <!-- html2pdf (export fiable) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMPLE CV POUR NOUS | Agencements & Export PDF</title>
+    <!-- html2pdf (CDN fiable) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         * {
@@ -13,41 +13,33 @@
             box-sizing: border-box;
         }
 
-        /* Arrière-plan sobre et uni */
         body {
-            background-color: #f1f5f9;  /* gris clair sobre */
-            font-family: 'Inter', 'Poppins', system-ui, sans-serif;
+            background-color: #eef2f5;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             padding: 2rem;
-            min-height: 100vh;
             color: #1e293b;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap');
 
         .app {
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* Header sobre mais stylé */
         .header {
             text-align: center;
             margin-bottom: 2rem;
         }
-
         .header h1 {
             font-size: 2.5rem;
-            font-weight: 700;
             color: #0f172a;
-            letter-spacing: -0.5px;
         }
-
         .sub {
             color: #475569;
-            margin-top: 0.25rem;
         }
 
-        /* Panneau de contrôle des styles */
+        /* Panneau de styles */
         .style-panel {
             background: white;
             border-radius: 1.5rem;
@@ -55,44 +47,21 @@
             margin-bottom: 2rem;
             display: flex;
             flex-wrap: wrap;
-            gap: 1.5rem;
+            gap: 2rem;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-
         .style-group {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
             flex-wrap: wrap;
         }
-
-        .style-group label {
-            font-weight: 600;
-            color: #334155;
-        }
-
-        select, .color-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            border: 1px solid #cbd5e1;
-            background: white;
-            font-family: inherit;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        select:hover, .color-btn:hover {
-            border-color: #3b82f6;
-        }
-
         .color-palette {
             display: flex;
             gap: 0.5rem;
-            flex-wrap: wrap;
         }
-
         .color-option {
             width: 32px;
             height: 32px;
@@ -101,10 +70,17 @@
             border: 2px solid transparent;
             transition: 0.1s;
         }
-
         .color-option.active {
             border-color: #0f172a;
             transform: scale(1.1);
+        }
+        select {
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            border: 1px solid #cbd5e1;
+            background: white;
+            font-family: inherit;
+            cursor: pointer;
         }
 
         /* Layout deux colonnes */
@@ -113,61 +89,48 @@
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
         }
-
         @media (max-width: 900px) {
             body { padding: 1rem; }
             .cv-maker { grid-template-columns: 1fr; }
         }
 
-        /* Panneau d'édition */
+        /* Éditeur */
         .editor-panel {
             background: white;
             border-radius: 1.5rem;
             padding: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
-
         .section-title {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin: 1.2rem 0 1rem 0;
-            color: #0f172a;
+            margin: 1.2rem 0 0.8rem 0;
             border-left: 4px solid #3b82f6;
             padding-left: 0.75rem;
         }
-
         .section-title:first-of-type { margin-top: 0; }
-
         .input-group {
             margin-bottom: 1rem;
         }
-
         label {
             display: block;
             font-weight: 500;
-            margin-bottom: 0.3rem;
-            color: #334155;
             font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+            color: #334155;
         }
-
         input, textarea {
             width: 100%;
-            padding: 0.7rem 1rem;
+            padding: 0.6rem 1rem;
             border: 1px solid #cbd5e1;
             border-radius: 1rem;
-            font-size: 0.9rem;
             font-family: inherit;
-            background: #fefefe;
-            transition: 0.2s;
+            font-size: 0.9rem;
         }
-
         input:focus, textarea:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
         }
-
         .exp-card, .edu-card {
             background: #f8fafc;
             border-radius: 1rem;
@@ -175,211 +138,151 @@
             margin-bottom: 1rem;
             border-left: 3px solid #3b82f6;
         }
-
         .btn-add {
             background: #3b82f6;
             border: none;
             color: white;
-            padding: 0.5rem 1.2rem;
+            padding: 0.4rem 1.2rem;
             border-radius: 2rem;
-            font-weight: 500;
             cursor: pointer;
-            margin: 0.5rem 0 1rem;
-            transition: 0.2s;
+            margin: 0.5rem 0;
         }
-
-        .btn-add:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-        }
-
         .btn-remove {
             background: #ef4444;
             border: none;
             color: white;
-            padding: 0.25rem 0.8rem;
+            padding: 0.2rem 0.8rem;
             border-radius: 1.5rem;
             cursor: pointer;
             margin-top: 0.5rem;
             font-size: 0.7rem;
         }
-
         .skills-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.6rem;
+            gap: 0.5rem;
             margin: 1rem 0;
         }
-
         .skill-tag {
             background: #e2e8f0;
-            padding: 0.3rem 1rem;
+            padding: 0.2rem 0.8rem;
             border-radius: 2rem;
-            font-size: 0.8rem;
             display: inline-flex;
-            align-items: center;
             gap: 0.5rem;
-            color: #1e293b;
+            align-items: center;
+            font-size: 0.8rem;
         }
-
-        .skill-tag button {
-            background: none;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            color: #64748b;
-        }
-
         .add-skill {
             display: flex;
             gap: 0.5rem;
-            margin-top: 0.5rem;
         }
 
-        /* APERÇU CV */
+        /* Aperçu et export */
         .preview-panel {
             background: white;
             border-radius: 1.5rem;
             padding: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             position: sticky;
             top: 2rem;
             max-height: 90vh;
             overflow-y: auto;
         }
-
-        /* Conteneur du CV (sera exporté) */
         .cv-export-container {
             background: white;
             border-radius: 1rem;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.2s;
         }
-
+        /* Styles de base du CV (seront surchargés par les agencements) */
         .cv-futuristic {
-            font-family: 'Inter', 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             color: #1e293b;
-            transition: all 0.2s;
         }
-
-        /* Design variables qui seront appliquées dynamiquement */
         .cv-header-area {
-            padding: 1.5rem;
+            padding: 1.2rem;
             text-align: center;
-            transition: all 0.2s;
         }
-
         .cv-name {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 0.25rem;
+            font-size: 1.8rem;
+            font-weight: 700;
         }
-
         .cv-title {
-            font-size: 1rem;
-            font-weight: 500;
+            font-size: 0.95rem;
             opacity: 0.9;
         }
-
         .cv-contact {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 1rem;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             margin-top: 0.5rem;
         }
-
         .cv-body {
-            padding: 1.5rem;
+            padding: 1.2rem;
         }
-
         .cv-section {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
-
         .cv-section h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            border-left: 4px solid;
-            padding-left: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid;
+            padding-left: 0.6rem;
         }
-
         .cv-exp-item, .cv-edu-item {
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
-
         .cv-job, .cv-degree {
             font-weight: 700;
         }
-
         .cv-company, .cv-school {
+            font-size: 0.8rem;
             font-weight: 500;
-            font-size: 0.85rem;
         }
-
         .cv-date {
             font-size: 0.7rem;
             color: #64748b;
         }
-
         .cv-desc {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #475569;
-            margin-top: 0.2rem;
         }
-
         .cv-skills {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
         }
-
         .cv-skill-badge {
             background: #e2e8f0;
-            padding: 0.2rem 0.8rem;
+            padding: 0.2rem 0.7rem;
             border-radius: 2rem;
-            font-size: 0.75rem;
-            font-weight: 500;
+            font-size: 0.7rem;
         }
-
         .btn-export {
             background: #10b981;
-            border: none;
             width: 100%;
-            padding: 0.9rem;
+            padding: 0.8rem;
+            border: none;
             border-radius: 2rem;
-            font-weight: bold;
             color: white;
-            font-size: 1rem;
-            cursor: pointer;
+            font-weight: bold;
             margin-top: 1.5rem;
-            transition: 0.2s;
+            cursor: pointer;
+            font-size: 1rem;
         }
-
-        .btn-export:hover {
-            background: #059669;
-            transform: translateY(-2px);
-        }
-
         .toast {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
             background: #1e293b;
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 2rem;
-            font-size: 0.9rem;
-            animation: fadeIn 0.3s ease;
+            font-size: 0.8rem;
             z-index: 2000;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
         }
     </style>
 </head>
@@ -387,59 +290,69 @@
 <div class="app">
     <div class="header">
         <h1>📄 SIMPLE CV POUR NOUS</h1>
-        <div class="sub">Éditeur simple · Personnalisation complète · Export PDF</div>
+        <div class="sub">Agencements, couleurs, designs - Export PDF fiable</div>
     </div>
 
-    <!-- Panneau de styles : couleurs d'en-tête + designs -->
     <div class="style-panel">
         <div class="style-group">
-            <label>🎨 Couleur de l'en-tête :</label>
+            <span>🎨 Couleur en-tête :</span>
             <div class="color-palette" id="headerColorPalette"></div>
         </div>
         <div class="style-group">
-            <label>✨ Design du CV :</label>
+            <span>📐 Agencement du CV :</span>
+            <select id="layoutSelect">
+                <option value="classic">Classique (1 colonne)</option>
+                <option value="two-columns">Deux colonnes</option>
+                <option value="modern">Moderne (en-tête large)</option>
+                <option value="compact">Compact</option>
+                <option value="with-photo">Avec espace photo</option>
+            </select>
+        </div>
+        <div class="style-group">
+            <span>✨ Design visuel :</span>
             <select id="designSelect">
-                <option value="classic">Classique sobre</option>
-                <option value="moderne">Moderne épuré</option>
-                <option value="ombre">Ombre douce</option>
-                <option value="minimaliste">Minimaliste</option>
-                <option value="professionnel">Professionnel</option>
-                <option value="futuriste">Futuriste (dégradé)</option>
-                <option value="carte">Carte blanche</option>
-                <option value="ligne">Ligne horizontale</option>
-                <option value="bordure">Bordure colorée</option>
-                <option value="élégant">Élégant</option>
+                <option value="classic">Classique</option>
+                <option value="modern">Moderne</option>
+                <option value="shadow">Ombre portée</option>
+                <option value="minimal">Minimaliste</option>
+                <option value="professional">Professionnel</option>
+                <option value="futuristic">Futuriste</option>
+                <option value="card">Carte</option>
+                <option value="line">Ligne</option>
+                <option value="border">Bordure</option>
+                <option value="elegant">Élégant</option>
             </select>
         </div>
     </div>
 
     <div class="cv-maker">
-        <!-- ÉDITEUR -->
+        <!-- Éditeur -->
         <div class="editor-panel">
             <div class="section-title">👤 Identité</div>
             <div class="input-group"><label>Nom complet</label><input type="text" id="fullName" value="Sophie Laurent"></div>
-            <div class="input-group"><label>Titre professionnel</label><input type="text" id="jobTitle" value="Chef de projet digital"></div>
+            <div class="input-group"><label>Titre</label><input type="text" id="jobTitle" value="Chef de projet digital"></div>
             <div class="input-group"><label>Email</label><input type="email" id="email" value="sophie@exemple.com"></div>
             <div class="input-group"><label>Téléphone</label><input type="text" id="phone" value="06 12 34 56 78"></div>
             <div class="input-group"><label>Localisation</label><input type="text" id="location" value="Lyon, France"></div>
+            <div class="input-group"><label>Photo (URL, optionnel)</label><input type="text" id="photoUrl" placeholder="https://exemple.com/photo.jpg"></div>
 
             <div class="section-title">💼 Expériences</div>
             <div id="expList"></div>
-            <button class="btn-add" id="addExpBtn">+ Ajouter une expérience</button>
+            <button class="btn-add" id="addExpBtn">+ Ajouter</button>
 
             <div class="section-title">🎓 Formations</div>
             <div id="eduList"></div>
-            <button class="btn-add" id="addEduBtn">+ Ajouter une formation</button>
+            <button class="btn-add" id="addEduBtn">+ Ajouter</button>
 
             <div class="section-title">🧠 Compétences</div>
             <div id="skillsContainer" class="skills-container"></div>
             <div class="add-skill">
-                <input type="text" id="newSkillInput" placeholder="Ex: Gestion de projet, Figma...">
+                <input type="text" id="newSkillInput" placeholder="Nouvelle compétence">
                 <button class="btn-add" id="addSkillBtn">Ajouter</button>
             </div>
         </div>
 
-        <!-- APERÇU + EXPORT -->
+        <!-- Aperçu + Export -->
         <div class="preview-panel">
             <div id="cvExportContainer" class="cv-export-container">
                 <div id="cvPreview" class="cv-futuristic"></div>
@@ -450,101 +363,244 @@
 </div>
 
 <script>
-    // ---------- DONNÉES CV ----------
+    // ------------------ DONNÉES CV ------------------
     let cv = {
         personal: {
             name: "Sophie Laurent",
             title: "Chef de projet digital",
             email: "sophie@exemple.com",
             phone: "06 12 34 56 78",
-            location: "Lyon, France"
+            location: "Lyon, France",
+            photo: ""
         },
         experiences: [
             { job: "Chef de projet senior", company: "Agence Wepik", date: "2021 - aujourd'hui", desc: "Gestion d'équipe, suivi de budgets, satisfaction client 95%." },
-            { job: "Assistant chef de projet", company: "Startup Innov", date: "2019 - 2021", desc: "Support à la planification et coordination des sprints." }
+            { job: "Assistant chef de projet", company: "Startup Innov", date: "2019 - 2021", desc: "Coordination des sprints, support à la planification." }
         ],
         educations: [
-            { degree: "Master Management de projet", school: "IAE Lyon", date: "2017-2019", desc: "Mention bien, spécialité agile." },
-            { degree: "Licence Économie", school: "Université Lumière", date: "2014-2017", desc: "Parcours gestion." }
+            { degree: "Master Management", school: "IAE Lyon", date: "2017-2019", desc: "Mention bien, spécialité agile." },
+            { degree: "Licence Économie", school: "Université Lyon", date: "2014-2017", desc: "Parcours gestion." }
         ],
-        skills: ["Gestion agile", "Jira", "Trello", "Communication", "Marketing digital"]
+        skills: ["Gestion agile", "Jira", "Trello", "Communication"]
     };
 
     // État des styles
-    let currentHeaderColor = "#3b82f6";  // bleu par défaut
+    let currentHeaderColor = "#3b82f6";
+    let currentLayout = "classic";
     let currentDesign = "classic";
 
-    // Palette de 10 couleurs pour l'en-tête
-    const headerColors = [
-        "#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", 
-        "#ec4898", "#06b6d4", "#84cc16", "#f97316", "#6366f1"
-    ];
+    const headerColors = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4898", "#06b6d4", "#84cc16", "#f97316", "#6366f1"];
 
-    // Fonctions d'escape HTML
-    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m;}); }
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
 
-    // Rendu de l'éditeur (formulaires dynamiques)
+    // Génération du HTML du CV selon l'agencement et le design
+    function generateCVHTML() {
+        // Récupération des données personnelles à jour
+        cv.personal.name = document.getElementById('fullName').value;
+        cv.personal.title = document.getElementById('jobTitle').value;
+        cv.personal.email = document.getElementById('email').value;
+        cv.personal.phone = document.getElementById('phone').value;
+        cv.personal.location = document.getElementById('location').value;
+        cv.personal.photo = document.getElementById('photoUrl').value;
+
+        const headerColor = currentHeaderColor;
+        const layout = currentLayout;
+        
+        // Fonction pour générer la partie expériences, formations, compétences
+        const expHtml = cv.experiences.map(exp => `
+            <div class="cv-exp-item">
+                <div class="cv-job">${escapeHtml(exp.job)}</div>
+                <div class="cv-company">${escapeHtml(exp.company)} · <span class="cv-date">${escapeHtml(exp.date)}</span></div>
+                <div class="cv-desc">${escapeHtml(exp.desc)}</div>
+            </div>
+        `).join('');
+        
+        const eduHtml = cv.educations.map(edu => `
+            <div class="cv-edu-item">
+                <div class="cv-degree">${escapeHtml(edu.degree)}</div>
+                <div class="cv-school">${escapeHtml(edu.school)} · <span class="cv-date">${escapeHtml(edu.date)}</span></div>
+                <div class="cv-desc">${escapeHtml(edu.desc)}</div>
+            </div>
+        `).join('');
+        
+        const skillsHtml = `<div class="cv-skills">${cv.skills.map(s => `<span class="cv-skill-badge" style="background: ${headerColor}20;">✨ ${escapeHtml(s)}</span>`).join('')}</div>`;
+
+        // Construction selon l'agencement
+        let mainHtml = '';
+        if (layout === 'two-columns') {
+            // Deux colonnes : gauche (contact + compétences) / droite (expériences + formations)
+            mainHtml = `
+                <div style="display: flex; gap: 1.5rem;">
+                    <div style="flex: 1;">
+                        <div class="cv-section"><h3 style="border-left-color: ${headerColor}">📞 Contact</h3>
+                            <p>📧 ${escapeHtml(cv.personal.email)}<br>📞 ${escapeHtml(cv.personal.phone)}<br>📍 ${escapeHtml(cv.personal.location)}</p>
+                        </div>
+                        <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🧠 Compétences</h3>${skillsHtml}</div>
+                    </div>
+                    <div style="flex: 2;">
+                        <div class="cv-section"><h3 style="border-left-color: ${headerColor}">💼 Expériences</h3>${expHtml}</div>
+                        <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🎓 Formations</h3>${eduHtml}</div>
+                    </div>
+                </div>
+            `;
+        } else if (layout === 'modern') {
+            // En-tête large avec sous-titre, puis contenu classique
+            mainHtml = `
+                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">💼 Expériences</h3>${expHtml}</div>
+                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🎓 Formations</h3>${eduHtml}</div>
+                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🧠 Compétences</h3>${skillsHtml}</div>
+            `;
+        } else if (layout === 'compact') {
+            // Affichage plus serré, moins d'espacements
+            mainHtml = `
+                <div style="display: grid; gap: 0.5rem;">
+                    <div><strong>💼 Expériences</strong><br>${expHtml.replace(/<div class="cv-exp-item">/g, '<div style="margin-top:0.3rem;">')}</div>
+                    <div><strong>🎓 Formations</strong><br>${eduHtml.replace(/<div class="cv-edu-item">/g, '<div style="margin-top:0.3rem;">')}</div>
+                    <div><strong>🧠 Compétences</strong><br>${skillsHtml}</div>
+                </div>
+            `;
+        } else if (layout === 'with-photo') {
+            // En-tête avec photo à gauche
+            const photoHtml = cv.personal.photo ? `<img src="${escapeHtml(cv.personal.photo)}" style="width:80px; height:80px; border-radius:50%; object-fit:cover; margin-right:1rem;">` : `<div style="width:80px; height:80px; background:#e2e8f0; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-right:1rem;">📷</div>`;
+            mainHtml = `
+                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                    ${photoHtml}
+                    <div>
+                        <div class="cv-name" style="font-size:1.5rem;">${escapeHtml(cv.personal.name)}</div>
+                        <div class="cv-title">${escapeHtml(cv.personal.title)}</div>
+                    </div>
+                </div>
+                <div class="cv-contact" style="justify-content:flex-start; margin-bottom:1rem;">
+                    <span>📧 ${escapeHtml(cv.personal.email)}</span>
+                    <span>📞 ${escapeHtml(cv.personal.phone)}</span>
+                    <span>📍 ${escapeHtml(cv.personal.location)}</span>
+                </div>
+                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">💼 Expériences</h3>${expHtml}</div>
+                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🎓 Formations</h3>${eduHtml}</div>
+                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🧠 Compétences</h3>${skillsHtml}</div>
+            `;
+        } else { // classic par défaut
+            mainHtml = `
+                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">💼 Expériences</h3>${expHtml}</div>
+                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🎓 Formations</h3>${eduHtml}</div>
+                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🧠 Compétences</h3>${skillsHtml}</div>
+            `;
+        }
+
+        // En-tête commun (sauf pour l'agencement with-photo qui a déjà intégré l'en-tête)
+        let headerHtml = '';
+        if (layout !== 'with-photo') {
+            headerHtml = `
+                <div class="cv-header-area" style="background-color: ${headerColor}; color: white;">
+                    <div class="cv-name">${escapeHtml(cv.personal.name)}</div>
+                    <div class="cv-title">${escapeHtml(cv.personal.title)}</div>
+                    <div class="cv-contact">
+                        <span>📧 ${escapeHtml(cv.personal.email)}</span>
+                        <span>📞 ${escapeHtml(cv.personal.phone)}</span>
+                        <span>📍 ${escapeHtml(cv.personal.location)}</span>
+                    </div>
+                </div>
+                <div class="cv-body">
+                    ${mainHtml}
+                </div>
+            `;
+        } else {
+            headerHtml = `<div class="cv-body">${mainHtml}</div>`;
+        }
+
+        return `<div class="cv-futuristic" id="cvInner">${headerHtml}</div>`;
+    }
+
+    // Mise à jour de l'aperçu avec le design visuel
+    function updatePreview() {
+        const htmlContent = generateCVHTML();
+        const container = document.getElementById('cvPreview');
+        container.innerHTML = htmlContent;
+
+        // Appliquer le design visuel (classe et styles)
+        const design = currentDesign;
+        const headerColor = currentHeaderColor;
+        let designClass = '';
+        let additionalStyle = '';
+        switch(design) {
+            case 'modern': designClass = 'design-modern'; additionalStyle = `.design-modern .cv-header-area { border-radius: 0; border-bottom: 3px solid ${headerColor}; }`; break;
+            case 'shadow': designClass = 'design-shadow'; additionalStyle = `.design-shadow { box-shadow: 0 10px 25px rgba(0,0,0,0.1); }`; break;
+            case 'minimal': designClass = 'design-minimal'; additionalStyle = `.design-minimal .cv-section h3 { font-weight: 500; border-left-width: 2px; }`; break;
+            case 'professional': designClass = 'design-professional'; additionalStyle = `.design-professional .cv-header-area { background: ${headerColor} !important; }`; break;
+            case 'futuristic': designClass = 'design-futuristic'; additionalStyle = `.design-futuristic .cv-header-area { background: linear-gradient(135deg, ${headerColor}, #a855f7) !important; }`; break;
+            case 'card': designClass = 'design-card'; additionalStyle = `.design-card { border-radius: 24px; overflow: hidden; }`; break;
+            case 'line': designClass = 'design-line'; additionalStyle = `.design-line .cv-header-area { border-bottom: 4px solid ${headerColor}; } .design-line .cv-section h3 { border-left: none; border-bottom: 2px solid ${headerColor}; display: inline-block; }`; break;
+            case 'border': designClass = 'design-border'; additionalStyle = `.design-border { border: 2px solid ${headerColor}; border-radius: 16px; }`; break;
+            case 'elegant': designClass = 'design-elegant'; additionalStyle = `.design-elegant { font-family: 'Georgia', serif; } .design-elegant .cv-header-area { background: ${headerColor}20; color: #1e293b; }`; break;
+            default: designClass = ''; additionalStyle = '';
+        }
+        const wrapper = document.getElementById('cvPreview');
+        wrapper.className = `cv-futuristic ${designClass}`;
+        let styleTag = document.getElementById('dynamic-design-style');
+        if (!styleTag) { styleTag = document.createElement('style'); styleTag.id = 'dynamic-design-style'; document.head.appendChild(styleTag); }
+        styleTag.textContent = additionalStyle;
+    }
+
+    // Rendu de l'éditeur (listes)
     function renderEditor() {
         document.getElementById('fullName').value = cv.personal.name;
         document.getElementById('jobTitle').value = cv.personal.title;
         document.getElementById('email').value = cv.personal.email;
         document.getElementById('phone').value = cv.personal.phone;
         document.getElementById('location').value = cv.personal.location;
+        document.getElementById('photoUrl').value = cv.personal.photo || '';
 
-        const expContainer = document.getElementById('expList');
-        expContainer.innerHTML = '';
+        const expDiv = document.getElementById('expList');
+        expDiv.innerHTML = '';
         cv.experiences.forEach((exp, idx) => {
-            const card = document.createElement('div');
-            card.className = 'exp-card';
-            card.innerHTML = `
-                <input type="text" placeholder="Poste" value="${escapeHtml(exp.job)}" data-exp-index="${idx}" data-field="job" class="exp-field">
-                <input type="text" placeholder="Entreprise" value="${escapeHtml(exp.company)}" data-exp-index="${idx}" data-field="company" class="exp-field" style="margin-top:8px">
-                <input type="text" placeholder="Date" value="${escapeHtml(exp.date)}" data-exp-index="${idx}" data-field="date" class="exp-field" style="margin-top:8px">
-                <textarea placeholder="Description" data-exp-index="${idx}" data-field="desc" class="exp-field" rows="2">${escapeHtml(exp.desc)}</textarea>
-                <button class="btn-remove" data-exp-remove="${idx}">🗑 Supprimer</button>
+            expDiv.innerHTML += `
+                <div class="exp-card">
+                    <input type="text" value="${escapeHtml(exp.job)}" data-exp-index="${idx}" data-field="job" placeholder="Poste">
+                    <input type="text" value="${escapeHtml(exp.company)}" data-exp-index="${idx}" data-field="company" style="margin-top:8px" placeholder="Entreprise">
+                    <input type="text" value="${escapeHtml(exp.date)}" data-exp-index="${idx}" data-field="date" style="margin-top:8px" placeholder="Date">
+                    <textarea data-exp-index="${idx}" data-field="desc" rows="2" placeholder="Description">${escapeHtml(exp.desc)}</textarea>
+                    <button class="btn-remove" data-exp-remove="${idx}">Supprimer</button>
+                </div>
             `;
-            expContainer.appendChild(card);
         });
 
-        const eduContainer = document.getElementById('eduList');
-        eduContainer.innerHTML = '';
+        const eduDiv = document.getElementById('eduList');
+        eduDiv.innerHTML = '';
         cv.educations.forEach((edu, idx) => {
-            const card = document.createElement('div');
-            card.className = 'edu-card';
-            card.innerHTML = `
-                <input type="text" placeholder="Diplôme" value="${escapeHtml(edu.degree)}" data-edu-index="${idx}" data-field="degree" class="edu-field">
-                <input type="text" placeholder="École" value="${escapeHtml(edu.school)}" data-edu-index="${idx}" data-field="school" class="edu-field" style="margin-top:8px">
-                <input type="text" placeholder="Année" value="${escapeHtml(edu.date)}" data-edu-index="${idx}" data-field="date" class="edu-field" style="margin-top:8px">
-                <textarea placeholder="Description" data-edu-index="${idx}" data-field="desc" class="edu-field" rows="2">${escapeHtml(edu.desc)}</textarea>
-                <button class="btn-remove" data-edu-remove="${idx}">🗑 Supprimer</button>
+            eduDiv.innerHTML += `
+                <div class="edu-card">
+                    <input type="text" value="${escapeHtml(edu.degree)}" data-edu-index="${idx}" data-field="degree" placeholder="Diplôme">
+                    <input type="text" value="${escapeHtml(edu.school)}" data-edu-index="${idx}" data-field="school" style="margin-top:8px" placeholder="École">
+                    <input type="text" value="${escapeHtml(edu.date)}" data-edu-index="${idx}" data-field="date" style="margin-top:8px" placeholder="Année">
+                    <textarea data-edu-index="${idx}" data-field="desc" rows="2" placeholder="Description">${escapeHtml(edu.desc)}</textarea>
+                    <button class="btn-remove" data-edu-remove="${idx}">Supprimer</button>
+                </div>
             `;
-            eduContainer.appendChild(card);
         });
 
-        const skillsContainer = document.getElementById('skillsContainer');
-        skillsContainer.innerHTML = '';
+        const skillsDiv = document.getElementById('skillsContainer');
+        skillsDiv.innerHTML = '';
         cv.skills.forEach((skill, idx) => {
-            const tag = document.createElement('div');
-            tag.className = 'skill-tag';
-            tag.innerHTML = `${escapeHtml(skill)} <button data-skill-remove="${idx}">✕</button>`;
-            skillsContainer.appendChild(tag);
+            skillsDiv.innerHTML += `<div class="skill-tag">${escapeHtml(skill)} <button data-skill-remove="${idx}">✕</button></div>`;
         });
 
-        attachDynamicEvents();
+        attachEvents();
     }
 
-    function attachDynamicEvents() {
-        document.querySelectorAll('.exp-field').forEach(f => {
-            f.removeEventListener('input', handleExpChange);
-            f.addEventListener('input', handleExpChange);
+    function attachEvents() {
+        document.querySelectorAll('.exp-field, .exp-card input, .exp-card textarea').forEach(el => {
+            if(el.classList) el.classList.add('exp-field');
+            el.removeEventListener('input', handleExpChange);
+            el.addEventListener('input', handleExpChange);
         });
         document.querySelectorAll('[data-exp-remove]').forEach(btn => {
             btn.removeEventListener('click', handleExpRemove);
             btn.addEventListener('click', handleExpRemove);
         });
-        document.querySelectorAll('.edu-field').forEach(f => {
-            f.removeEventListener('input', handleEduChange);
-            f.addEventListener('input', handleEduChange);
+        document.querySelectorAll('.edu-field, .edu-card input, .edu-card textarea').forEach(el => {
+            if(el.classList) el.classList.add('edu-field');
+            el.removeEventListener('input', handleEduChange);
+            el.addEventListener('input', handleEduChange);
         });
         document.querySelectorAll('[data-edu-remove]').forEach(btn => {
             btn.removeEventListener('click', handleEduRemove);
@@ -564,7 +620,7 @@
     }
     function handleExpRemove(e) {
         const idx = parseInt(e.target.dataset.expRemove);
-        if (!isNaN(idx)) { cv.experiences.splice(idx,1); renderEditor(); updatePreview(); showToast("Expérience supprimée"); }
+        if (!isNaN(idx)) { cv.experiences.splice(idx,1); renderEditor(); updatePreview(); toast("Expérience supprimée"); }
     }
     function handleEduChange(e) {
         const idx = parseInt(e.target.dataset.eduIndex);
@@ -574,125 +630,36 @@
     }
     function handleEduRemove(e) {
         const idx = parseInt(e.target.dataset.eduRemove);
-        if (!isNaN(idx)) { cv.educations.splice(idx,1); renderEditor(); updatePreview(); showToast("Formation supprimée"); }
+        if (!isNaN(idx)) { cv.educations.splice(idx,1); renderEditor(); updatePreview(); toast("Formation supprimée"); }
     }
     function handleSkillRemove(e) {
         const idx = parseInt(e.target.dataset.skillRemove);
-        if (!isNaN(idx)) { cv.skills.splice(idx,1); renderEditor(); updatePreview(); showToast("Compétence supprimée"); }
+        if (!isNaN(idx)) { cv.skills.splice(idx,1); renderEditor(); updatePreview(); toast("Compétence supprimée"); }
     }
 
-    // Mise à jour de l'aperçu avec les styles choisis
-    function updatePreview() {
-        // Récupération des valeurs personnelles depuis les champs (en direct)
-        cv.personal.name = document.getElementById('fullName').value;
-        cv.personal.title = document.getElementById('jobTitle').value;
-        cv.personal.email = document.getElementById('email').value;
-        cv.personal.phone = document.getElementById('phone').value;
-        cv.personal.location = document.getElementById('location').value;
-
-        const headerColor = currentHeaderColor;
-        const design = currentDesign;
-
-        let additionalStyles = "";
-        // Appliquer les designs
-        switch(design) {
-            case "moderne":
-                additionalStyles = "border-radius: 0; .cv-header-area { border-bottom: 2px solid "+headerColor+"; } .cv-body { background: #fefefe; }";
-                break;
-            case "ombre":
-                additionalStyles = "box-shadow: 0 8px 20px rgba(0,0,0,0.1); .cv-header-area { border-radius: 12px 12px 0 0; }";
-                break;
-            case "minimaliste":
-                additionalStyles = "font-family: 'Inter'; .cv-section h3 { font-weight: 500; border-left-width: 2px; } .cv-name { font-weight: 600; }";
-                break;
-            case "professionnel":
-                additionalStyles = "border: 1px solid #e2e8f0; .cv-header-area { background: "+headerColor+"; color: white; } .cv-contact { color: #f1f5f9; } .cv-name, .cv-title { color: white; }";
-                break;
-            case "futuriste":
-                additionalStyles = "background: linear-gradient(145deg, #ffffff, #f8fafc); .cv-header-area { background: linear-gradient(135deg, "+headerColor+", #a855f7); color: white; } .cv-name, .cv-title, .cv-contact { color: white; }";
-                break;
-            case "carte":
-                additionalStyles = "border-radius: 24px; box-shadow: 0 12px 30px rgba(0,0,0,0.08); overflow: hidden;";
-                break;
-            case "ligne":
-                additionalStyles = ".cv-header-area { border-bottom: 4px solid "+headerColor+"; } .cv-section h3 { border-left: none; border-bottom: 2px solid "+headerColor+"; display: inline-block; }";
-                break;
-            case "bordure":
-                additionalStyles = "border: 2px solid "+headerColor+"; border-radius: 16px; .cv-header-area { background: #f8fafc; }";
-                break;
-            case "élégant":
-                additionalStyles = "font-family: 'Georgia', serif; .cv-name { letter-spacing: 1px; } .cv-header-area { background: "+headerColor+"20; }";
-                break;
-            default: // classic
-                additionalStyles = "";
-        }
-
-        const html = `
-            <div class="cv-header-area" style="background-color: ${headerColor}; color: white; ${design === 'professionnel' || design === 'futuriste' ? 'background: '+headerColor : ''}">
-                <div class="cv-name">${escapeHtml(cv.personal.name)}</div>
-                <div class="cv-title">${escapeHtml(cv.personal.title)}</div>
-                <div class="cv-contact">
-                    <span>📧 ${escapeHtml(cv.personal.email)}</span>
-                    <span>📞 ${escapeHtml(cv.personal.phone)}</span>
-                    <span>📍 ${escapeHtml(cv.personal.location)}</span>
-                </div>
-            </div>
-            <div class="cv-body">
-                <div class="cv-section">
-                    <h3 style="border-left-color: ${headerColor}">💼 Expériences</h3>
-                    ${cv.experiences.map(exp => `
-                        <div class="cv-exp-item">
-                            <div class="cv-job">${escapeHtml(exp.job)}</div>
-                            <div class="cv-company">${escapeHtml(exp.company)} · <span class="cv-date">${escapeHtml(exp.date)}</span></div>
-                            <div class="cv-desc">${escapeHtml(exp.desc)}</div>
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="cv-section">
-                    <h3 style="border-left-color: ${headerColor}">🎓 Formations</h3>
-                    ${cv.educations.map(edu => `
-                        <div class="cv-edu-item">
-                            <div class="cv-degree">${escapeHtml(edu.degree)}</div>
-                            <div class="cv-school">${escapeHtml(edu.school)} · <span class="cv-date">${escapeHtml(edu.date)}</span></div>
-                            <div class="cv-desc">${escapeHtml(edu.desc)}</div>
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="cv-section">
-                    <h3 style="border-left-color: ${headerColor}">🧠 Compétences</h3>
-                    <div class="cv-skills">
-                        ${cv.skills.map(s => `<span class="cv-skill-badge" style="background: ${headerColor}20; color: #1e293b;">✨ ${escapeHtml(s)}</span>`).join('')}
-                    </div>
-                </div>
-            </div>
-            <style>
-                .cv-futuristic .cv-section h3 { border-left-color: ${headerColor} !important; }
-                ${additionalStyles}
-            </style>
-        `;
-        document.getElementById('cvPreview').innerHTML = html;
-    }
-
-    // Export PDF (correction : attendre que le DOM soit prêt et utiliser l'élément racine du CV)
+    // Export PDF FIABLE
     function exportPDF() {
         const element = document.getElementById('cvExportContainer');
-        if (!element) return;
-        const opt = {
-            margin: [0.5, 0.5, 0.5, 0.5],
-            filename: `CV_${cv.personal.name.replace(/\s/g, '_')}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, letterRendering: true, logging: false, useCORS: false },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        };
-        html2pdf().set(opt).from(element).save().then(() => {
-            showToast("✅ PDF généré avec succès !");
-        }).catch(err => {
-            console.error(err);
-            showToast("⚠️ Erreur lors de la génération, réessayez.");
-        });
+        if (!element) { toast("Erreur : conteneur introuvable"); return; }
+        // On force une petite attente pour que le rendu soit bien à jour
+        setTimeout(() => {
+            const opt = {
+                margin: [0.5, 0.5, 0.5, 0.5],
+                filename: `CV_${cv.personal.name.replace(/\s/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, letterRendering: true, logging: false, useCORS: true },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save().then(() => {
+                toast("✅ PDF généré avec succès !");
+            }).catch(err => {
+                console.error(err);
+                toast("⚠️ Échec de la génération, réessayez.");
+            });
+        }, 100);
     }
 
-    // Initialisation des choix de couleurs
+    // Initialisations des contrôles
     function initColorPalette() {
         const container = document.getElementById('headerColorPalette');
         container.innerHTML = '';
@@ -706,35 +673,44 @@
                 document.querySelectorAll('.color-option').forEach(c => c.classList.remove('active'));
                 btn.classList.add('active');
                 updatePreview();
-                showToast(`Couleur d'en-tête changée`);
+                toast(`Couleur d'en-tête changée`);
             });
             container.appendChild(btn);
         });
     }
 
-    // Gestion du select design
+    function initLayoutSelect() {
+        const select = document.getElementById('layoutSelect');
+        select.value = currentLayout;
+        select.addEventListener('change', (e) => {
+            currentLayout = e.target.value;
+            updatePreview();
+            toast(`Agencement : ${currentLayout}`);
+        });
+    }
+
     function initDesignSelect() {
         const select = document.getElementById('designSelect');
         select.value = currentDesign;
         select.addEventListener('change', (e) => {
             currentDesign = e.target.value;
             updatePreview();
-            showToast(`Design "${currentDesign}" appliqué`);
+            toast(`Design : ${currentDesign}`);
         });
     }
 
-    // Ajout dynamique des sections
+    // Ajouts dynamiques
     document.getElementById('addExpBtn').addEventListener('click', () => {
-        cv.experiences.push({ job: "Nouveau poste", company: "Entreprise", date: "2024", desc: "Description..." });
+        cv.experiences.push({ job: "Nouveau poste", company: "Entreprise", date: "2024", desc: "Description" });
         renderEditor();
         updatePreview();
-        showToast("Expérience ajoutée");
+        toast("Expérience ajoutée");
     });
     document.getElementById('addEduBtn').addEventListener('click', () => {
-        cv.educations.push({ degree: "Nouveau diplôme", school: "Établissement", date: "2024", desc: "Description..." });
+        cv.educations.push({ degree: "Nouveau diplôme", school: "Établissement", date: "2024", desc: "Description" });
         renderEditor();
         updatePreview();
-        showToast("Formation ajoutée");
+        toast("Formation ajoutée");
     });
     document.getElementById('addSkillBtn').addEventListener('click', () => {
         const newSkill = document.getElementById('newSkillInput').value.trim();
@@ -743,30 +719,29 @@
             renderEditor();
             updatePreview();
             document.getElementById('newSkillInput').value = '';
-            showToast(`Compétence "${newSkill}" ajoutée`);
-        } else if (cv.skills.includes(newSkill)) showToast("Compétence déjà existante");
-        else showToast("Veuillez entrer une compétence");
+            toast(`Compétence "${newSkill}" ajoutée`);
+        } else if (cv.skills.includes(newSkill)) toast("Déjà présente");
+        else toast("Entrez une compétence");
     });
 
-    // Mise à jour en direct des champs personnels
-    const personalFields = ['fullName', 'jobTitle', 'email', 'phone', 'location'];
-    personalFields.forEach(field => {
-        document.getElementById(field).addEventListener('input', () => updatePreview());
+    // Mise à jour des champs personnels en direct
+    ['fullName', 'jobTitle', 'email', 'phone', 'location', 'photoUrl'].forEach(id => {
+        document.getElementById(id).addEventListener('input', () => updatePreview());
     });
 
-    function showToast(msg) {
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.innerText = msg;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2000);
+    function toast(msg) {
+        let t = document.createElement('div');
+        t.className = 'toast';
+        t.innerText = msg;
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2000);
     }
 
-    // Export button
     document.getElementById('exportPdfBtn').addEventListener('click', exportPDF);
 
     // Lancement
     initColorPalette();
+    initLayoutSelect();
     initDesignSelect();
     renderEditor();
     updatePreview();
