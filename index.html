@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Magic - Créateur de CV Ludique</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* Container principal */
+        .app {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header ludique */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #fff, #ffeaa7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            margin-top: 0.5rem;
+        }
+
+        /* Layout deux colonnes */
+        .cv-maker {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .cv-maker {
+                grid-template-columns: 1fr;
+            }
+            body {
+                padding: 1rem;
+            }
+        }
+
+        /* Panneau d'édition */
+        .editor-panel {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .editor-panel:hover {
+            transform: scale(1.01);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1.5rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+        }
+
+        .section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+        }
+
+        /* Cartes d'expériences et formations */
+        .experience-card, .education-card {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .experience-card:hover, .education-card:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0.5rem 0;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .btn-add:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+
+        .btn-remove {
+            background: #fc8181;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-remove:hover {
+            background: #f56565;
+            transform: scale(1.02);
+        }
+
+        /* Compétences (tags) */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .skill-tag button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .add-skill {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .add-skill input {
+            flex: 1;
+        }
+
+        /* Aperçu CV */
+        .preview-panel {
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 2rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* Style du CV (propre et ATS friendly) */
+        .cv-preview {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+        }
+
+        .cv-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .cv-name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .cv-title {
+            font-size: 1.2rem;
+            color: #667eea;
+            margin-top: 0.25rem;
+        }
+
+        .cv-contact {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+
+        .cv-section {
+            margin: 1.5rem 0;
+        }
+
+        .cv-section h3 {
+            font-size: 1.3rem;
+            color: #2d3748;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid #667eea;
+            padding-left: 0.75rem;
+        }
+
+        .cv-experience-item, .cv-education-item {
+            margin-bottom: 1rem;
+        }
+
+        .cv-job-title, .cv-degree {
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .cv-company, .cv-school {
+            color: #667eea;
+            font-size: 0.9rem;
+        }
+
+        .cv-date {
+            color: #a0aec0;
+            font-size: 0.8rem;
+        }
+
+        .cv-description {
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-top: 0.25rem;
+        }
+
+        .cv-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .cv-skill-badge {
+            background: #edf2f7;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            color: #2d3748;
+        }
+
+        .btn-export {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(72,187,120,0.3);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #48bb78;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 2rem;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="header">
+            <h1>🎨 CV Magic Studio</h1>
+            <p>✨ Crée un CV magnifique, ludique et optimisé pour l'IA des recruteurs ✨</p>
+        </div>
+
+        <div class="cv-maker">
+            <!-- Panneau d'édition -->
+            <div class="editor-panel">
+                <h2 class="section-title">✏️ Informations</h2>
+                <div class="input-group">
+                    <label>👤 Nom complet</label>
+                    <input type="text" id="fullName" placeholder="Sophie Martin" value="Sophie Martin">
+                </div>
+                <div class="input-group">
+                    <label>🎯 Titre professionnel</label>
+                    <input type="text" id="jobTitle" placeholder="Designer UX/UI" value="Designer UX/UI">
+                </div>
+                <div class="input-group">
+                    <label>📧 Email</label>
+                    <input type="email" id="email" placeholder="sophie@exemple.com" value="sophie@exemple.com">
+                </div>
+                <div class="input-group">
+                    <label>📞 Téléphone</label>
+                    <input type="text" id="phone" placeholder="06 12 34 56 78" value="06 12 34 56 78">
+                </div>
+                <div class="input-group">
+                    <label>📍 Localisation</label>
+                    <input type="text" id="location" placeholder="Paris, France" value="Paris, France">
+                </div>
+
+                <h2 class="section-title">💼 Expériences professionnelles</h2>
+                <div id="experiencesList"></div>
+                <button class="btn-add" onclick="addExperience()">+ Ajouter une expérience</button>
+
+                <h2 class="section-title">🎓 Formations</h2>
+                <div id="educationsList"></div>
+                <button class="btn-add" onclick="addEducation()">+ Ajouter une formation</button>
+
+                <h2 class="section-title">🧠 Compétences</h2>
+                <div id="skillsContainer" class="skills-container"></div>
+                <div class="add-skill">
+                    <input type="text" id="newSkill" placeholder="Ex: React, Figma, Python...">
+                    <button class="btn-add" onclick="addSkill()" style="margin:0">Ajouter</button>
+                </div>
+            </div>
+
+            <!-- Aperçu du CV -->
+            <div class="preview-panel">
+                <div id="cvPreview" class="cv-preview"></div>
+                <button class="btn-export" onclick="exportPDF()">📄 Télécharger mon CV (PDF)</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script>
+        // Données du CV
+        let cvData = {
+            personal: {
+                name: "Sophie Martin",
+                title: "Designer UX/UI",
+                email: "sophie@exemple.com",
+                phone: "06 12 34 56 78",
+                location: "Paris, France"
+            },
+            experiences: [
+                { job: "Lead Designer UX", company: "Studio Créatif", date: "2022 - Aujourd'hui", description: "Direction d'une équipe de 5 designers. Augmentation de la satisfaction utilisateur de 40%." },
+                { job: "UI Designer", company: "Agence Digitale", date: "2019 - 2022", description: "Création de prototypes et design systems pour 15+ clients." }
+            ],
+            educations: [
+                { degree: "Master Design", school: "École des Beaux-Arts", date: "2017 - 2019", description: "Mention très bien, spécialisation UX/UI" },
+                { degree: "Licence Info", school: "Université Paris", date: "2014 - 2017", description: "Parcours développement web et design" }
+            ],
+            skills: ["Figma", "Adobe XD", "React", "Tailwind CSS", "Recherche utilisateur"]
+        };
+
+        // Fonctions de rendu
+        function renderEditor() {
+            // Remplir les champs personnels
+            document.getElementById('fullName').value = cvData.personal.name;
+            document.getElementById('jobTitle').value = cvData.personal.title;
+            document.getElementById('email').value = cvData.personal.email;
+            document.getElementById('phone').value = cvData.personal.phone;
+            document.getElementById('location').value = cvData.personal.location;
+
+            // Rendu des expériences
+            const expDiv = document.getElementById('experiencesList');
+            expDiv.innerHTML = '';
+            cvData.experiences.forEach((exp, index) => {
+                expDiv.innerHTML += `
+                    <div class="experience-card">
+                        <input type="text" placeholder="Poste" value="${escapeHtml(exp.job)}" onchange="updateExperience(${index}, 'job', this.value)">
+                        <input type="text" placeholder="Entreprise" value="${escapeHtml(exp.company)}" onchange="updateExperience(${index}, 'company', this.value)" style="margin-top:0.5rem">
+                        <input type="text" placeholder="Date (ex: 2020-2023)" value="${escapeHtml(exp.date)}" onchange="updateExperience(${index}, 'date', this.value)" style="margin-top:0.5rem">
+                        <textarea placeholder="Description" onchange="updateExperience(${index}, 'description', this.value)" rows="2">${escapeHtml(exp.description)}</textarea>
+                        <button class="btn-remove" onclick="removeExperience(${index})">🗑 Supprimer</button>
+                    </div>
+                `;
+            });
+
+            // Rendu des formations
+            const eduDiv = document.getElementById('educationsList');
+            eduDiv.innerHTML = '';
+            cvData.educations.forEach((edu, index) => {
+                eduDiv.innerHTML += `
+                    <div class="education-card">
+                        <input type="text" placeholder="Diplôme" value="${escapeHtml(edu.degree)}" onchange="updateEducation(${index}, 'degree', this.value)">
+                        <input type="text" placeholder="Établissement" value="${escapeHtml(edu.school)}" onchange="updateEducation(${index}, 'school', this.value)" style="margin-top:0.5rem">
+                        <input type="text" placeholder="Année" value="${escapeHtml(edu.date)}" onchange="updateEducation(${index}, 'date', this.value)" style="margin-top:0.5rem">
+                        <textarea placeholder="Description" onchange="updateEducation(${index}, 'description', this.value)" rows="2">${escapeHtml(edu.description)}</textarea>
+                        <button class="btn-remove" onclick="removeEducation(${index})">🗑 Supprimer</button>
+                    </div>
+                `;
+            });
+
+            // Rendu des compétences
+            const skillsContainer = document.getElementById('skillsContainer');
+            skillsContainer.innerHTML = '';
+            cvData.skills.forEach((skill, index) => {
+                skillsContainer.innerHTML += `
+                    <div class="skill-tag">
+                        ${escapeHtml(skill)}
+                        <button onclick="removeSkill(${index})">✕</button>
+                    </div>
+                `;
+            });
+        }
+
+        function updatePreview() {
+            const preview = document.getElementById('cvPreview');
+            preview.innerHTML = `
+                <div class="cv-header">
+                    <div class="cv-name">${escapeHtml(cvData.personal.name)}</div>
+                    <div class="cv-title">${escapeHtml(cvData.personal.title)}</div>
+                    <div class="cv-contact">
+                        <span>📧 ${escapeHtml(cvData.personal.email)}</span>
+                        <span>📞 ${escapeHtml(cvData.personal.phone)}</span>
+                        <span>📍 ${escapeHtml(cvData.personal.location)}</span>
+                    </div>
+                </div>
+
+                <div class="cv-section">
+                    <h3>💼 Expériences</h3>
+                    ${cvData.experiences.map(exp => `
+                        <div class="cv-experience-item">
+                            <div class="cv-job-title">${escapeHtml(exp.job)}</div>
+                            <div class="cv-company">${escapeHtml(exp.company)} | <span class="cv-date">${escapeHtml(exp.date)}</span></div>
+                            <div class="cv-description">${escapeHtml(exp.description)}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="cv-section">
+                    <h3>🎓 Formations</h3>
+                    ${cvData.educations.map(edu => `
+                        <div class="cv-education-item">
+                            <div class="cv-degree">${escapeHtml(edu.degree)}</div>
+                            <div class="cv-school">${escapeHtml(edu.school)} | <span class="cv-date">${escapeHtml(edu.date)}</span></div>
+                            <div class="cv-description">${escapeHtml(edu.description)}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="cv-section">
+                    <h3>🧠 Compétences</h3>
+                    <div class="cv-skills">
+                        ${cvData.skills.map(skill => `<span class="cv-skill-badge">✨ ${escapeHtml(skill)}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Helper
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+                return c;
+            });
+        }
+
+        // Actions
+        window.addExperience = function() {
+            cvData.experiences.push({ job: "Nouveau poste", company: "Entreprise", date: "2024", description: "Description..." });
+            renderEditor();
+            updatePreview();
+            showToast("✅ Expérience ajoutée !");
+        };
+
+        window.removeExperience = function(index) {
+            cvData.experiences.splice(index, 1);
+            renderEditor();
+            updatePreview();
+            showToast("🗑 Expérience supprimée");
+        };
+
+        window.updateExperience = function(index, field, value) {
+            cvData.experiences[index][field] = value;
+            updatePreview();
+        };
+
+        window.addEducation = function() {
+            cvData.educations.push({ degree: "Nouveau diplôme",
