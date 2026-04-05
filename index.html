@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMPLE CV POUR NOUS | Agencements & Export PDF</title>
-    <!-- html2pdf (CDN fiable) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>SIMPLE CV POUR NOUS | Import & édition compacte</title>
+    <!-- Librairies pour l'import de fichiers -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.2/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -68,19 +70,23 @@
             border-radius: 50%;
             cursor: pointer;
             border: 2px solid transparent;
-            transition: 0.1s;
         }
         .color-option.active {
             border-color: #0f172a;
             transform: scale(1.1);
         }
-        select {
+        select, .import-btn {
             padding: 0.4rem 1rem;
             border-radius: 2rem;
             border: 1px solid #cbd5e1;
             background: white;
             font-family: inherit;
             cursor: pointer;
+        }
+        .import-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
         }
 
         /* Layout deux colonnes */
@@ -127,11 +133,7 @@
             font-family: inherit;
             font-size: 0.9rem;
         }
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #3b82f6;
-        }
-        .exp-card, .edu-card {
+        .exp-card, .edu-card, .interest-card {
             background: #f8fafc;
             border-radius: 1rem;
             padding: 1rem;
@@ -157,13 +159,13 @@
             margin-top: 0.5rem;
             font-size: 0.7rem;
         }
-        .skills-container {
+        .skills-container, .interests-container {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
             margin: 1rem 0;
         }
-        .skill-tag {
+        .skill-tag, .interest-tag {
             background: #e2e8f0;
             padding: 0.2rem 0.8rem;
             border-radius: 2rem;
@@ -172,12 +174,13 @@
             align-items: center;
             font-size: 0.8rem;
         }
-        .add-skill {
+        .add-skill, .add-interest {
             display: flex;
             gap: 0.5rem;
+            margin-top: 0.5rem;
         }
 
-        /* Aperçu et export */
+        /* Aperçu compact */
         .preview-panel {
             background: white;
             border-radius: 1.5rem;
@@ -192,73 +195,76 @@
             background: white;
             border-radius: 1rem;
             overflow: hidden;
-            transition: all 0.2s;
         }
-        /* Styles de base du CV (seront surchargés par les agencements) */
         .cv-futuristic {
             font-family: 'Inter', sans-serif;
             color: #1e293b;
         }
-        .cv-header-area {
-            padding: 1.2rem;
-            text-align: center;
-        }
-        .cv-name {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-        .cv-title {
-            font-size: 0.95rem;
-            opacity: 0.9;
-        }
-        .cv-contact {
+        /* En-tête compact : nom et titre sur la même ligne */
+        .cv-header-compact {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.8rem 1.2rem;
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            font-size: 0.75rem;
-            margin-top: 0.5rem;
-        }
-        .cv-body {
-            padding: 1.2rem;
-        }
-        .cv-section {
-            margin-bottom: 1.2rem;
-        }
-        .cv-section h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            border-left: 3px solid;
-            padding-left: 0.6rem;
-        }
-        .cv-exp-item, .cv-edu-item {
-            margin-bottom: 0.8rem;
-        }
-        .cv-job, .cv-degree {
-            font-weight: 700;
-        }
-        .cv-company, .cv-school {
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-        .cv-date {
-            font-size: 0.7rem;
-            color: #64748b;
-        }
-        .cv-desc {
-            font-size: 0.8rem;
-            color: #475569;
-        }
-        .cv-skills {
-            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
             flex-wrap: wrap;
             gap: 0.5rem;
         }
-        .cv-skill-badge {
+        .cv-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+        .cv-title {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .cv-address {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            text-align: right;
+        }
+        .cv-body {
+            padding: 1rem;
+        }
+        .cv-section {
+            margin-bottom: 1rem;
+        }
+        .cv-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            border-left: 3px solid;
+            padding-left: 0.5rem;
+        }
+        .cv-exp-item, .cv-edu-item, .cv-interest-item {
+            margin-bottom: 0.6rem;
+        }
+        .cv-job, .cv-degree, .cv-interest {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .cv-company, .cv-school {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .cv-date {
+            font-size: 0.65rem;
+            color: #64748b;
+        }
+        .cv-desc {
+            font-size: 0.75rem;
+            color: #475569;
+        }
+        .cv-skills, .cv-interests {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        .cv-skill-badge, .cv-interest-badge {
             background: #e2e8f0;
-            padding: 0.2rem 0.7rem;
-            border-radius: 2rem;
+            padding: 0.15rem 0.6rem;
+            border-radius: 1.5rem;
             font-size: 0.7rem;
         }
         .btn-export {
@@ -271,7 +277,6 @@
             font-weight: bold;
             margin-top: 1.5rem;
             cursor: pointer;
-            font-size: 1rem;
         }
         .toast {
             position: fixed;
@@ -284,13 +289,23 @@
             font-size: 0.8rem;
             z-index: 2000;
         }
+        .import-area {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        #importFile {
+            display: none;
+        }
     </style>
 </head>
 <body>
 <div class="app">
     <div class="header">
         <h1>📄 SIMPLE CV POUR NOUS</h1>
-        <div class="sub">Agencements, couleurs, designs - Export PDF fiable</div>
+        <div class="sub">Import automatique · Agencements compact · Export PDF</div>
     </div>
 
     <div class="style-panel">
@@ -299,29 +314,27 @@
             <div class="color-palette" id="headerColorPalette"></div>
         </div>
         <div class="style-group">
-            <span>📐 Agencement du CV :</span>
+            <span>📐 Agencement :</span>
             <select id="layoutSelect">
-                <option value="classic">Classique (1 colonne)</option>
+                <option value="classic">Classique</option>
                 <option value="two-columns">Deux colonnes</option>
-                <option value="modern">Moderne (en-tête large)</option>
-                <option value="compact">Compact</option>
-                <option value="with-photo">Avec espace photo</option>
+                <option value="compact">Très compact</option>
             </select>
         </div>
         <div class="style-group">
-            <span>✨ Design visuel :</span>
+            <span>✨ Design :</span>
             <select id="designSelect">
                 <option value="classic">Classique</option>
                 <option value="modern">Moderne</option>
-                <option value="shadow">Ombre portée</option>
-                <option value="minimal">Minimaliste</option>
-                <option value="professional">Professionnel</option>
+                <option value="shadow">Ombre</option>
+                <option value="minimal">Minimal</option>
+                <option value="professional">Pro</option>
                 <option value="futuristic">Futuriste</option>
-                <option value="card">Carte</option>
-                <option value="line">Ligne</option>
-                <option value="border">Bordure</option>
-                <option value="elegant">Élégant</option>
             </select>
+        </div>
+        <div class="style-group">
+            <button class="import-btn" id="importBtn">📂 Importer un CV (PDF/DOC)</button>
+            <input type="file" id="importFile" accept=".pdf,.doc,.docx">
         </div>
     </div>
 
@@ -331,10 +344,7 @@
             <div class="section-title">👤 Identité</div>
             <div class="input-group"><label>Nom complet</label><input type="text" id="fullName" value="Sophie Laurent"></div>
             <div class="input-group"><label>Titre</label><input type="text" id="jobTitle" value="Chef de projet digital"></div>
-            <div class="input-group"><label>Email</label><input type="email" id="email" value="sophie@exemple.com"></div>
-            <div class="input-group"><label>Téléphone</label><input type="text" id="phone" value="06 12 34 56 78"></div>
-            <div class="input-group"><label>Localisation</label><input type="text" id="location" value="Lyon, France"></div>
-            <div class="input-group"><label>Photo (URL, optionnel)</label><input type="text" id="photoUrl" placeholder="https://exemple.com/photo.jpg"></div>
+            <div class="input-group"><label>Adresse</label><input type="text" id="address" value="12 rue de Lyon, 69001 Lyon"></div>
 
             <div class="section-title">💼 Expériences</div>
             <div id="expList"></div>
@@ -343,6 +353,13 @@
             <div class="section-title">🎓 Formations</div>
             <div id="eduList"></div>
             <button class="btn-add" id="addEduBtn">+ Ajouter</button>
+
+            <div class="section-title">🎯 Centres d'intérêt</div>
+            <div id="interestsContainer" class="interests-container"></div>
+            <div class="add-interest">
+                <input type="text" id="newInterestInput" placeholder="Ex: Photographie, Voyages">
+                <button class="btn-add" id="addInterestBtn">Ajouter</button>
+            </div>
 
             <div class="section-title">🧠 Compétences</div>
             <div id="skillsContainer" class="skills-container"></div>
@@ -363,50 +380,39 @@
 </div>
 
 <script>
-    // ------------------ DONNÉES CV ------------------
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+    // Données du CV
     let cv = {
-        personal: {
-            name: "Sophie Laurent",
-            title: "Chef de projet digital",
-            email: "sophie@exemple.com",
-            phone: "06 12 34 56 78",
-            location: "Lyon, France",
-            photo: ""
-        },
+        personal: { name: "Sophie Laurent", title: "Chef de projet digital", address: "12 rue de Lyon, 69001 Lyon" },
         experiences: [
-            { job: "Chef de projet senior", company: "Agence Wepik", date: "2021 - aujourd'hui", desc: "Gestion d'équipe, suivi de budgets, satisfaction client 95%." },
-            { job: "Assistant chef de projet", company: "Startup Innov", date: "2019 - 2021", desc: "Coordination des sprints, support à la planification." }
+            { job: "Chef de projet senior", company: "Agence Wepik", date: "2021 - aujourd'hui", desc: "Gestion d'équipe, suivi de budgets." },
+            { job: "Assistant chef de projet", company: "Startup Innov", date: "2019 - 2021", desc: "Coordination des sprints." }
         ],
         educations: [
-            { degree: "Master Management", school: "IAE Lyon", date: "2017-2019", desc: "Mention bien, spécialité agile." },
+            { degree: "Master Management", school: "IAE Lyon", date: "2017-2019", desc: "Mention bien." },
             { degree: "Licence Économie", school: "Université Lyon", date: "2014-2017", desc: "Parcours gestion." }
         ],
-        skills: ["Gestion agile", "Jira", "Trello", "Communication"]
+        skills: ["Gestion agile", "Jira", "Trello", "Communication"],
+        interests: ["Photographie", "Voyages", "Lecture"]
     };
 
-    // État des styles
     let currentHeaderColor = "#3b82f6";
     let currentLayout = "classic";
     let currentDesign = "classic";
-
     const headerColors = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4898", "#06b6d4", "#84cc16", "#f97316", "#6366f1"];
 
-    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
 
-    // Génération du HTML du CV selon l'agencement et le design
+    // Génération du CV selon agencement compact (nom+titre sur même ligne)
     function generateCVHTML() {
-        // Récupération des données personnelles à jour
         cv.personal.name = document.getElementById('fullName').value;
         cv.personal.title = document.getElementById('jobTitle').value;
-        cv.personal.email = document.getElementById('email').value;
-        cv.personal.phone = document.getElementById('phone').value;
-        cv.personal.location = document.getElementById('location').value;
-        cv.personal.photo = document.getElementById('photoUrl').value;
+        cv.personal.address = document.getElementById('address').value;
 
         const headerColor = currentHeaderColor;
         const layout = currentLayout;
-        
-        // Fonction pour générer la partie expériences, formations, compétences
+
         const expHtml = cv.experiences.map(exp => `
             <div class="cv-exp-item">
                 <div class="cv-job">${escapeHtml(exp.job)}</div>
@@ -414,7 +420,6 @@
                 <div class="cv-desc">${escapeHtml(exp.desc)}</div>
             </div>
         `).join('');
-        
         const eduHtml = cv.educations.map(edu => `
             <div class="cv-edu-item">
                 <div class="cv-degree">${escapeHtml(edu.degree)}</div>
@@ -422,20 +427,24 @@
                 <div class="cv-desc">${escapeHtml(edu.desc)}</div>
             </div>
         `).join('');
-        
         const skillsHtml = `<div class="cv-skills">${cv.skills.map(s => `<span class="cv-skill-badge" style="background: ${headerColor}20;">✨ ${escapeHtml(s)}</span>`).join('')}</div>`;
+        const interestsHtml = `<div class="cv-interests">${cv.interests.map(i => `<span class="cv-interest-badge" style="background: ${headerColor}20;">🎯 ${escapeHtml(i)}</span>`).join('')}</div>`;
 
-        // Construction selon l'agencement
+        // En-tête compact : nom + titre sur même ligne, adresse à droite
+        const headerHtml = `
+            <div class="cv-header-compact" style="background-color: ${headerColor};">
+                <div><span class="cv-name">${escapeHtml(cv.personal.name)}</span> <span class="cv-title">• ${escapeHtml(cv.personal.title)}</span></div>
+                <div class="cv-address">📍 ${escapeHtml(cv.personal.address)}</div>
+            </div>
+        `;
+
         let mainHtml = '';
         if (layout === 'two-columns') {
-            // Deux colonnes : gauche (contact + compétences) / droite (expériences + formations)
             mainHtml = `
-                <div style="display: flex; gap: 1.5rem;">
+                <div style="display: flex; gap: 1rem;">
                     <div style="flex: 1;">
-                        <div class="cv-section"><h3 style="border-left-color: ${headerColor}">📞 Contact</h3>
-                            <p>📧 ${escapeHtml(cv.personal.email)}<br>📞 ${escapeHtml(cv.personal.phone)}<br>📍 ${escapeHtml(cv.personal.location)}</p>
-                        </div>
                         <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🧠 Compétences</h3>${skillsHtml}</div>
+                        <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🎯 Centres d'intérêt</h3>${interestsHtml}</div>
                     </div>
                     <div style="flex: 2;">
                         <div class="cv-section"><h3 style="border-left-color: ${headerColor}">💼 Expériences</h3>${expHtml}</div>
@@ -443,112 +452,54 @@
                     </div>
                 </div>
             `;
-        } else if (layout === 'modern') {
-            // En-tête large avec sous-titre, puis contenu classique
-            mainHtml = `
-                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">💼 Expériences</h3>${expHtml}</div>
-                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🎓 Formations</h3>${eduHtml}</div>
-                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🧠 Compétences</h3>${skillsHtml}</div>
-            `;
         } else if (layout === 'compact') {
-            // Affichage plus serré, moins d'espacements
             mainHtml = `
-                <div style="display: grid; gap: 0.5rem;">
-                    <div><strong>💼 Expériences</strong><br>${expHtml.replace(/<div class="cv-exp-item">/g, '<div style="margin-top:0.3rem;">')}</div>
-                    <div><strong>🎓 Formations</strong><br>${eduHtml.replace(/<div class="cv-edu-item">/g, '<div style="margin-top:0.3rem;">')}</div>
+                <div style="display: grid; gap: 0.3rem;">
+                    <div><strong>💼 Expériences</strong><br>${expHtml.replace(/<div class="cv-exp-item">/g, '<div style="margin-top:0.2rem;">')}</div>
+                    <div><strong>🎓 Formations</strong><br>${eduHtml.replace(/<div class="cv-edu-item">/g, '<div style="margin-top:0.2rem;">')}</div>
                     <div><strong>🧠 Compétences</strong><br>${skillsHtml}</div>
+                    <div><strong>🎯 Centres d'intérêt</strong><br>${interestsHtml}</div>
                 </div>
             `;
-        } else if (layout === 'with-photo') {
-            // En-tête avec photo à gauche
-            const photoHtml = cv.personal.photo ? `<img src="${escapeHtml(cv.personal.photo)}" style="width:80px; height:80px; border-radius:50%; object-fit:cover; margin-right:1rem;">` : `<div style="width:80px; height:80px; background:#e2e8f0; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-right:1rem;">📷</div>`;
-            mainHtml = `
-                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                    ${photoHtml}
-                    <div>
-                        <div class="cv-name" style="font-size:1.5rem;">${escapeHtml(cv.personal.name)}</div>
-                        <div class="cv-title">${escapeHtml(cv.personal.title)}</div>
-                    </div>
-                </div>
-                <div class="cv-contact" style="justify-content:flex-start; margin-bottom:1rem;">
-                    <span>📧 ${escapeHtml(cv.personal.email)}</span>
-                    <span>📞 ${escapeHtml(cv.personal.phone)}</span>
-                    <span>📍 ${escapeHtml(cv.personal.location)}</span>
-                </div>
-                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">💼 Expériences</h3>${expHtml}</div>
-                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🎓 Formations</h3>${eduHtml}</div>
-                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🧠 Compétences</h3>${skillsHtml}</div>
-            `;
-        } else { // classic par défaut
+        } else { // classic
             mainHtml = `
                 <div class="cv-section"><h3 style="border-left-color: ${headerColor}">💼 Expériences</h3>${expHtml}</div>
                 <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🎓 Formations</h3>${eduHtml}</div>
                 <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🧠 Compétences</h3>${skillsHtml}</div>
+                <div class="cv-section"><h3 style="border-left-color: ${headerColor}">🎯 Centres d'intérêt</h3>${interestsHtml}</div>
             `;
         }
 
-        // En-tête commun (sauf pour l'agencement with-photo qui a déjà intégré l'en-tête)
-        let headerHtml = '';
-        if (layout !== 'with-photo') {
-            headerHtml = `
-                <div class="cv-header-area" style="background-color: ${headerColor}; color: white;">
-                    <div class="cv-name">${escapeHtml(cv.personal.name)}</div>
-                    <div class="cv-title">${escapeHtml(cv.personal.title)}</div>
-                    <div class="cv-contact">
-                        <span>📧 ${escapeHtml(cv.personal.email)}</span>
-                        <span>📞 ${escapeHtml(cv.personal.phone)}</span>
-                        <span>📍 ${escapeHtml(cv.personal.location)}</span>
-                    </div>
-                </div>
-                <div class="cv-body">
-                    ${mainHtml}
-                </div>
-            `;
-        } else {
-            headerHtml = `<div class="cv-body">${mainHtml}</div>`;
-        }
-
-        return `<div class="cv-futuristic" id="cvInner">${headerHtml}</div>`;
+        return `<div class="cv-futuristic" id="cvInner">${headerHtml}<div class="cv-body">${mainHtml}</div></div>`;
     }
 
-    // Mise à jour de l'aperçu avec le design visuel
     function updatePreview() {
-        const htmlContent = generateCVHTML();
-        const container = document.getElementById('cvPreview');
-        container.innerHTML = htmlContent;
-
-        // Appliquer le design visuel (classe et styles)
+        const html = generateCVHTML();
+        document.getElementById('cvPreview').innerHTML = html;
+        // Appliquer design visuel
         const design = currentDesign;
-        const headerColor = currentHeaderColor;
+        const wrapper = document.getElementById('cvPreview');
         let designClass = '';
         let additionalStyle = '';
         switch(design) {
-            case 'modern': designClass = 'design-modern'; additionalStyle = `.design-modern .cv-header-area { border-radius: 0; border-bottom: 3px solid ${headerColor}; }`; break;
-            case 'shadow': designClass = 'design-shadow'; additionalStyle = `.design-shadow { box-shadow: 0 10px 25px rgba(0,0,0,0.1); }`; break;
-            case 'minimal': designClass = 'design-minimal'; additionalStyle = `.design-minimal .cv-section h3 { font-weight: 500; border-left-width: 2px; }`; break;
-            case 'professional': designClass = 'design-professional'; additionalStyle = `.design-professional .cv-header-area { background: ${headerColor} !important; }`; break;
-            case 'futuristic': designClass = 'design-futuristic'; additionalStyle = `.design-futuristic .cv-header-area { background: linear-gradient(135deg, ${headerColor}, #a855f7) !important; }`; break;
-            case 'card': designClass = 'design-card'; additionalStyle = `.design-card { border-radius: 24px; overflow: hidden; }`; break;
-            case 'line': designClass = 'design-line'; additionalStyle = `.design-line .cv-header-area { border-bottom: 4px solid ${headerColor}; } .design-line .cv-section h3 { border-left: none; border-bottom: 2px solid ${headerColor}; display: inline-block; }`; break;
-            case 'border': designClass = 'design-border'; additionalStyle = `.design-border { border: 2px solid ${headerColor}; border-radius: 16px; }`; break;
-            case 'elegant': designClass = 'design-elegant'; additionalStyle = `.design-elegant { font-family: 'Georgia', serif; } .design-elegant .cv-header-area { background: ${headerColor}20; color: #1e293b; }`; break;
-            default: designClass = ''; additionalStyle = '';
+            case 'modern': designClass = 'design-modern'; additionalStyle = `.design-modern .cv-header-compact { border-radius: 0; border-bottom: 3px solid ${currentHeaderColor}; }`; break;
+            case 'shadow': designClass = 'design-shadow'; additionalStyle = `.design-shadow { box-shadow: 0 8px 20px rgba(0,0,0,0.1); }`; break;
+            case 'minimal': designClass = 'design-minimal'; additionalStyle = `.design-minimal .cv-section h3 { font-weight: 500; }`; break;
+            case 'professional': designClass = 'design-professional'; break;
+            case 'futuristic': designClass = 'design-futuristic'; additionalStyle = `.design-futuristic .cv-header-compact { background: linear-gradient(135deg, ${currentHeaderColor}, #a855f7) !important; }`; break;
+            default: designClass = '';
         }
-        const wrapper = document.getElementById('cvPreview');
         wrapper.className = `cv-futuristic ${designClass}`;
         let styleTag = document.getElementById('dynamic-design-style');
-        if (!styleTag) { styleTag = document.createElement('style'); styleTag.id = 'dynamic-design-style'; document.head.appendChild(styleTag); }
+        if(!styleTag){ styleTag = document.createElement('style'); styleTag.id = 'dynamic-design-style'; document.head.appendChild(styleTag); }
         styleTag.textContent = additionalStyle;
     }
 
-    // Rendu de l'éditeur (listes)
+    // Éditeur dynamique
     function renderEditor() {
         document.getElementById('fullName').value = cv.personal.name;
         document.getElementById('jobTitle').value = cv.personal.title;
-        document.getElementById('email').value = cv.personal.email;
-        document.getElementById('phone').value = cv.personal.phone;
-        document.getElementById('location').value = cv.personal.location;
-        document.getElementById('photoUrl').value = cv.personal.photo || '';
+        document.getElementById('address').value = cv.personal.address;
 
         const expDiv = document.getElementById('expList');
         expDiv.innerHTML = '';
@@ -584,32 +535,30 @@
             skillsDiv.innerHTML += `<div class="skill-tag">${escapeHtml(skill)} <button data-skill-remove="${idx}">✕</button></div>`;
         });
 
+        const interestsDiv = document.getElementById('interestsContainer');
+        interestsDiv.innerHTML = '';
+        cv.interests.forEach((interest, idx) => {
+            interestsDiv.innerHTML += `<div class="interest-tag">${escapeHtml(interest)} <button data-interest-remove="${idx}">✕</button></div>`;
+        });
+
         attachEvents();
     }
 
     function attachEvents() {
-        document.querySelectorAll('.exp-field, .exp-card input, .exp-card textarea').forEach(el => {
-            if(el.classList) el.classList.add('exp-field');
+        document.querySelectorAll('.exp-card input, .exp-card textarea').forEach(el => {
             el.removeEventListener('input', handleExpChange);
             el.addEventListener('input', handleExpChange);
+            el.classList.add('exp-field');
         });
-        document.querySelectorAll('[data-exp-remove]').forEach(btn => {
-            btn.removeEventListener('click', handleExpRemove);
-            btn.addEventListener('click', handleExpRemove);
-        });
-        document.querySelectorAll('.edu-field, .edu-card input, .edu-card textarea').forEach(el => {
-            if(el.classList) el.classList.add('edu-field');
+        document.querySelectorAll('[data-exp-remove]').forEach(btn => btn.addEventListener('click', handleExpRemove));
+        document.querySelectorAll('.edu-card input, .edu-card textarea').forEach(el => {
             el.removeEventListener('input', handleEduChange);
             el.addEventListener('input', handleEduChange);
+            el.classList.add('edu-field');
         });
-        document.querySelectorAll('[data-edu-remove]').forEach(btn => {
-            btn.removeEventListener('click', handleEduRemove);
-            btn.addEventListener('click', handleEduRemove);
-        });
-        document.querySelectorAll('[data-skill-remove]').forEach(btn => {
-            btn.removeEventListener('click', handleSkillRemove);
-            btn.addEventListener('click', handleSkillRemove);
-        });
+        document.querySelectorAll('[data-edu-remove]').forEach(btn => btn.addEventListener('click', handleEduRemove));
+        document.querySelectorAll('[data-skill-remove]').forEach(btn => btn.addEventListener('click', handleSkillRemove));
+        document.querySelectorAll('[data-interest-remove]').forEach(btn => btn.addEventListener('click', handleInterestRemove));
     }
 
     function handleExpChange(e) {
@@ -620,7 +569,7 @@
     }
     function handleExpRemove(e) {
         const idx = parseInt(e.target.dataset.expRemove);
-        if (!isNaN(idx)) { cv.experiences.splice(idx,1); renderEditor(); updatePreview(); toast("Expérience supprimée"); }
+        cv.experiences.splice(idx,1); renderEditor(); updatePreview(); toast("Expérience supprimée");
     }
     function handleEduChange(e) {
         const idx = parseInt(e.target.dataset.eduIndex);
@@ -630,121 +579,156 @@
     }
     function handleEduRemove(e) {
         const idx = parseInt(e.target.dataset.eduRemove);
-        if (!isNaN(idx)) { cv.educations.splice(idx,1); renderEditor(); updatePreview(); toast("Formation supprimée"); }
+        cv.educations.splice(idx,1); renderEditor(); updatePreview(); toast("Formation supprimée");
     }
     function handleSkillRemove(e) {
         const idx = parseInt(e.target.dataset.skillRemove);
-        if (!isNaN(idx)) { cv.skills.splice(idx,1); renderEditor(); updatePreview(); toast("Compétence supprimée"); }
+        cv.skills.splice(idx,1); renderEditor(); updatePreview(); toast("Compétence supprimée");
+    }
+    function handleInterestRemove(e) {
+        const idx = parseInt(e.target.dataset.interestRemove);
+        cv.interests.splice(idx,1); renderEditor(); updatePreview(); toast("Centre d'intérêt supprimé");
     }
 
-    // Export PDF FIABLE
+    // Import automatique (PDF, DOC, DOCX)
+    async function importCV(file) {
+        const ext = file.name.split('.').pop().toLowerCase();
+        let text = "";
+        try {
+            if (ext === 'pdf') {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    text += content.items.map(item => item.str).join(' ') + "\n";
+                }
+            } else if (ext === 'doc' || ext === 'docx') {
+                const arrayBuffer = await file.arrayBuffer();
+                const result = await mammoth.extractRawText({ arrayBuffer });
+                text = result.value;
+            } else {
+                toast("Format non supporté. Utilisez PDF ou DOC/DOCX");
+                return;
+            }
+            // Parsing intelligent pour remplir les champs
+            parseAndFillCV(text);
+            toast("CV importé et réorganisé automatiquement !");
+        } catch(e) { console.error(e); toast("Erreur lors de l'import"); }
+    }
+
+    function parseAndFillCV(text) {
+        // Détection simple : première ligne souvent le nom, puis titre, adresse...
+        const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+        let name = lines[0]?.trim() || "Nom inconnu";
+        let title = lines[1]?.trim() || "Titre inconnu";
+        let address = "";
+        // Chercher une ligne contenant rue, ville, code postal
+        const addrRegex = /(\d+\s+\w+\s+rue|\d+\s+avenue|\d+\s+bd|ville|code postal)/i;
+        for(let line of lines) {
+            if(addrRegex.test(line) && line.length < 100) { address = line; break; }
+        }
+        cv.personal = { name, title, address: address || "Adresse non trouvée" };
+
+        // Extraire expériences (recherche des mots-clés)
+        let expSection = extractSection(text, /expérience|expériences|projet|projets professionnels/i, /formation|compétences|centres d'intérêt|loisirs/i);
+        cv.experiences = parseListItems(expSection, /•|\-|\*|\d+\./).map(item => {
+            let parts = item.split(/[–\-—]/);
+            return { job: parts[0]?.trim() || "Poste", company: parts[1]?.trim() || "Entreprise", date: "", desc: item };
+        });
+        if(cv.experiences.length === 0) cv.experiences = [{ job:"Expérience par défaut", company:"Entreprise", date:"2023", desc:"Description à modifier" }];
+
+        let eduSection = extractSection(text, /formation|diplôme|étude|études/i, /expérience|compétences|centres d'intérêt/i);
+        cv.educations = parseListItems(eduSection, /•|\-|\*|\d+\./).map(item => {
+            let parts = item.split(/[–\-—]/);
+            return { degree: parts[0]?.trim() || "Diplôme", school: parts[1]?.trim() || "École", date: "", desc: item };
+        });
+        if(cv.educations.length === 0) cv.educations = [{ degree:"Formation", school:"Établissement", date:"2020", desc:"" }];
+
+        let skillsSection = extractSection(text, /compétence|compétences|savoir-faire|outils/i, /formation|expérience|centres d'intérêt/i);
+        cv.skills = extractListWords(skillsSection);
+        if(cv.skills.length === 0) cv.skills = ["Compétence 1", "Compétence 2"];
+
+        let interestsSection = extractSection(text, /centre d'intérêt|loisirs|hobbies|passions/i, /compétence|formation|expérience/i);
+        cv.interests = extractListWords(interestsSection);
+        if(cv.interests.length === 0) cv.interests = ["Lecture", "Voyages"];
+
+        renderEditor();
+        updatePreview();
+    }
+
+    function extractSection(text, startPattern, endPattern) {
+        const startMatch = text.match(startPattern);
+        if(!startMatch) return "";
+        const startIdx = startMatch.index;
+        let endIdx = text.length;
+        const endMatch = text.slice(startIdx + 50).match(endPattern);
+        if(endMatch) endIdx = startIdx + 50 + endMatch.index;
+        return text.substring(startIdx, endIdx);
+    }
+
+    function parseListItems(section, bulletPattern) {
+        const items = [];
+        const lines = section.split(/\r?\n/);
+        let current = "";
+        for(let line of lines) {
+            if(bulletPattern.test(line)) {
+                if(current) items.push(current.trim());
+                current = line.replace(bulletPattern, "").trim();
+            } else if(line.trim().length > 0) {
+                current += " " + line.trim();
+            }
+        }
+        if(current) items.push(current.trim());
+        return items.length ? items : ["Item par défaut"];
+    }
+
+    function extractListWords(section) {
+        const words = section.split(/[,\n;•\-*]/).map(w => w.trim()).filter(w => w.length > 2 && w.length < 30);
+        return words.slice(0,6);
+    }
+
+    // Export PDF
     function exportPDF() {
         const element = document.getElementById('cvExportContainer');
-        if (!element) { toast("Erreur : conteneur introuvable"); return; }
-        // On force une petite attente pour que le rendu soit bien à jour
-        setTimeout(() => {
-            const opt = {
-                margin: [0.5, 0.5, 0.5, 0.5],
-                filename: `CV_${cv.personal.name.replace(/\s/g, '_')}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, letterRendering: true, logging: false, useCORS: true },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save().then(() => {
-                toast("✅ PDF généré avec succès !");
-            }).catch(err => {
-                console.error(err);
-                toast("⚠️ Échec de la génération, réessayez.");
-            });
-        }, 100);
+        if(!element) return;
+        const opt = { margin: [0.5, 0.5, 0.5, 0.5], filename: `CV_${cv.personal.name.replace(/\s/g, '_')}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, letterRendering: true }, jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } };
+        html2pdf().set(opt).from(element).save().then(() => toast("✅ PDF généré !")).catch(() => toast("Erreur PDF"));
     }
 
-    // Initialisations des contrôles
+    // Initialisations
     function initColorPalette() {
         const container = document.getElementById('headerColorPalette');
-        container.innerHTML = '';
         headerColors.forEach(color => {
             const btn = document.createElement('div');
             btn.className = 'color-option';
             btn.style.backgroundColor = color;
-            if (color === currentHeaderColor) btn.classList.add('active');
+            if(color === currentHeaderColor) btn.classList.add('active');
             btn.addEventListener('click', () => {
                 currentHeaderColor = color;
                 document.querySelectorAll('.color-option').forEach(c => c.classList.remove('active'));
                 btn.classList.add('active');
                 updatePreview();
-                toast(`Couleur d'en-tête changée`);
+                toast("Couleur changée");
             });
             container.appendChild(btn);
         });
     }
+    function initLayoutSelect() { document.getElementById('layoutSelect').addEventListener('change', e => { currentLayout = e.target.value; updatePreview(); }); }
+    function initDesignSelect() { document.getElementById('designSelect').addEventListener('change', e => { currentDesign = e.target.value; updatePreview(); }); }
 
-    function initLayoutSelect() {
-        const select = document.getElementById('layoutSelect');
-        select.value = currentLayout;
-        select.addEventListener('change', (e) => {
-            currentLayout = e.target.value;
-            updatePreview();
-            toast(`Agencement : ${currentLayout}`);
-        });
-    }
-
-    function initDesignSelect() {
-        const select = document.getElementById('designSelect');
-        select.value = currentDesign;
-        select.addEventListener('change', (e) => {
-            currentDesign = e.target.value;
-            updatePreview();
-            toast(`Design : ${currentDesign}`);
-        });
-    }
-
-    // Ajouts dynamiques
-    document.getElementById('addExpBtn').addEventListener('click', () => {
-        cv.experiences.push({ job: "Nouveau poste", company: "Entreprise", date: "2024", desc: "Description" });
-        renderEditor();
-        updatePreview();
-        toast("Expérience ajoutée");
-    });
-    document.getElementById('addEduBtn').addEventListener('click', () => {
-        cv.educations.push({ degree: "Nouveau diplôme", school: "Établissement", date: "2024", desc: "Description" });
-        renderEditor();
-        updatePreview();
-        toast("Formation ajoutée");
-    });
-    document.getElementById('addSkillBtn').addEventListener('click', () => {
-        const newSkill = document.getElementById('newSkillInput').value.trim();
-        if (newSkill && !cv.skills.includes(newSkill)) {
-            cv.skills.push(newSkill);
-            renderEditor();
-            updatePreview();
-            document.getElementById('newSkillInput').value = '';
-            toast(`Compétence "${newSkill}" ajoutée`);
-        } else if (cv.skills.includes(newSkill)) toast("Déjà présente");
-        else toast("Entrez une compétence");
-    });
-
-    // Mise à jour des champs personnels en direct
-    ['fullName', 'jobTitle', 'email', 'phone', 'location', 'photoUrl'].forEach(id => {
-        document.getElementById(id).addEventListener('input', () => updatePreview());
-    });
-
-    function toast(msg) {
-        let t = document.createElement('div');
-        t.className = 'toast';
-        t.innerText = msg;
-        document.body.appendChild(t);
-        setTimeout(() => t.remove(), 2000);
-    }
-
+    document.getElementById('addExpBtn').addEventListener('click', () => { cv.experiences.push({ job:"Nouveau poste", company:"Entreprise", date:"2024", desc:"" }); renderEditor(); updatePreview(); });
+    document.getElementById('addEduBtn').addEventListener('click', () => { cv.educations.push({ degree:"Nouveau diplôme", school:"École", date:"2024", desc:"" }); renderEditor(); updatePreview(); });
+    document.getElementById('addSkillBtn').addEventListener('click', () => { let s = document.getElementById('newSkillInput').value.trim(); if(s && !cv.skills.includes(s)) { cv.skills.push(s); renderEditor(); updatePreview(); document.getElementById('newSkillInput').value = ''; toast("Compétence ajoutée"); } });
+    document.getElementById('addInterestBtn').addEventListener('click', () => { let i = document.getElementById('newInterestInput').value.trim(); if(i && !cv.interests.includes(i)) { cv.interests.push(i); renderEditor(); updatePreview(); document.getElementById('newInterestInput').value = ''; toast("Centre d'intérêt ajouté"); } });
+    document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importFile').click());
+    document.getElementById('importFile').addEventListener('change', e => { if(e.target.files[0]) importCV(e.target.files[0]); });
     document.getElementById('exportPdfBtn').addEventListener('click', exportPDF);
+    ['fullName','jobTitle','address'].forEach(id => document.getElementById(id).addEventListener('input', () => updatePreview()));
 
-    // Lancement
-    initColorPalette();
-    initLayoutSelect();
-    initDesignSelect();
-    renderEditor();
-    updatePreview();
+    function toast(msg) { let t = document.createElement('div'); t.className = 'toast'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2000); }
+
+    initColorPalette(); initLayoutSelect(); initDesignSelect(); renderEditor(); updatePreview();
 </script>
 </body>
 </html>
