@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Simple Curriculum | Création CV </title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <title>Simple Curriculum | Bleu pastel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <style>
+        /* ---------- STYLES GLOBAUX (édition + aperçu) ---------- */
         * {
             margin: 0;
             padding: 0;
@@ -14,9 +15,9 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: #e3f0ff;  /* Bleu pastel clair */
             padding: 2rem;
-            color: #f1f5f9;
+            color: #0f172a;
         }
 
         .app {
@@ -24,6 +25,7 @@
             margin: 0 auto;
         }
 
+        /* En-tête de l'application (masqué à l'impression) */
         .header {
             text-align: center;
             margin-bottom: 2rem;
@@ -31,34 +33,36 @@
         .header h1 {
             font-family: 'Playfair Display', serif;
             font-size: 2.8rem;
-            background: linear-gradient(135deg, #e0e7ff, #a78bfa);
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
         }
         .sub {
-            opacity: 0.75;
-            font-weight: 300;
+            opacity: 0.7;
+            font-weight: 400;
+            color: #1e293b;
         }
 
         /* Panneau de styles */
         .style-panel {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(16px);
             border-radius: 2rem;
             padding: 1rem 1.8rem;
             margin-bottom: 2rem;
             display: flex;
             flex-wrap: wrap;
-            gap: 2rem;
+            gap: 1.5rem;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
         }
         .style-group {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             flex-wrap: wrap;
         }
         .color-palette {
@@ -72,23 +76,29 @@
             cursor: pointer;
             border: 2px solid transparent;
             transition: 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         .color-option.active {
-            border-color: white;
+            border-color: #0f172a;
             transform: scale(1.1);
         }
-        select, .sidebar-color-select {
+        select, .sidebar-color-select, button {
             padding: 0.5rem 1.2rem;
             border-radius: 3rem;
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
+            background: white;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
             font-family: inherit;
             cursor: pointer;
+            transition: 0.2s;
+            font-weight: 500;
         }
-        select option, .sidebar-color-select option {
-            background: #1e293b;
-            color: white;
+        select option {
+            background: white;
+            color: #0f172a;
+        }
+        button:hover {
+            background: #e2e8f0;
         }
 
         /* Layout 2 colonnes */
@@ -100,23 +110,39 @@
         @media (max-width: 900px) {
             body { padding: 1rem; }
             .cv-maker { grid-template-columns: 1fr; }
+            .editor-panel.hide-on-mobile { display: none; }
+            .toggle-editor-btn {
+                display: block;
+                margin-bottom: 1rem;
+            }
+        }
+        .toggle-editor-btn {
+            display: none;
+            background: #3b82f6;
+            border: none;
+            width: 100%;
+            padding: 0.7rem;
+            font-weight: bold;
+            color: white;
         }
 
         /* Éditeur */
         .editor-panel {
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
             border-radius: 1.8rem;
             padding: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
         }
         .section-title {
             font-size: 1.3rem;
             font-weight: 600;
             margin: 1.2rem 0 0.8rem 0;
-            border-left: 4px solid #a78bfa;
+            border-left: 4px solid #3b82f6;
             padding-left: 0.75rem;
             font-family: 'Playfair Display', serif;
+            color: #0f172a;
         }
         .section-title:first-of-type { margin-top: 0; }
         .input-group {
@@ -124,44 +150,46 @@
         }
         label {
             display: block;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 0.8rem;
             margin-bottom: 0.3rem;
-            color: #cbd5f5;
+            color: #334155;
         }
         input, textarea {
             width: 100%;
             padding: 0.7rem 1rem;
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: white;
+            border: 1px solid #cbd5e1;
             border-radius: 1.2rem;
             font-family: 'Inter', sans-serif;
             font-size: 0.9rem;
-            color: white;
+            color: #0f172a;
         }
         input:focus, textarea:focus {
             outline: none;
-            border-color: #a78bfa;
-            background: rgba(255,255,255,0.18);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
         }
         .exp-card, .edu-card {
-            background: rgba(255,255,255,0.08);
+            background: #f8fafc;
             border-radius: 1.2rem;
             padding: 1rem;
             margin-bottom: 1rem;
-            border-left: 3px solid #8b5cf6;
+            border-left: 3px solid #3b82f6;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
         }
         .btn-add {
-            background: linear-gradient(135deg, #6366f1, #a855f7);
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             border: none;
             color: white;
             padding: 0.4rem 1.2rem;
             border-radius: 2rem;
             cursor: pointer;
             margin: 0.5rem 0;
+            font-weight: 500;
         }
         .btn-remove {
-            background: rgba(239, 68, 68, 0.8);
+            background: #ef4444;
             border: none;
             color: white;
             padding: 0.2rem 0.9rem;
@@ -177,20 +205,24 @@
             margin: 1rem 0;
         }
         .skill-tag, .interest-tag {
-            background: rgba(139, 92, 246, 0.3);
+            background: #dbeafe;
             padding: 0.3rem 1rem;
             border-radius: 2rem;
             display: inline-flex;
             gap: 0.6rem;
             align-items: center;
             font-size: 0.8rem;
+            color: #1e40af;
+            font-weight: 500;
         }
         .skill-tag button, .interest-tag button {
             background: none;
             border: none;
-            color: white;
+            color: #1e3a8a;
             font-weight: bold;
             cursor: pointer;
+            padding: 0;
+            margin-left: 0.5rem;
         }
         .add-skill, .add-interest {
             display: flex;
@@ -201,29 +233,29 @@
             flex: 1;
         }
 
-        /* Aperçu CV */
+        /* Aperçu CV (même style que l'impression) */
         .preview-panel {
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
             border-radius: 1.8rem;
             padding: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 2rem;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
         }
         .cv-export-container {
             background: white;
             border-radius: 1.2rem;
             overflow: hidden;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.3);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
         }
         .cv-premium {
             font-family: 'Inter', sans-serif;
             color: #0f172a;
         }
-        /* En-tête */
         .cv-header-premium {
             padding: 1rem 1.5rem;
             background: linear-gradient(135deg, #3b82f6, #8b5cf6);
@@ -265,7 +297,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 0.5rem;
-            color: #4f46e5;
+            color: #2563eb;
             border-left: 3px solid;
             padding-left: 0.6rem;
         }
@@ -300,14 +332,13 @@
             font-weight: 500;
             color: #1e293b;
         }
-        /* Layouts */
         .two-columns-layout {
             display: flex;
             gap: 1.2rem;
         }
         .two-columns-layout .sidebar {
             flex: 1;
-            background-color: #f8fafc; /* couleur par défaut, sera remplacée dynamiquement */
+            background-color: #f8fafc;
             border-radius: 0.8rem;
             padding: 0.5rem;
         }
@@ -320,7 +351,7 @@
             gap: 0.8rem;
         }
         .btn-print {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
             width: 100%;
             padding: 0.8rem;
             border: none;
@@ -331,11 +362,24 @@
             cursor: pointer;
             font-size: 1rem;
         }
+        .action-buttons {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .action-buttons button {
+            flex: 1;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
+        }
+
         .toast {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            background: #1e293b;
+            background: #0f172a;
             backdrop-filter: blur(10px);
             color: white;
             padding: 0.6rem 1.2rem;
@@ -343,67 +387,22 @@
             font-size: 0.8rem;
             z-index: 2000;
         }
-        /* Variantes de design */
+
+        /* Thèmes */
         .design-modern .cv-header-premium { border-radius: 0; border-bottom: 3px solid rgba(255,255,255,0.3); }
         .design-shadow .cv-export-container { box-shadow: 0 25px 40px -12px black; }
         .design-minimal .cv-section-premium h3 { font-weight: 500; text-transform: none; letter-spacing: 0; }
-        .design-professional .cv-header-premium { background: linear-gradient(135deg, #1e293b, #334155); }
-        .design-futuristic .cv-header-premium { background: linear-gradient(135deg, #ec4898, #8b5cf6, #06b6d4); }
-        /* Impression */
-        
-       @media print {
-    body {
-        background: white;
-        padding: 0;
-    }
+        .design-professional .cv-header-premium { background: linear-gradient(135deg, #1e293b, #334155) !important; }
+        .design-futuristic .cv-header-premium { background: linear-gradient(135deg, #ec4898, #8b5cf6, #06b6d4) !important; }
 
-    .editor-panel,
-    .style-panel,
-    .btn-print,
-    .toast {
-        display: none;
-    }
-
-    .preview-panel {
-        position: static;
-        max-height: none;
-        overflow: visible;
-        background: transparent;
-        backdrop-filter: none;
-        padding: 0;
-    }
-
-    .cv-export-container {
-        width: 100%;
-        margin: 0;
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .cv-premium {
-        width: 100%;
-    }
-
-    .cv-header-premium,
-    .two-columns-layout .sidebar,
-    .cv-skill-badge,
-    .cv-interest-badge {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
-}
-        @page {
-    size: A4;
-    margin: 10mm;
-}
-        
+        /* Aucun style d'impression particulier ici : tout est géré par la nouvelle fenêtre */
     </style>
 </head>
 <body>
 <div class="app">
     <div class="header">
         <h1>📄 Simple Curriculum</h1>
-        <div class="sub">Éditeur complet • Aperçu en temps réel • Impression PDF fidèle</div>
+        <div class="sub">Éditeur épuré • Aperçu réel • Sauvegarde auto • Bleu pastel</div>
     </div>
 
     <div class="style-panel">
@@ -412,9 +411,9 @@
             <div class="color-palette" id="headerColorPalette"></div>
         </div>
         <div class="style-group">
-            <span>🎨 Couleur colonne gauche (2 colonnes) :</span>
+            <span>🎨 Couleur colonne gauche :</span>
             <select id="sidebarColorSelect" class="sidebar-color-select">
-                <option value="#f8fafc">Gris clair (défaut)</option>
+                <option value="#f8fafc">Gris clair</option>
                 <option value="#dbeafe">Bleu pastel</option>
                 <option value="#dcfce7">Vert pastel</option>
                 <option value="#fef9c3">Jaune pastel</option>
@@ -424,7 +423,7 @@
             <span>📐 Agencement :</span>
             <select id="layoutSelect">
                 <option value="classic">Classique (stacké)</option>
-                <option value="two-columns">Deux colonnes (sidebar)</option>
+                <option value="two-columns">Deux colonnes</option>
                 <option value="compact">Très compact</option>
             </select>
         </div>
@@ -439,18 +438,27 @@
                 <option value="futuristic">Futuriste</option>
             </select>
         </div>
+        <div class="style-group">
+            <span>📁 Template :</span>
+            <select id="templateSelect">
+                <option value="standard">Standard</option>
+                <option value="skills_first">Compétences d'abord</option>
+                <option value="reverse_chrono">Chronologique inversé</option>
+            </select>
+        </div>
     </div>
 
+    <button class="toggle-editor-btn" id="toggleEditorBtn">✏️ Masquer/Afficher l'éditeur</button>
+
     <div class="cv-maker">
-        <!-- Éditeur - TOUT EST VIDE -->
-        <div class="editor-panel">
+        <div class="editor-panel" id="editorPanel">
             <div class="section-title">👤 Identité & Contact</div>
-            <div class="input-group"><label>Nom complet</label><input type="text" id="fullName" placeholder="ex: Sophie Laurent" value=""></div>
-            <div class="input-group"><label>Titre professionnel</label><input type="text" id="jobTitle" placeholder="ex: Chef de projet digital" value=""></div>
-            <div class="input-group"><label>Adresse</label><input type="text" id="address" placeholder="ex: 12 rue de Paris, 75000" value=""></div>
-            <div class="input-group"><label>📞 Téléphone</label><input type="text" id="phone" placeholder="06 12 34 56 78" value=""></div>
-            <div class="input-group"><label>✉️ E-mail</label><input type="email" id="email" placeholder="nom@exemple.com" value=""></div>
-            <div class="input-group"><label>🔗 LinkedIn / site web</label><input type="text" id="website" placeholder="https://linkedin.com/in/..." value=""></div>
+            <div class="input-group"><label for="fullName">Nom complet</label><input type="text" id="fullName" placeholder="ex: Sophie Laurent"></div>
+            <div class="input-group"><label for="jobTitle">Titre professionnel</label><input type="text" id="jobTitle" placeholder="ex: Chef de projet digital"></div>
+            <div class="input-group"><label for="address">Adresse</label><input type="text" id="address" placeholder="ex: 12 rue de Paris, 75000"></div>
+            <div class="input-group"><label for="phone">📞 Téléphone</label><input type="text" id="phone" placeholder="06 12 34 56 78"></div>
+            <div class="input-group"><label for="email">✉️ E-mail</label><input type="email" id="email" placeholder="nom@exemple.com"></div>
+            <div class="input-group"><label for="website">🔗 LinkedIn / site web</label><input type="text" id="website" placeholder="https://linkedin.com/in/..."></div>
 
             <div class="section-title">💼 Expériences</div>
             <div id="expList"></div>
@@ -473,20 +481,25 @@
                 <input type="text" id="newInterestInput" placeholder="Ex: Voyages, Lecture">
                 <button class="btn-add" id="addInterestBtn">Ajouter</button>
             </div>
+
+            <div class="action-buttons">
+                <button id="exportJsonBtn">💾 Exporter JSON</button>
+                <button id="importJsonBtn">📂 Importer JSON</button>
+                <input type="file" id="importFileInput" accept=".json" style="display: none;">
+            </div>
         </div>
 
-        <!-- Aperçu + impression -->
         <div class="preview-panel">
             <div id="cvExportContainer" class="cv-export-container">
                 <div id="cvPreview" class="cv-premium"></div>
             </div>
-            <button class="btn-print" id="printBtn">🖨️ Imprimer / Générer PDF (aperçu exact)</button>
+            <button class="btn-print" id="printBtn">🖨️ Imprimer / Générer PDF (style exact)</button>
         </div>
     </div>
 </div>
 
 <script>
-    // Structure de données entièrement vide
+    // ---------- SOURCE DE VÉRITÉ ----------
     let cv = {
         personal: { name: "", title: "", address: "", phone: "", email: "", website: "" },
         experiences: [],
@@ -498,30 +511,32 @@
     let currentHeaderColor = "#3b82f6";
     let currentLayout = "classic";
     let currentDesign = "classic";
-    let currentSidebarColor = "#f8fafc"; // gris clair par défaut
+    let currentSidebarColor = "#f8fafc";
+    let currentTemplate = "standard";
     const headerColors = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4898", "#06b6d4", "#84cc16", "#f97316", "#6366f1"];
+
+    function toast(msg, isError = false) {
+        let t = document.createElement('div');
+        t.className = 'toast';
+        t.style.background = isError ? '#b91c1c' : '#1e293b';
+        t.innerText = msg;
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2000);
+    }
 
     function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
 
-    // Génération du CV sans badge, avec couleur de sidebar pour deux colonnes
+    // ---------- GÉNÉRATION DU CV (identique pour l'affichage et l'impression) ----------
     function generateCVHTML() {
-        cv.personal.name = document.getElementById('fullName').value;
-        cv.personal.title = document.getElementById('jobTitle').value;
-        cv.personal.address = document.getElementById('address').value;
-        cv.personal.phone = document.getElementById('phone').value;
-        cv.personal.email = document.getElementById('email').value;
-        cv.personal.website = document.getElementById('website').value;
-
         const headerGradient = `linear-gradient(135deg, ${currentHeaderColor}, ${currentHeaderColor}dd)`;
         const contactHtml = `
             <div class="cv-contact-line">
                 ${cv.personal.phone ? `<span class="cv-contact-item">📞 ${escapeHtml(cv.personal.phone)}</span>` : ''}
                 ${cv.personal.email ? `<span class="cv-contact-item">✉️ ${escapeHtml(cv.personal.email)}</span>` : ''}
                 ${cv.personal.website ? `<span class="cv-contact-item">🔗 ${escapeHtml(cv.personal.website)}</span>` : ''}
-                <span class="cv-contact-item">📍 ${escapeHtml(cv.personal.address)}</span>
+                ${cv.personal.address ? `<span class="cv-contact-item">📍 ${escapeHtml(cv.personal.address)}</span>` : ''}
             </div>
         `;
-
         const headerHtml = `
             <div class="cv-header-premium" style="background: ${headerGradient};">
                 <div class="cv-name-premium">${escapeHtml(cv.personal.name) || "Votre nom"}</div>
@@ -530,61 +545,74 @@
             </div>
         `;
 
-        const expHtml = `<div class="cv-section-premium"><h3 style="border-left-color:${currentHeaderColor}">💼 Expériences</h3>${cv.experiences.map(exp => `
+        const makeExpSection = () => `<div class="cv-section-premium"><h3 style="border-left-color:${currentHeaderColor}">💼 Expériences</h3>${cv.experiences.length ? cv.experiences.map(exp => `
             <div style="margin-bottom:0.7rem;"><div class="cv-job">${escapeHtml(exp.job) || "Poste"}</div>
             <div class="cv-company">${escapeHtml(exp.company) || "Entreprise"} · <span class="cv-date">${escapeHtml(exp.date) || ""}</span></div>
             <div class="cv-desc">${escapeHtml(exp.desc) || ""}</div></div>
-        `).join('')}${cv.experiences.length === 0 ? '<div class="cv-desc" style="opacity:0.6;">Aucune expérience renseignée</div>' : ''}</div>`;
+        `).join('') : '<div class="cv-desc" style="opacity:0.6;">Aucune expérience renseignée</div>'}</div>`;
         
-        const eduHtml = `<div class="cv-section-premium"><h3 style="border-left-color:${currentHeaderColor}">🎓 Formations</h3>${cv.educations.map(edu => `
+        const makeEduSection = () => `<div class="cv-section-premium"><h3 style="border-left-color:${currentHeaderColor}">🎓 Formations</h3>${cv.educations.length ? cv.educations.map(edu => `
             <div style="margin-bottom:0.7rem;"><div class="cv-degree">${escapeHtml(edu.degree) || "Diplôme"}</div>
             <div class="cv-school">${escapeHtml(edu.school) || "Établissement"} · <span class="cv-date">${escapeHtml(edu.date) || ""}</span></div>
             <div class="cv-desc">${escapeHtml(edu.desc) || ""}</div></div>
-        `).join('')}${cv.educations.length === 0 ? '<div class="cv-desc" style="opacity:0.6;">Aucune formation renseignée</div>' : ''}</div>`;
+        `).join('') : '<div class="cv-desc" style="opacity:0.6;">Aucune formation renseignée</div>'}</div>`;
         
-        const skillsHtml = `<div class="cv-section-premium"><h3 style="border-left-color:${currentHeaderColor}">🧠 Compétences</h3><div class="cv-skills-tags">${cv.skills.map(s => `<span class="cv-skill-badge">✨ ${escapeHtml(s)}</span>`).join('')}${cv.skills.length === 0 ? '<span class="cv-desc" style="opacity:0.6;">Aucune compétence</span>' : ''}</div></div>`;
-        const interestsHtml = `<div class="cv-section-premium"><h3 style="border-left-color:${currentHeaderColor}">🎯 Centres d'intérêt</h3><div class="cv-interests-tags">${cv.interests.map(i => `<span class="cv-interest-badge">🎯 ${escapeHtml(i)}</span>`).join('')}${cv.interests.length === 0 ? '<span class="cv-desc" style="opacity:0.6;">Aucun centre d’intérêt</span>' : ''}</div></div>`;
+        const makeSkillsSection = () => `<div class="cv-section-premium"><h3 style="border-left-color:${currentHeaderColor}">🧠 Compétences</h3><div class="cv-skills-tags">${cv.skills.length ? cv.skills.map(s => `<span class="cv-skill-badge">✨ ${escapeHtml(s)}</span>`).join('') : '<span class="cv-desc" style="opacity:0.6;">Aucune compétence</span>'}</div></div>`;
+        const makeInterestsSection = () => `<div class="cv-section-premium"><h3 style="border-left-color:${currentHeaderColor}">🎯 Centres d'intérêt</h3><div class="cv-interests-tags">${cv.interests.length ? cv.interests.map(i => `<span class="cv-interest-badge">🎯 ${escapeHtml(i)}</span>`).join('') : '<span class="cv-desc" style="opacity:0.6;">Aucun centre d’intérêt</span>'}</div></div>`;
 
-        let mainContent = '';
+        let sectionsOrder = [];
+        if (currentTemplate === "skills_first") {
+            sectionsOrder = [makeSkillsSection, makeInterestsSection, makeExpSection, makeEduSection];
+        } else if (currentTemplate === "reverse_chrono") {
+            const reversedExp = [...cv.experiences].reverse();
+            const reversedEdu = [...cv.educations].reverse();
+            const makeReverseExp = () => `<div class="cv-section-premium"><h3 style="border-left-color:${currentHeaderColor}">💼 Expériences (récentes d'abord)</h3>${reversedExp.length ? reversedExp.map(exp => `
+                <div style="margin-bottom:0.7rem;"><div class="cv-job">${escapeHtml(exp.job) || "Poste"}</div>
+                <div class="cv-company">${escapeHtml(exp.company) || "Entreprise"} · <span class="cv-date">${escapeHtml(exp.date) || ""}</span></div>
+                <div class="cv-desc">${escapeHtml(exp.desc) || ""}</div></div>
+            `).join('') : '<div class="cv-desc" style="opacity:0.6;">Aucune expérience</div>'}</div>`;
+            const makeReverseEdu = () => `<div class="cv-section-premium"><h3 style="border-left-color:${currentHeaderColor}">🎓 Formations (récentes d'abord)</h3>${reversedEdu.length ? reversedEdu.map(edu => `
+                <div style="margin-bottom:0.7rem;"><div class="cv-degree">${escapeHtml(edu.degree) || "Diplôme"}</div>
+                <div class="cv-school">${escapeHtml(edu.school) || "Établissement"} · <span class="cv-date">${escapeHtml(edu.date) || ""}</span></div>
+                <div class="cv-desc">${escapeHtml(edu.desc) || ""}</div></div>
+            `).join('') : '<div class="cv-desc" style="opacity:0.6;">Aucune formation</div>'}</div>`;
+            sectionsOrder = [makeReverseExp, makeReverseEdu, makeSkillsSection, makeInterestsSection];
+        } else {
+            sectionsOrder = [makeExpSection, makeEduSection, makeSkillsSection, makeInterestsSection];
+        }
+
+        let mainContentHTML = sectionsOrder.map(fn => fn()).join('');
+        let finalHTML = '';
         if(currentLayout === 'two-columns') {
-            // Appliquer la couleur de fond choisie à la sidebar
-            mainContent = `
+            finalHTML = `
                 <div class="two-columns-layout">
-                    <div class="sidebar" style="background-color: ${currentSidebarColor};">${skillsHtml}${interestsHtml}</div>
-                    <div class="main-content">${expHtml}${eduHtml}</div>
+                    <div class="sidebar" style="background-color: ${currentSidebarColor};">${makeSkillsSection()}${makeInterestsSection()}</div>
+                    <div class="main-content">${[makeExpSection, makeEduSection].map(fn => fn()).join('')}</div>
                 </div>
             `;
         } else if(currentLayout === 'compact') {
-            mainContent = `
+            finalHTML = `
                 <div class="compact-layout">
-                    <div>${expHtml}</div>
-                    <div>${eduHtml}</div>
-                    <div>${skillsHtml}</div>
-                    <div>${interestsHtml}</div>
+                    <div>${makeExpSection()}</div>
+                    <div>${makeEduSection()}</div>
+                    <div>${makeSkillsSection()}</div>
+                    <div>${makeInterestsSection()}</div>
                 </div>
             `;
-        } else { // classic
-            mainContent = `${expHtml}${eduHtml}${skillsHtml}${interestsHtml}`;
+        } else {
+            finalHTML = mainContentHTML;
         }
 
-        return `<div id="cvInner" class="cv-premium">${headerHtml}<div class="cv-body-premium">${mainContent}</div></div>`;
+        return `<div class="cv-premium design-${currentDesign}">${headerHtml}<div class="cv-body-premium">${finalHTML}</div></div>`;
     }
 
     function updatePreview() {
-        const rawHtml = generateCVHTML();
-        document.getElementById('cvPreview').innerHTML = rawHtml;
-        const wrapper = document.getElementById('cvPreview');
-        if(wrapper) wrapper.className = `cv-premium design-${currentDesign}`;
-        // Appliquer dynamiquement le style pour le design futuriste/pro
-        let styleTag = document.getElementById('dynamic-design-style');
-        if(!styleTag){ styleTag = document.createElement('style'); styleTag.id = 'dynamic-design-style'; document.head.appendChild(styleTag); }
-        let extraCss = '';
-        if(currentDesign === 'futuristic') extraCss = `.design-futuristic .cv-skill-badge, .design-futuristic .cv-interest-badge { background: linear-gradient(135deg, #e0e7ff, #f3e8ff); }`;
-        else if(currentDesign === 'professional') extraCss = `.design-professional .cv-header-premium { background: linear-gradient(135deg, #1e293b, #2d3a4e) !important; }`;
-        styleTag.textContent = extraCss;
+        const html = generateCVHTML();
+        document.getElementById('cvPreview').innerHTML = html;
+        saveToLocalStorage();
     }
 
-    // Rendu de l'éditeur (listes vides au départ)
+    // ---------- RENDU ÉDITEUR ----------
     function renderEditor() {
         document.getElementById('fullName').value = cv.personal.name;
         document.getElementById('jobTitle').value = cv.personal.title;
@@ -597,11 +625,11 @@
         expDiv.innerHTML = '';
         cv.experiences.forEach((exp, idx) => {
             expDiv.innerHTML += `
-                <div class="exp-card">
-                    <input type="text" value="${escapeHtml(exp.job)}" data-exp-index="${idx}" data-field="job" placeholder="Poste">
-                    <input type="text" value="${escapeHtml(exp.company)}" data-exp-index="${idx}" data-field="company" style="margin-top:8px" placeholder="Entreprise">
-                    <input type="text" value="${escapeHtml(exp.date)}" data-exp-index="${idx}" data-field="date" style="margin-top:8px" placeholder="Date">
-                    <textarea data-exp-index="${idx}" data-field="desc" rows="2" placeholder="Description">${escapeHtml(exp.desc)}</textarea>
+                <div class="exp-card" data-exp-idx="${idx}">
+                    <input type="text" value="${escapeHtml(exp.job)}" data-exp-field="job" placeholder="Poste">
+                    <input type="text" value="${escapeHtml(exp.company)}" data-exp-field="company" style="margin-top:8px" placeholder="Entreprise">
+                    <input type="text" value="${escapeHtml(exp.date)}" data-exp-field="date" style="margin-top:8px" placeholder="Date">
+                    <textarea data-exp-field="desc" rows="2" placeholder="Description">${escapeHtml(exp.desc)}</textarea>
                     <button class="btn-remove" data-exp-remove="${idx}">Supprimer</button>
                 </div>
             `;
@@ -611,11 +639,11 @@
         eduDiv.innerHTML = '';
         cv.educations.forEach((edu, idx) => {
             eduDiv.innerHTML += `
-                <div class="edu-card">
-                    <input type="text" value="${escapeHtml(edu.degree)}" data-edu-index="${idx}" data-field="degree" placeholder="Diplôme">
-                    <input type="text" value="${escapeHtml(edu.school)}" data-edu-index="${idx}" data-field="school" style="margin-top:8px" placeholder="Établissement">
-                    <input type="text" value="${escapeHtml(edu.date)}" data-edu-index="${idx}" data-field="date" style="margin-top:8px" placeholder="Année">
-                    <textarea data-edu-index="${idx}" data-field="desc" rows="2" placeholder="Description">${escapeHtml(edu.desc)}</textarea>
+                <div class="edu-card" data-edu-idx="${idx}">
+                    <input type="text" value="${escapeHtml(edu.degree)}" data-edu-field="degree" placeholder="Diplôme">
+                    <input type="text" value="${escapeHtml(edu.school)}" data-edu-field="school" style="margin-top:8px" placeholder="Établissement">
+                    <input type="text" value="${escapeHtml(edu.date)}" data-edu-field="date" style="margin-top:8px" placeholder="Année">
+                    <textarea data-edu-field="desc" rows="2" placeholder="Description">${escapeHtml(edu.desc)}</textarea>
                     <button class="btn-remove" data-edu-remove="${idx}">Supprimer</button>
                 </div>
             `;
@@ -632,90 +660,159 @@
         cv.interests.forEach((interest, idx) => {
             interestsDiv.innerHTML += `<div class="interest-tag">${escapeHtml(interest)} <button data-interest-remove="${idx}">✕</button></div>`;
         });
-        attachDynamicEvents();
     }
 
-    function attachDynamicEvents() {
-        document.querySelectorAll('.exp-card input, .exp-card textarea').forEach(el => {
-            el.removeEventListener('input', handleExpChange);
-            el.addEventListener('input', handleExpChange);
+    // Délégation d'événements
+    function setupDelegation() {
+        document.getElementById('expList').addEventListener('input', (e) => {
+            const card = e.target.closest('.exp-card');
+            if(!card) return;
+            const idx = parseInt(card.dataset.expIdx);
+            const field = e.target.dataset.expField;
+            if(!isNaN(idx) && field && cv.experiences[idx]) {
+                cv.experiences[idx][field] = e.target.value;
+                updatePreview();
+            }
         });
-        document.querySelectorAll('[data-exp-remove]').forEach(btn => btn.addEventListener('click', handleExpRemove));
-        document.querySelectorAll('.edu-card input, .edu-card textarea').forEach(el => {
-            el.removeEventListener('input', handleEduChange);
-            el.addEventListener('input', handleEduChange);
+        document.getElementById('expList').addEventListener('click', (e) => {
+            if(e.target.dataset.expRemove) {
+                cv.experiences.splice(parseInt(e.target.dataset.expRemove),1);
+                renderEditor(); updatePreview(); toast("Expérience supprimée");
+            }
         });
-        document.querySelectorAll('[data-edu-remove]').forEach(btn => btn.addEventListener('click', handleEduRemove));
-        document.querySelectorAll('[data-skill-remove]').forEach(btn => btn.addEventListener('click', handleSkillRemove));
-        document.querySelectorAll('[data-interest-remove]').forEach(btn => btn.addEventListener('click', handleInterestRemove));
+        document.getElementById('eduList').addEventListener('input', (e) => {
+            const card = e.target.closest('.edu-card');
+            if(!card) return;
+            const idx = parseInt(card.dataset.eduIdx);
+            const field = e.target.dataset.eduField;
+            if(!isNaN(idx) && field && cv.educations[idx]) {
+                cv.educations[idx][field] = e.target.value;
+                updatePreview();
+            }
+        });
+        document.getElementById('eduList').addEventListener('click', (e) => {
+            if(e.target.dataset.eduRemove) {
+                cv.educations.splice(parseInt(e.target.dataset.eduRemove),1);
+                renderEditor(); updatePreview(); toast("Formation supprimée");
+            }
+        });
+        document.getElementById('skillsContainer').addEventListener('click', (e) => {
+            if(e.target.dataset.skillRemove) {
+                cv.skills.splice(parseInt(e.target.dataset.skillRemove),1);
+                renderEditor(); updatePreview(); toast("Compétence supprimée");
+            }
+        });
+        document.getElementById('interestsContainer').addEventListener('click', (e) => {
+            if(e.target.dataset.interestRemove) {
+                cv.interests.splice(parseInt(e.target.dataset.interestRemove),1);
+                renderEditor(); updatePreview(); toast("Centre d'intérêt supprimé");
+            }
+        });
     }
 
-    function handleExpChange(e) {
-        const idx = parseInt(e.target.dataset.expIndex);
-        const field = e.target.dataset.field;
-        if (!isNaN(idx)) cv.experiences[idx][field] = e.target.value;
-        updatePreview();
+    // Sauvegarde / chargement
+    function saveToLocalStorage() {
+        localStorage.setItem('cvBuilderState', JSON.stringify({
+            cv, currentHeaderColor, currentLayout, currentDesign, currentSidebarColor, currentTemplate
+        }));
     }
-    function handleExpRemove(e) {
-        const idx = parseInt(e.target.dataset.expRemove);
-        cv.experiences.splice(idx,1); renderEditor(); updatePreview(); toast("Expérience supprimée");
-    }
-    function handleEduChange(e) {
-        const idx = parseInt(e.target.dataset.eduIndex);
-        const field = e.target.dataset.field;
-        if (!isNaN(idx)) cv.educations[idx][field] = e.target.value;
-        updatePreview();
-    }
-    function handleEduRemove(e) {
-        const idx = parseInt(e.target.dataset.eduRemove);
-        cv.educations.splice(idx,1); renderEditor(); updatePreview(); toast("Formation supprimée");
-    }
-    function handleSkillRemove(e) {
-        const idx = parseInt(e.target.dataset.skillRemove);
-        cv.skills.splice(idx,1); renderEditor(); updatePreview(); toast("Compétence supprimée");
-    }
-    function handleInterestRemove(e) {
-        const idx = parseInt(e.target.dataset.interestRemove);
-        cv.interests.splice(idx,1); renderEditor(); updatePreview(); toast("Centre d'intérêt supprimé");
+    function loadFromLocalStorage() {
+        const saved = localStorage.getItem('cvBuilderState');
+        if(saved) {
+            try {
+                const s = JSON.parse(saved);
+                cv = s.cv;
+                currentHeaderColor = s.currentHeaderColor || "#3b82f6";
+                currentLayout = s.currentLayout || "classic";
+                currentDesign = s.currentDesign || "classic";
+                currentSidebarColor = s.currentSidebarColor || "#f8fafc";
+                currentTemplate = s.currentTemplate || "standard";
+                document.getElementById('layoutSelect').value = currentLayout;
+                document.getElementById('designSelect').value = currentDesign;
+                document.getElementById('sidebarColorSelect').value = currentSidebarColor;
+                document.getElementById('templateSelect').value = currentTemplate;
+                updateSidebarSelectDisabled();
+                renderEditor(); updatePreview();
+            } catch(e) {}
+        }
     }
 
-    // Impression identique à l'aperçu
-    function printCV() {
-         window.print();}`;
-        const printContent = document.getElementById('cvExportContainer').cloneNode(true);
+    function updateSidebarSelectDisabled() {
+        const select = document.getElementById('sidebarColorSelect');
+        if(currentLayout !== 'two-columns') {
+            select.disabled = true;
+            select.style.opacity = '0.5';
+        } else {
+            select.disabled = false;
+            select.style.opacity = '1';
+        }
+    }
+
+    // Impression PARFAITE : nouvelle fenêtre avec uniquement le CV + styles
+    function printPerfectCV() {
+        const cvHTML = generateCVHTML(); // identique à l'aperçu
+        const styles = document.querySelector('style').innerHTML;
         const printWindow = window.open('', '_blank');
         printWindow.document.write(`
+            <!DOCTYPE html>
             <html>
-                <head>
-                    <title>Simple Curriculum - ${cv.personal.name || 'CV'}</title>
-                    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-                    <style>
-                        * { margin: 0; padding: 0; box-sizing: border-box; }
-                        body { font-family: 'Inter', sans-serif; padding: 0.5in; background: white; }
-                        .cv-export-container { max-width: 100%; margin: 0 auto; box-shadow: none; }
-                        .cv-header-premium { background: linear-gradient(135deg, ${currentHeaderColor}, ${currentHeaderColor}dd) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                        .two-columns-layout .sidebar { background-color: ${currentSidebarColor} !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                        .cv-skill-badge, .cv-interest-badge { background: #eef2ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                        .btn-print, .style-panel, .editor-panel, .preview-panel .btn-print, .toast { display: none; }
-                    </style>
-                </head>
-                <body>
-                    ${printContent.outerHTML}
-                    <script>
-                        window.onload = () => {
-                            window.print();
-                            setTimeout(() => window.close(), 500);
-                        };
-                    <\/script>
-                </body>
+            <head>
+                <meta charset="UTF-8">
+                <title>CV - ${escapeHtml(cv.personal.name) || "Document"}</title>
+                <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+                <style>
+                    /* Réinitialisation */
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    body {
+                        font-family: 'Inter', sans-serif;
+                        background: white;
+                        padding: 0.5in;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    .cv-export-container {
+                        max-width: 100%;
+                        background: white;
+                        box-shadow: none;
+                    }
+                    /* Tous les styles du CV (copie depuis la page) */
+                    ${styles}
+                    /* Ajustements pour l'impression */
+                    .cv-header-premium, .two-columns-layout .sidebar, .cv-skill-badge, .cv-interest-badge {
+                        -webkit-print-color-adjust: exact;
+                        print-color-adjust: exact;
+                    }
+                    .preview-panel, .btn-print, .style-panel, .editor-panel, .header, .action-buttons {
+                        display: none;
+                    }
+                    body {
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .cv-export-container {
+                        margin: 0 auto;
+                        width: 100%;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="cv-export-container" style="background: white; border-radius: 0; box-shadow: none;">
+                    ${cvHTML}
+                </div>
+                <script>
+                    window.onload = () => {
+                        window.print();
+                        setTimeout(() => window.close(), 500);
+                    };
+                <\/script>
+            </body>
             </html>
         `);
         printWindow.document.close();
-        document.title = originalTitle;
     }
 
-    function toast(msg) { let t = document.createElement('div'); t.className='toast'; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2000); }
-
+    // Événements UI
     function initColorPalette() {
         const container = document.getElementById('headerColorPalette');
         headerColors.forEach(color => {
@@ -734,30 +831,94 @@
         });
     }
 
-    function initSidebarColor() {
-        const select = document.getElementById('sidebarColorSelect');
-        select.value = currentSidebarColor;
-        select.addEventListener('change', (e) => {
-            currentSidebarColor = e.target.value;
-            updatePreview();
-            toast("Couleur de la colonne gauche modifiée");
+    function initEventListeners() {
+        document.getElementById('fullName').addEventListener('input', (e) => { cv.personal.name = e.target.value; updatePreview(); });
+        document.getElementById('jobTitle').addEventListener('input', (e) => { cv.personal.title = e.target.value; updatePreview(); });
+        document.getElementById('address').addEventListener('input', (e) => { cv.personal.address = e.target.value; updatePreview(); });
+        document.getElementById('phone').addEventListener('input', (e) => { cv.personal.phone = e.target.value; updatePreview(); });
+        document.getElementById('email').addEventListener('input', (e) => { cv.personal.email = e.target.value; updatePreview(); });
+        document.getElementById('website').addEventListener('input', (e) => { cv.personal.website = e.target.value; updatePreview(); });
+
+        document.getElementById('addExpBtn').addEventListener('click', () => { cv.experiences.push({ job:"", company:"", date:"", desc:"" }); renderEditor(); updatePreview(); toast("Expérience ajoutée"); });
+        document.getElementById('addEduBtn').addEventListener('click', () => { cv.educations.push({ degree:"", school:"", date:"", desc:"" }); renderEditor(); updatePreview(); toast("Formation ajoutée"); });
+        document.getElementById('addSkillBtn').addEventListener('click', () => {
+            let s = document.getElementById('newSkillInput').value.trim();
+            if(s) {
+                if(cv.skills.includes(s)) toast("Compétence déjà présente", true);
+                else { cv.skills.push(s); renderEditor(); updatePreview(); document.getElementById('newSkillInput').value=''; toast("Compétence ajoutée"); }
+            }
+        });
+        document.getElementById('addInterestBtn').addEventListener('click', () => {
+            let i = document.getElementById('newInterestInput').value.trim();
+            if(i) {
+                if(cv.interests.includes(i)) toast("Centre d'intérêt déjà présent", true);
+                else { cv.interests.push(i); renderEditor(); updatePreview(); document.getElementById('newInterestInput').value=''; toast("Centre d'intérêt ajouté"); }
+            }
+        });
+
+        document.getElementById('layoutSelect').addEventListener('change', (e) => { currentLayout = e.target.value; updateSidebarSelectDisabled(); updatePreview(); });
+        document.getElementById('designSelect').addEventListener('change', (e) => { currentDesign = e.target.value; updatePreview(); });
+        document.getElementById('sidebarColorSelect').addEventListener('change', (e) => { currentSidebarColor = e.target.value; updatePreview(); });
+        document.getElementById('templateSelect').addEventListener('change', (e) => { currentTemplate = e.target.value; updatePreview(); });
+        document.getElementById('printBtn').addEventListener('click', printPerfectCV);
+
+        document.getElementById('exportJsonBtn').addEventListener('click', () => {
+            const data = JSON.stringify({ cv, options: { currentHeaderColor, currentLayout, currentDesign, currentSidebarColor, currentTemplate } }, null, 2);
+            const blob = new Blob([data], {type: 'application/json'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'mon-cv.json';
+            a.click();
+            URL.revokeObjectURL(blob);
+            toast("CV exporté");
+        });
+        document.getElementById('importJsonBtn').addEventListener('click', () => document.getElementById('importFileInput').click());
+        document.getElementById('importFileInput').addEventListener('change', (e) => {
+            if(e.target.files.length) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        const parsed = JSON.parse(ev.target.result);
+                        if(parsed.cv) {
+                            cv = parsed.cv;
+                            if(parsed.options) {
+                                currentHeaderColor = parsed.options.currentHeaderColor || currentHeaderColor;
+                                currentLayout = parsed.options.currentLayout || currentLayout;
+                                currentDesign = parsed.options.currentDesign || currentDesign;
+                                currentSidebarColor = parsed.options.currentSidebarColor || currentSidebarColor;
+                                currentTemplate = parsed.options.currentTemplate || currentTemplate;
+                                document.getElementById('layoutSelect').value = currentLayout;
+                                document.getElementById('designSelect').value = currentDesign;
+                                document.getElementById('sidebarColorSelect').value = currentSidebarColor;
+                                document.getElementById('templateSelect').value = currentTemplate;
+                                updateSidebarSelectDisabled();
+                            }
+                            renderEditor(); updatePreview();
+                            toast("CV importé");
+                        } else throw new Error();
+                    } catch(err) { toast("Fichier invalide", true); }
+                };
+                reader.readAsText(e.target.files[0]);
+                e.target.value = '';
+            }
+        });
+
+        const toggleBtn = document.getElementById('toggleEditorBtn');
+        const editorPanel = document.getElementById('editorPanel');
+        toggleBtn.addEventListener('click', () => {
+            editorPanel.classList.toggle('hide-on-mobile');
+            toggleBtn.textContent = editorPanel.classList.contains('hide-on-mobile') ? '✏️ Afficher l\'éditeur' : '✏️ Masquer l\'éditeur';
         });
     }
 
-    // Événements
-    document.getElementById('addExpBtn').addEventListener('click',()=>{ cv.experiences.push({ job:"", company:"", date:"", desc:"" }); renderEditor(); updatePreview(); });
-    document.getElementById('addEduBtn').addEventListener('click',()=>{ cv.educations.push({ degree:"", school:"", date:"", desc:"" }); renderEditor(); updatePreview(); });
-    document.getElementById('addSkillBtn').addEventListener('click',()=>{ let s=document.getElementById('newSkillInput').value.trim(); if(s && !cv.skills.includes(s)){ cv.skills.push(s); renderEditor(); updatePreview(); document.getElementById('newSkillInput').value=''; toast("Compétence ajoutée"); } });
-    document.getElementById('addInterestBtn').addEventListener('click',()=>{ let i=document.getElementById('newInterestInput').value.trim(); if(i && !cv.interests.includes(i)){ cv.interests.push(i); renderEditor(); updatePreview(); document.getElementById('newInterestInput').value=''; toast("Centre d'intérêt ajouté"); } });
-    document.getElementById('printBtn').addEventListener('click', printCV);
-    document.getElementById('layoutSelect').addEventListener('change',e=>{ currentLayout=e.target.value; updatePreview(); });
-    document.getElementById('designSelect').addEventListener('change',e=>{ currentDesign=e.target.value; updatePreview(); });
-    ['fullName','jobTitle','address','phone','email','website'].forEach(id=>document.getElementById(id).addEventListener('input',()=>updatePreview()));
-
+    // Démarrage
+    loadFromLocalStorage();
     initColorPalette();
-    initSidebarColor();
+    initEventListeners();
+    setupDelegation();
     renderEditor();
     updatePreview();
+    updateSidebarSelectDisabled();
 </script>
 </body>
 </html>
