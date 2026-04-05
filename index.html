@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>SIMPLE CV POUR NOUS | Créateur Futuriste</title>
-    <!-- html2pdf (export) -->
+    <title>Simple Cv pour Tous</title>
+    <!-- html2pdf (export fiable) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         * {
@@ -13,290 +13,273 @@
             box-sizing: border-box;
         }
 
+        /* Arrière-plan sobre et uni */
         body {
-            background: radial-gradient(circle at 20% 30%, #0a0f1e, #03050b);
-            font-family: 'Poppins', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            background-color: #f1f5f9;  /* gris clair sobre */
+            font-family: 'Inter', 'Poppins', system-ui, sans-serif;
             padding: 2rem;
             min-height: 100vh;
-            color: #eef5ff;
+            color: #1e293b;
         }
 
-        /* Importation Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap');
 
         .app {
-            max-width: 1500px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* Header futuriste */
+        /* Header sobre mais stylé */
         .header {
             text-align: center;
-            margin-bottom: 2.5rem;
-            position: relative;
+            margin-bottom: 2rem;
         }
 
         .header h1 {
-            font-size: 3.2rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #ffffff, #a0a0ff, #6c63ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: #0f172a;
             letter-spacing: -0.5px;
-            text-shadow: 0 0 15px rgba(108, 99, 255, 0.4);
-            animation: glowPulse 3s infinite alternate;
-        }
-
-        @keyframes glowPulse {
-            0% { text-shadow: 0 0 5px rgba(108,99,255,0.3); }
-            100% { text-shadow: 0 0 25px rgba(108,99,255,0.8); }
         }
 
         .sub {
-            color: #b0b8e0;
-            margin-top: 0.5rem;
-            font-weight: 400;
-            backdrop-filter: blur(4px);
+            color: #475569;
+            margin-top: 0.25rem;
         }
 
-        .random-btn {
-            background: rgba(20, 25, 45, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(108, 99, 255, 0.6);
-            color: white;
-            padding: 0.6rem 1.5rem;
-            border-radius: 3rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 1rem;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-            display: inline-flex;
+        /* Panneau de contrôle des styles */
+        .style-panel {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .style-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .style-group label {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        select, .color-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            border: 1px solid #cbd5e1;
+            background: white;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        select:hover, .color-btn:hover {
+            border-color: #3b82f6;
+        }
+
+        .color-palette {
+            display: flex;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        .random-btn:hover {
-            background: #6c63ff;
-            border-color: white;
-            transform: scale(1.02);
-            box-shadow: 0 0 20px rgba(108,99,255,0.5);
+        .color-option {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.1s;
         }
 
-        /* Layout deux colonnes souple */
+        .color-option.active {
+            border-color: #0f172a;
+            transform: scale(1.1);
+        }
+
+        /* Layout deux colonnes */
         .cv-maker {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
         }
 
-        @media (max-width: 950px) {
+        @media (max-width: 900px) {
             body { padding: 1rem; }
-            .cv-maker { grid-template-columns: 1fr; gap: 1.5rem; }
+            .cv-maker { grid-template-columns: 1fr; }
         }
 
-        /* Panneau d'édition (glassmorphisme) */
+        /* Panneau d'édition */
         .editor-panel {
-            background: rgba(15, 20, 35, 0.65);
-            backdrop-filter: blur(16px);
-            border-radius: 2rem;
-            padding: 1.8rem;
-            border: 1px solid rgba(108, 99, 255, 0.3);
-            box-shadow: 0 25px 40px rgba(0,0,0,0.4);
-            transition: all 0.3s;
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
         }
 
         .section-title {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 600;
             margin: 1.2rem 0 1rem 0;
-            background: linear-gradient(120deg, #fff, #b0b8ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            border-left: 4px solid var(--accent-color, #6c63ff);
-            padding-left: 0.8rem;
+            color: #0f172a;
+            border-left: 4px solid #3b82f6;
+            padding-left: 0.75rem;
         }
 
         .section-title:first-of-type { margin-top: 0; }
 
         .input-group {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         label {
             display: block;
             font-weight: 500;
-            margin-bottom: 0.4rem;
-            color: #ccd6f6;
+            margin-bottom: 0.3rem;
+            color: #334155;
             font-size: 0.85rem;
-            letter-spacing: 0.5px;
         }
 
         input, textarea {
             width: 100%;
-            padding: 0.8rem 1rem;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(108, 99, 255, 0.5);
-            border-radius: 1.2rem;
-            color: white;
+            padding: 0.7rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 1rem;
             font-size: 0.9rem;
             font-family: inherit;
-            transition: all 0.2s;
+            background: #fefefe;
+            transition: 0.2s;
         }
 
         input:focus, textarea:focus {
             outline: none;
-            border-color: var(--accent-color, #6c63ff);
-            box-shadow: 0 0 12px rgba(108,99,255,0.4);
-            background: rgba(0,0,0,0.6);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
         }
 
-        /* cartes dynamiques */
         .exp-card, .edu-card {
-            background: rgba(25, 30, 50, 0.6);
-            border-radius: 1.2rem;
+            background: #f8fafc;
+            border-radius: 1rem;
             padding: 1rem;
             margin-bottom: 1rem;
-            border-left: 3px solid var(--accent-color, #6c63ff);
-            transition: 0.2s;
+            border-left: 3px solid #3b82f6;
         }
 
         .btn-add {
-            background: linear-gradient(95deg, var(--accent-color, #6c63ff), #8b85ff);
+            background: #3b82f6;
             border: none;
             color: white;
-            padding: 0.6rem 1.2rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 2rem;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             margin: 0.5rem 0 1rem;
             transition: 0.2s;
-            font-size: 0.85rem;
         }
 
         .btn-add:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.05);
-            box-shadow: 0 5px 15px rgba(108,99,255,0.4);
+            background: #2563eb;
+            transform: translateY(-1px);
         }
 
         .btn-remove {
-            background: rgba(255,80,80,0.8);
+            background: #ef4444;
             border: none;
             color: white;
-            padding: 0.25rem 0.9rem;
+            padding: 0.25rem 0.8rem;
             border-radius: 1.5rem;
             cursor: pointer;
-            margin-top: 0.6rem;
+            margin-top: 0.5rem;
             font-size: 0.7rem;
-            font-weight: bold;
-            transition: 0.2s;
         }
 
-        .btn-remove:hover {
-            background: #ff4d4d;
-            transform: scale(0.97);
-        }
-
-        /* compétences tags */
         .skills-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.7rem;
+            gap: 0.6rem;
             margin: 1rem 0;
         }
 
         .skill-tag {
-            background: var(--accent-color, #6c63ff);
-            padding: 0.4rem 1rem;
+            background: #e2e8f0;
+            padding: 0.3rem 1rem;
             border-radius: 2rem;
             font-size: 0.8rem;
-            font-weight: 500;
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            animation: fadeSlide 0.2s ease;
+            gap: 0.5rem;
+            color: #1e293b;
         }
 
         .skill-tag button {
             background: none;
             border: none;
-            color: white;
             font-weight: bold;
             cursor: pointer;
-            font-size: 1rem;
+            color: #64748b;
         }
 
         .add-skill {
             display: flex;
-            gap: 0.6rem;
+            gap: 0.5rem;
             margin-top: 0.5rem;
         }
 
-        /* PANEL APERÇU FUTURISTE */
+        /* APERÇU CV */
         .preview-panel {
-            background: rgba(10, 15, 28, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 2rem;
-            padding: 1.8rem;
-            border: 1px solid rgba(108, 99, 255, 0.4);
-            box-shadow: 0 25px 40px rgba(0,0,0,0.5);
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
             position: sticky;
             top: 2rem;
             max-height: 90vh;
             overflow-y: auto;
         }
 
-        /* STYLE CV (futuriste mais ATS friendly) */
+        /* Conteneur du CV (sera exporté) */
+        .cv-export-container {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
         .cv-futuristic {
             font-family: 'Inter', 'Poppins', sans-serif;
-            background: white;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            color: #1a202c;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+            color: #1e293b;
             transition: all 0.2s;
         }
 
-        /* effet néon aléatoire sur le cadre */
-        .cv-futuristic::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--accent-color), #ff6b6b, var(--accent-color));
-            z-index: 2;
-        }
-
-        .cv-header {
+        /* Design variables qui seront appliquées dynamiquement */
+        .cv-header-area {
+            padding: 1.5rem;
             text-align: center;
-            margin-bottom: 1.8rem;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 1rem;
+            transition: all 0.2s;
         }
 
         .cv-name {
-            font-size: 2.4rem;
+            font-size: 2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e293b, var(--accent-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            margin-bottom: 0.25rem;
         }
 
         .cv-title {
-            font-size: 1.1rem;
-            color: var(--accent-color);
-            font-weight: 600;
-            margin-top: 0.25rem;
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.9;
         }
 
         .cv-contact {
@@ -305,21 +288,23 @@
             flex-wrap: wrap;
             gap: 1rem;
             font-size: 0.8rem;
-            color: #475569;
-            margin-top: 0.6rem;
+            margin-top: 0.5rem;
+        }
+
+        .cv-body {
+            padding: 1.5rem;
         }
 
         .cv-section {
-            margin: 1.5rem 0;
+            margin-bottom: 1.5rem;
         }
 
         .cv-section h3 {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            border-left: 4px solid var(--accent-color);
-            padding-left: 0.7rem;
-            margin-bottom: 0.8rem;
-            color: #0f172a;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid;
+            padding-left: 0.75rem;
         }
 
         .cv-exp-item, .cv-edu-item {
@@ -327,189 +312,185 @@
         }
 
         .cv-job, .cv-degree {
-            font-weight: 800;
-            font-size: 1rem;
+            font-weight: 700;
         }
 
         .cv-company, .cv-school {
-            color: var(--accent-color);
             font-weight: 500;
             font-size: 0.85rem;
         }
 
         .cv-date {
+            font-size: 0.7rem;
             color: #64748b;
-            font-size: 0.75rem;
         }
 
         .cv-desc {
             font-size: 0.85rem;
-            color: #334155;
+            color: #475569;
             margin-top: 0.2rem;
-            line-height: 1.4;
         }
 
         .cv-skills {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.6rem;
+            gap: 0.5rem;
         }
 
         .cv-skill-badge {
-            background: var(--accent-color);
-            color: white;
-            padding: 0.2rem 0.9rem;
+            background: #e2e8f0;
+            padding: 0.2rem 0.8rem;
             border-radius: 2rem;
             font-size: 0.75rem;
             font-weight: 500;
         }
 
         .btn-export {
-            background: linear-gradient(95deg, #10b981, #059669);
+            background: #10b981;
             border: none;
             width: 100%;
-            padding: 1rem;
-            border-radius: 3rem;
+            padding: 0.9rem;
+            border-radius: 2rem;
             font-weight: bold;
             color: white;
             font-size: 1rem;
             cursor: pointer;
             margin-top: 1.5rem;
             transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
         }
 
         .btn-export:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(16,185,129,0.3);
+            background: #059669;
+            transform: translateY(-2px);
         }
 
-        /* Toast */
         .toast {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
             background: #1e293b;
-            backdrop-filter: blur(20px);
-            color: #a5f3c3;
-            padding: 0.8rem 1.5rem;
+            color: white;
+            padding: 0.75rem 1.5rem;
             border-radius: 2rem;
-            border-left: 4px solid var(--accent-color);
-            font-weight: 500;
-            animation: slideIn 0.3s ease;
+            font-size: 0.9rem;
+            animation: fadeIn 0.3s ease;
             z-index: 2000;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(80px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(30px); }
             to { opacity: 1; transform: translateX(0); }
         }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0f1222; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 10px; }
     </style>
 </head>
 <body>
 <div class="app">
     <div class="header">
-        <h1>⚡ SIMPLE CV POUR NOUS ⚡</h1>
-        <div class="sub">éditeur futuriste · couleurs aléatoires · export PDF stylé</div>
-        <button class="random-btn" id="randomColorBtn">🎨 CHANGER COULEUR ALÉATOIRE</button>
+        <h1>📄 SIMPLE CV POUR NOUS</h1>
+        <div class="sub">Éditeur simple · Personnalisation complète · Export PDF</div>
+    </div>
+
+    <!-- Panneau de styles : couleurs d'en-tête + designs -->
+    <div class="style-panel">
+        <div class="style-group">
+            <label>🎨 Couleur de l'en-tête :</label>
+            <div class="color-palette" id="headerColorPalette"></div>
+        </div>
+        <div class="style-group">
+            <label>✨ Design du CV :</label>
+            <select id="designSelect">
+                <option value="classic">Classique sobre</option>
+                <option value="moderne">Moderne épuré</option>
+                <option value="ombre">Ombre douce</option>
+                <option value="minimaliste">Minimaliste</option>
+                <option value="professionnel">Professionnel</option>
+                <option value="futuriste">Futuriste (dégradé)</option>
+                <option value="carte">Carte blanche</option>
+                <option value="ligne">Ligne horizontale</option>
+                <option value="bordure">Bordure colorée</option>
+                <option value="élégant">Élégant</option>
+            </select>
+        </div>
     </div>
 
     <div class="cv-maker">
-        <!-- PANEL EDITION -->
+        <!-- ÉDITEUR -->
         <div class="editor-panel">
-            <div class="section-title">👤 IDENTITÉ</div>
-            <div class="input-group"><label>Nom complet</label><input type="text" id="fullName" value="Lya Nakamura"></div>
-            <div class="input-group"><label>Titre pro</label><input type="text" id="jobTitle" value="Ingénieure IA & Design futuriste"></div>
-            <div class="input-group"><label>Email</label><input type="email" id="email" value="lya@nexusfuture.com"></div>
-            <div class="input-group"><label>Téléphone</label><input type="text" id="phone" value="+33 6 12 34 56 78"></div>
-            <div class="input-group"><label>Localisation</label><input type="text" id="location" value="Paris, Station F"></div>
+            <div class="section-title">👤 Identité</div>
+            <div class="input-group"><label>Nom complet</label><input type="text" id="fullName" value="Sophie Laurent"></div>
+            <div class="input-group"><label>Titre professionnel</label><input type="text" id="jobTitle" value="Chef de projet digital"></div>
+            <div class="input-group"><label>Email</label><input type="email" id="email" value="sophie@exemple.com"></div>
+            <div class="input-group"><label>Téléphone</label><input type="text" id="phone" value="06 12 34 56 78"></div>
+            <div class="input-group"><label>Localisation</label><input type="text" id="location" value="Lyon, France"></div>
 
-            <div class="section-title">💼 EXPÉRIENCES</div>
+            <div class="section-title">💼 Expériences</div>
             <div id="expList"></div>
             <button class="btn-add" id="addExpBtn">+ Ajouter une expérience</button>
 
-            <div class="section-title">🎓 FORMATIONS</div>
+            <div class="section-title">🎓 Formations</div>
             <div id="eduList"></div>
             <button class="btn-add" id="addEduBtn">+ Ajouter une formation</button>
 
-            <div class="section-title">🧠 COMPÉTENCES (futuristes)</div>
+            <div class="section-title">🧠 Compétences</div>
             <div id="skillsContainer" class="skills-container"></div>
             <div class="add-skill">
-                <input type="text" id="newSkillInput" placeholder="ex: React, UI design, IA...">
-                <button class="btn-add" id="addSkillBtn" style="margin:0">Ajouter</button>
+                <input type="text" id="newSkillInput" placeholder="Ex: Gestion de projet, Figma...">
+                <button class="btn-add" id="addSkillBtn">Ajouter</button>
             </div>
         </div>
 
-        <!-- APERÇU CV -->
+        <!-- APERÇU + EXPORT -->
         <div class="preview-panel">
-            <div id="cvPreviewContainer" class="cv-futuristic"></div>
-            <button class="btn-export" id="exportPdfBtn">📄 Télécharger CV (PDF futuriste)</button>
+            <div id="cvExportContainer" class="cv-export-container">
+                <div id="cvPreview" class="cv-futuristic"></div>
+            </div>
+            <button class="btn-export" id="exportPdfBtn">📄 Télécharger mon CV (PDF)</button>
         </div>
     </div>
 </div>
 
 <script>
-    // ---------- DONNÉES DE BASE ----------
+    // ---------- DONNÉES CV ----------
     let cv = {
         personal: {
-            name: "Lya Nakamura",
-            title: "Ingénieure IA & Design futuriste",
-            email: "lya@nexusfuture.com",
-            phone: "+33 6 12 34 56 78",
-            location: "Paris, Station F"
+            name: "Sophie Laurent",
+            title: "Chef de projet digital",
+            email: "sophie@exemple.com",
+            phone: "06 12 34 56 78",
+            location: "Lyon, France"
         },
         experiences: [
-            { job: "Lead AI Designer", company: "NeuraLabs", date: "2023 - aujourd'hui", desc: "Conception d'interfaces neuronales, augmentation de 40% de l'engagement." },
-            { job: "UX Researcher", company: "Futurion", date: "2020 - 2023", desc: "Recherche utilisateur et prototypage pour des applications métavers." }
+            { job: "Chef de projet senior", company: "Agence Wepik", date: "2021 - aujourd'hui", desc: "Gestion d'équipe, suivi de budgets, satisfaction client 95%." },
+            { job: "Assistant chef de projet", company: "Startup Innov", date: "2019 - 2021", desc: "Support à la planification et coordination des sprints." }
         ],
         educations: [
-            { degree: "Master Intelligence Artificielle", school: "Sorbonne Université", date: "2018-2020", desc: "Mention très bien, spécialité interfaces adaptatives." },
-            { degree: "Licence Design Numérique", school: "École de Design Nantes", date: "2015-2018", desc: "Projets récompensés en UI/UX." }
+            { degree: "Master Management de projet", school: "IAE Lyon", date: "2017-2019", desc: "Mention bien, spécialité agile." },
+            { degree: "Licence Économie", school: "Université Lumière", date: "2014-2017", desc: "Parcours gestion." }
         ],
-        skills: ["React", "Python", "Figma", "Prompt Engineering", "UI/UX Futuriste"]
+        skills: ["Gestion agile", "Jira", "Trello", "Communication", "Marketing digital"]
     };
 
-    // Couleur dynamique (accent)
-    let currentAccent = "#6c63ff"; // valeur par défaut
+    // État des styles
+    let currentHeaderColor = "#3b82f6";  // bleu par défaut
+    let currentDesign = "classic";
 
-    // Appliquer la couleur aléatoire et mettre à jour l'affichage
-    function randomAccentColor() {
-        const hue = Math.floor(Math.random() * 360);
-        const sat = 65 + Math.floor(Math.random() * 25); // 65-90%
-        const light = 55 + Math.floor(Math.random() * 20); // 55-75%
-        return `hsl(${hue}, ${sat}%, ${light}%)`;
-    }
+    // Palette de 10 couleurs pour l'en-tête
+    const headerColors = [
+        "#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", 
+        "#ec4898", "#06b6d4", "#84cc16", "#f97316", "#6366f1"
+    ];
 
-    function setThemeColor(color) {
-        currentAccent = color;
-        document.documentElement.style.setProperty('--accent-color', currentAccent);
-        // Appliquer aussi au preview (les styles dynamiques)
-        updatePreview();
-    }
+    // Fonctions d'escape HTML
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m;}); }
 
-    function randomizeAndSet() {
-        const newColor = randomAccentColor();
-        setThemeColor(newColor);
-        showToast(`✨ Couleur futuriste : ${newColor}`);
-    }
-
-    // Fonctions de rendu des formulaires (éditeur)
+    // Rendu de l'éditeur (formulaires dynamiques)
     function renderEditor() {
-        // Mettre à jour les champs personnels
         document.getElementById('fullName').value = cv.personal.name;
         document.getElementById('jobTitle').value = cv.personal.title;
         document.getElementById('email').value = cv.personal.email;
         document.getElementById('phone').value = cv.personal.phone;
         document.getElementById('location').value = cv.personal.location;
 
-        // Expériences
         const expContainer = document.getElementById('expList');
         expContainer.innerHTML = '';
         cv.experiences.forEach((exp, idx) => {
@@ -518,14 +499,13 @@
             card.innerHTML = `
                 <input type="text" placeholder="Poste" value="${escapeHtml(exp.job)}" data-exp-index="${idx}" data-field="job" class="exp-field">
                 <input type="text" placeholder="Entreprise" value="${escapeHtml(exp.company)}" data-exp-index="${idx}" data-field="company" class="exp-field" style="margin-top:8px">
-                <input type="text" placeholder="Date (ex: 2022-2025)" value="${escapeHtml(exp.date)}" data-exp-index="${idx}" data-field="date" class="exp-field" style="margin-top:8px">
+                <input type="text" placeholder="Date" value="${escapeHtml(exp.date)}" data-exp-index="${idx}" data-field="date" class="exp-field" style="margin-top:8px">
                 <textarea placeholder="Description" data-exp-index="${idx}" data-field="desc" class="exp-field" rows="2">${escapeHtml(exp.desc)}</textarea>
                 <button class="btn-remove" data-exp-remove="${idx}">🗑 Supprimer</button>
             `;
             expContainer.appendChild(card);
         });
 
-        // Formations
         const eduContainer = document.getElementById('eduList');
         eduContainer.innerHTML = '';
         cv.educations.forEach((edu, idx) => {
@@ -541,7 +521,6 @@
             eduContainer.appendChild(card);
         });
 
-        // Compétences
         const skillsContainer = document.getElementById('skillsContainer');
         skillsContainer.innerHTML = '';
         cv.skills.forEach((skill, idx) => {
@@ -551,30 +530,26 @@
             skillsContainer.appendChild(tag);
         });
 
-        // Attacher événements aux champs dynamiques
         attachDynamicEvents();
     }
 
     function attachDynamicEvents() {
-        // Expériences
-        document.querySelectorAll('.exp-field').forEach(field => {
-            field.removeEventListener('input', handleExpChange);
-            field.addEventListener('input', handleExpChange);
+        document.querySelectorAll('.exp-field').forEach(f => {
+            f.removeEventListener('input', handleExpChange);
+            f.addEventListener('input', handleExpChange);
         });
         document.querySelectorAll('[data-exp-remove]').forEach(btn => {
             btn.removeEventListener('click', handleExpRemove);
             btn.addEventListener('click', handleExpRemove);
         });
-        // Formations
-        document.querySelectorAll('.edu-field').forEach(field => {
-            field.removeEventListener('input', handleEduChange);
-            field.addEventListener('input', handleEduChange);
+        document.querySelectorAll('.edu-field').forEach(f => {
+            f.removeEventListener('input', handleEduChange);
+            f.addEventListener('input', handleEduChange);
         });
         document.querySelectorAll('[data-edu-remove]').forEach(btn => {
             btn.removeEventListener('click', handleEduRemove);
             btn.addEventListener('click', handleEduRemove);
         });
-        // Compétences remove
         document.querySelectorAll('[data-skill-remove]').forEach(btn => {
             btn.removeEventListener('click', handleSkillRemove);
             btn.addEventListener('click', handleSkillRemove);
@@ -584,18 +559,12 @@
     function handleExpChange(e) {
         const idx = parseInt(e.target.dataset.expIndex);
         const field = e.target.dataset.field;
-        if (isNaN(idx)) return;
-        cv.experiences[idx][field] = e.target.value;
+        if (!isNaN(idx)) cv.experiences[idx][field] = e.target.value;
         updatePreview();
     }
     function handleExpRemove(e) {
         const idx = parseInt(e.target.dataset.expRemove);
-        if (!isNaN(idx)) {
-            cv.experiences.splice(idx, 1);
-            renderEditor();
-            updatePreview();
-            showToast("Expérience supprimée");
-        }
+        if (!isNaN(idx)) { cv.experiences.splice(idx,1); renderEditor(); updatePreview(); showToast("Expérience supprimée"); }
     }
     function handleEduChange(e) {
         const idx = parseInt(e.target.dataset.eduIndex);
@@ -605,37 +574,61 @@
     }
     function handleEduRemove(e) {
         const idx = parseInt(e.target.dataset.eduRemove);
-        if (!isNaN(idx)) {
-            cv.educations.splice(idx, 1);
-            renderEditor();
-            updatePreview();
-            showToast("Formation supprimée");
-        }
+        if (!isNaN(idx)) { cv.educations.splice(idx,1); renderEditor(); updatePreview(); showToast("Formation supprimée"); }
     }
     function handleSkillRemove(e) {
         const idx = parseInt(e.target.dataset.skillRemove);
-        if (!isNaN(idx)) {
-            cv.skills.splice(idx, 1);
-            renderEditor();
-            updatePreview();
-            showToast("Compétence retirée");
-        }
+        if (!isNaN(idx)) { cv.skills.splice(idx,1); renderEditor(); updatePreview(); showToast("Compétence supprimée"); }
     }
 
-    // Mise à jour de l'aperçu (avec couleurs aléatoires)
+    // Mise à jour de l'aperçu avec les styles choisis
     function updatePreview() {
-        const container = document.getElementById('cvPreviewContainer');
-        if (!container) return;
-        // récupération données perso à jour
+        // Récupération des valeurs personnelles depuis les champs (en direct)
         cv.personal.name = document.getElementById('fullName').value;
         cv.personal.title = document.getElementById('jobTitle').value;
         cv.personal.email = document.getElementById('email').value;
         cv.personal.phone = document.getElementById('phone').value;
         cv.personal.location = document.getElementById('location').value;
 
-        const accent = currentAccent;
+        const headerColor = currentHeaderColor;
+        const design = currentDesign;
+
+        let additionalStyles = "";
+        // Appliquer les designs
+        switch(design) {
+            case "moderne":
+                additionalStyles = "border-radius: 0; .cv-header-area { border-bottom: 2px solid "+headerColor+"; } .cv-body { background: #fefefe; }";
+                break;
+            case "ombre":
+                additionalStyles = "box-shadow: 0 8px 20px rgba(0,0,0,0.1); .cv-header-area { border-radius: 12px 12px 0 0; }";
+                break;
+            case "minimaliste":
+                additionalStyles = "font-family: 'Inter'; .cv-section h3 { font-weight: 500; border-left-width: 2px; } .cv-name { font-weight: 600; }";
+                break;
+            case "professionnel":
+                additionalStyles = "border: 1px solid #e2e8f0; .cv-header-area { background: "+headerColor+"; color: white; } .cv-contact { color: #f1f5f9; } .cv-name, .cv-title { color: white; }";
+                break;
+            case "futuriste":
+                additionalStyles = "background: linear-gradient(145deg, #ffffff, #f8fafc); .cv-header-area { background: linear-gradient(135deg, "+headerColor+", #a855f7); color: white; } .cv-name, .cv-title, .cv-contact { color: white; }";
+                break;
+            case "carte":
+                additionalStyles = "border-radius: 24px; box-shadow: 0 12px 30px rgba(0,0,0,0.08); overflow: hidden;";
+                break;
+            case "ligne":
+                additionalStyles = ".cv-header-area { border-bottom: 4px solid "+headerColor+"; } .cv-section h3 { border-left: none; border-bottom: 2px solid "+headerColor+"; display: inline-block; }";
+                break;
+            case "bordure":
+                additionalStyles = "border: 2px solid "+headerColor+"; border-radius: 16px; .cv-header-area { background: #f8fafc; }";
+                break;
+            case "élégant":
+                additionalStyles = "font-family: 'Georgia', serif; .cv-name { letter-spacing: 1px; } .cv-header-area { background: "+headerColor+"20; }";
+                break;
+            default: // classic
+                additionalStyles = "";
+        }
+
         const html = `
-            <div class="cv-header">
+            <div class="cv-header-area" style="background-color: ${headerColor}; color: white; ${design === 'professionnel' || design === 'futuriste' ? 'background: '+headerColor : ''}">
                 <div class="cv-name">${escapeHtml(cv.personal.name)}</div>
                 <div class="cv-title">${escapeHtml(cv.personal.title)}</div>
                 <div class="cv-contact">
@@ -644,59 +637,104 @@
                     <span>📍 ${escapeHtml(cv.personal.location)}</span>
                 </div>
             </div>
-            <div class="cv-section">
-                <h3>💼 Expériences</h3>
-                ${cv.experiences.map(exp => `
-                    <div class="cv-exp-item">
-                        <div class="cv-job">${escapeHtml(exp.job)}</div>
-                        <div class="cv-company">${escapeHtml(exp.company)} · <span class="cv-date">${escapeHtml(exp.date)}</span></div>
-                        <div class="cv-desc">${escapeHtml(exp.desc)}</div>
+            <div class="cv-body">
+                <div class="cv-section">
+                    <h3 style="border-left-color: ${headerColor}">💼 Expériences</h3>
+                    ${cv.experiences.map(exp => `
+                        <div class="cv-exp-item">
+                            <div class="cv-job">${escapeHtml(exp.job)}</div>
+                            <div class="cv-company">${escapeHtml(exp.company)} · <span class="cv-date">${escapeHtml(exp.date)}</span></div>
+                            <div class="cv-desc">${escapeHtml(exp.desc)}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="cv-section">
+                    <h3 style="border-left-color: ${headerColor}">🎓 Formations</h3>
+                    ${cv.educations.map(edu => `
+                        <div class="cv-edu-item">
+                            <div class="cv-degree">${escapeHtml(edu.degree)}</div>
+                            <div class="cv-school">${escapeHtml(edu.school)} · <span class="cv-date">${escapeHtml(edu.date)}</span></div>
+                            <div class="cv-desc">${escapeHtml(edu.desc)}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="cv-section">
+                    <h3 style="border-left-color: ${headerColor}">🧠 Compétences</h3>
+                    <div class="cv-skills">
+                        ${cv.skills.map(s => `<span class="cv-skill-badge" style="background: ${headerColor}20; color: #1e293b;">✨ ${escapeHtml(s)}</span>`).join('')}
                     </div>
-                `).join('')}
-            </div>
-            <div class="cv-section">
-                <h3>🎓 Formations</h3>
-                ${cv.educations.map(edu => `
-                    <div class="cv-edu-item">
-                        <div class="cv-degree">${escapeHtml(edu.degree)}</div>
-                        <div class="cv-school">${escapeHtml(edu.school)} · <span class="cv-date">${escapeHtml(edu.date)}</span></div>
-                        <div class="cv-desc">${escapeHtml(edu.desc)}</div>
-                    </div>
-                `).join('')}
-            </div>
-            <div class="cv-section">
-                <h3>🧠 Compétences avancées</h3>
-                <div class="cv-skills">
-                    ${cv.skills.map(s => `<span class="cv-skill-badge" style="background:${accent}">✨ ${escapeHtml(s)}</span>`).join('')}
                 </div>
             </div>
+            <style>
+                .cv-futuristic .cv-section h3 { border-left-color: ${headerColor} !important; }
+                ${additionalStyles}
+            </style>
         `;
-        container.innerHTML = html;
-        // injection style couleur dynamique pour les bordures
-        const styleTag = document.createElement('style');
-        styleTag.id = 'dynamic-cv-style';
-        if (document.getElementById('dynamic-cv-style')) document.getElementById('dynamic-cv-style').remove();
-        styleTag.id = 'dynamic-cv-style';
-        styleTag.textContent = `
-            .cv-futuristic .cv-section h3 { border-left-color: ${accent} !important; }
-            .cv-futuristic .cv-header { border-bottom-color: ${accent} !important; }
-            .cv-futuristic .cv-company, .cv-futuristic .cv-school { color: ${accent} !important; }
-        `;
-        document.head.appendChild(styleTag);
+        document.getElementById('cvPreview').innerHTML = html;
     }
 
-    // Ajout dynamique
+    // Export PDF (correction : attendre que le DOM soit prêt et utiliser l'élément racine du CV)
+    function exportPDF() {
+        const element = document.getElementById('cvExportContainer');
+        if (!element) return;
+        const opt = {
+            margin: [0.5, 0.5, 0.5, 0.5],
+            filename: `CV_${cv.personal.name.replace(/\s/g, '_')}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, letterRendering: true, logging: false, useCORS: false },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save().then(() => {
+            showToast("✅ PDF généré avec succès !");
+        }).catch(err => {
+            console.error(err);
+            showToast("⚠️ Erreur lors de la génération, réessayez.");
+        });
+    }
+
+    // Initialisation des choix de couleurs
+    function initColorPalette() {
+        const container = document.getElementById('headerColorPalette');
+        container.innerHTML = '';
+        headerColors.forEach(color => {
+            const btn = document.createElement('div');
+            btn.className = 'color-option';
+            btn.style.backgroundColor = color;
+            if (color === currentHeaderColor) btn.classList.add('active');
+            btn.addEventListener('click', () => {
+                currentHeaderColor = color;
+                document.querySelectorAll('.color-option').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                updatePreview();
+                showToast(`Couleur d'en-tête changée`);
+            });
+            container.appendChild(btn);
+        });
+    }
+
+    // Gestion du select design
+    function initDesignSelect() {
+        const select = document.getElementById('designSelect');
+        select.value = currentDesign;
+        select.addEventListener('change', (e) => {
+            currentDesign = e.target.value;
+            updatePreview();
+            showToast(`Design "${currentDesign}" appliqué`);
+        });
+    }
+
+    // Ajout dynamique des sections
     document.getElementById('addExpBtn').addEventListener('click', () => {
-        cv.experiences.push({ job: "Nouveau poste", company: "Entreprise innovante", date: "2025", desc: "Description futuriste..." });
+        cv.experiences.push({ job: "Nouveau poste", company: "Entreprise", date: "2024", desc: "Description..." });
         renderEditor();
         updatePreview();
-        showToast("➕ Expérience ajoutée");
+        showToast("Expérience ajoutée");
     });
     document.getElementById('addEduBtn').addEventListener('click', () => {
-        cv.educations.push({ degree: "Nouveau diplôme", school: "École du futur", date: "2025", desc: "Formation de pointe..." });
+        cv.educations.push({ degree: "Nouveau diplôme", school: "Établissement", date: "2024", desc: "Description..." });
         renderEditor();
         updatePreview();
-        showToast("📚 Formation ajoutée");
+        showToast("Formation ajoutée");
     });
     document.getElementById('addSkillBtn').addEventListener('click', () => {
         const newSkill = document.getElementById('newSkillInput').value.trim();
@@ -705,51 +743,31 @@
             renderEditor();
             updatePreview();
             document.getElementById('newSkillInput').value = '';
-            showToast(`🚀 Compétence "${newSkill}" ajoutée`);
-        } else if (cv.skills.includes(newSkill)) showToast("⚠️ Compétence déjà présente");
-        else showToast("✏️ Entrez une compétence valide");
+            showToast(`Compétence "${newSkill}" ajoutée`);
+        } else if (cv.skills.includes(newSkill)) showToast("Compétence déjà existante");
+        else showToast("Veuillez entrer une compétence");
     });
 
-    // liaison champs personnels
+    // Mise à jour en direct des champs personnels
     const personalFields = ['fullName', 'jobTitle', 'email', 'phone', 'location'];
     personalFields.forEach(field => {
         document.getElementById(field).addEventListener('input', () => updatePreview());
     });
-
-    // Export PDF futuriste avec les couleurs aléatoires
-    document.getElementById('exportPdfBtn').addEventListener('click', () => {
-        const element = document.getElementById('cvPreviewContainer');
-        // On force la prise en compte des couleurs actuelles
-        const opt = {
-            margin: [0.5, 0.5, 0.5, 0.5],
-            filename: `CV_${cv.personal.name.replace(/\s/g, '_')}_futuriste.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, letterRendering: true, useCORS: false, logging: false },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        };
-        html2pdf().set(opt).from(element).save();
-        showToast("📄 PDF généré avec style aléatoire ✨");
-    });
-
-    // Aléatoire couleur au chargement + bouton
-    function initRandomTheme() {
-        const initColor = randomAccentColor();
-        setThemeColor(initColor);
-    }
-    document.getElementById('randomColorBtn').addEventListener('click', () => randomizeAndSet());
 
     function showToast(msg) {
         const toast = document.createElement('div');
         toast.className = 'toast';
         toast.innerText = msg;
         document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2200);
+        setTimeout(() => toast.remove(), 2000);
     }
 
-    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m;}); }
+    // Export button
+    document.getElementById('exportPdfBtn').addEventListener('click', exportPDF);
 
-    // LANCEMENT
-    initRandomTheme();
+    // Lancement
+    initColorPalette();
+    initDesignSelect();
     renderEditor();
     updatePreview();
 </script>
