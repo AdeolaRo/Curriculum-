@@ -18,6 +18,11 @@ export function initUI() {
     renderCV();
   });
 
+  document.getElementById("phone").addEventListener("input", e => {
+  state.cv.phone = e.target.value;
+  renderCV();
+  });
+
   document.getElementById("addSkill").addEventListener("click", () => {
     const input = document.getElementById("skillInput");
     if (input.value) {
