@@ -1,29 +1,39 @@
 import { state } from "./state.js";
+import { renderStandard } from './standardPreview.js';
+
+export function renderATS() {
+  const p = state.cv;
+
+  return `
+    <div class="ats">
+      <h1>${p.name}</h1>
+      <h2>${p.title}</h2>
+      <p>${p.email} | ${p.phone}</p>
+
+      <h3>Expérience professionnelle</h3>
+      ${p.experiences.map(e => `
+        <div>
+          <strong>${e.job}</strong><br>
+          ${e.company}<br>
+          <em>${e.date || ""}</em>
+          <ul>
+            <li>${e.desc || ""}</li>
+          </ul>
+        </div>
+      `).join("")}
+
+      <h3>Compétences</h3>
+      <p>${p.skills.join(", ")}</p>
+    </div>
+  `;
+}
 
 export function renderCV() {
   const cv = document.getElementById("cv");
 
-  cv.innerHTML = `
-    <div class="cv-header">
-      <h1>${state.cv.name || "Votre nom"}</h1>
-      <p>${state.cv.title || "Titre"}</p>
-      <p>${state.cv.email || ""}</p>
-      <p>${state.cv.phone || ""}</p>
-    </div>
-
-    <div class="cv-section">
-      <h3>Compétences</h3>
-      ${state.cv.skills.map(s => `<span class="skill">${s}</span>`).join("")}
-    </div>
-
-    <div class="cv-section">
-      <h3>Expérience</h3>
-      ${state.cv.experiences.map(e => `
-        <div>
-          <strong>${e.job}</strong>
-          <p>${e.company}</p>
-        </div>
-      `).join("")}
-    </div>
-  `;
+  if (state.ui.template === "ats") {
+    cv.innerHTML = renderATS();
+  } else {
+    cv.innerHTML = renderStandard();
+  }
 }
