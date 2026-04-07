@@ -5,6 +5,34 @@ body {
   padding: 20px;
 }
 
+.ats {
+  font-family: Arial, sans-serif;
+  color: black;
+  background: white;
+  padding: 20px;
+}
+
+.ats h1 {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.ats h2 {
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
+.ats h3 {
+  font-size: 14px;
+  margin-top: 20px;
+  border-bottom: 1px solid #000;
+}
+
+.ats p, .ats li {
+  font-size: 12px;
+}
+
 .app {
   max-width: 1200px;
   margin: auto;
