@@ -1,10 +1,16 @@
-export function exportPDF() {
-  const element = document.getElementById("cv");
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
-  html2pdf().from(element).set({
-    margin: 0.5,
-    filename: "cv.pdf",
-    html2canvas: { scale: 2 },
-    jsPDF: { format: "a4" }
-  }).save();
+export function exportPDF() {
+  const cv = document.getElementById("cv");
+
+  html2canvas(cv, { scale: 3 }).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save("CV.pdf");
+  });
 }
