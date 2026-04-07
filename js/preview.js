@@ -12,7 +12,7 @@ export function renderATS() {
 
       <h3>Expérience professionnelle</h3>
       ${p.experiences.map(e => `
-        <div>
+        <div class="ats-experience">
           <strong>${e.job}</strong><br>
           ${e.company}<br>
           <em>${e.date || ""}</em>
@@ -24,6 +24,11 @@ export function renderATS() {
 
       <h3>Compétences</h3>
       <p>${p.skills.join(", ")}</p>
+
+      ${p.interests.length ? `
+        <h3>Centres d'intérêt</h3>
+        <p>${p.interests.join(", ")}</p>
+      ` : ""}
     </div>
   `;
 }
