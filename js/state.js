@@ -1,6 +1,6 @@
 export const state = {
   ui: {
-    template: "ats" 
+    template: "standard" 
   },
   cv: {
     name: "",
