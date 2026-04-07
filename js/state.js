@@ -8,6 +8,7 @@ export const state = {
     email: "",
     phone: "",
     skills: [],
-    experiences: []
+    experiences: [{ job: "", company: "", date: "", desc: "" }],
+    interests: []
   }
 };
