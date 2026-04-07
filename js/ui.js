@@ -39,6 +39,18 @@ export function initUI() {
     renderCV();
   });
 
+  // Dropdown
+document.getElementById("template").addEventListener("change", e => {
+  state.ui.template = e.target.value;
+  renderCV();
+});
+
+// Bouton Mode ATS
+document.getElementById("atsMode").addEventListener("click", () => {
+  state.ui.template = "ats";
+  renderCV();
+});
+
 }
 
 function updateSkills() {
