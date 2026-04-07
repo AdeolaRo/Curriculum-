@@ -8,6 +8,7 @@ export function renderCV() {
       <h1>${state.cv.name || "Votre nom"}</h1>
       <p>${state.cv.title || "Titre"}</p>
       <p>${state.cv.email || ""}</p>
+      <p>${state.cv.phone || ""}</p>
     </div>
 
     <div class="cv-section">
