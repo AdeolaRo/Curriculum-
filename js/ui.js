@@ -23,6 +23,12 @@ export function initUI() {
   renderCV();
   });
 
+  // ui.js - récupération des centres d’intérêt
+document.getElementById("interests").addEventListener("input", e => {
+  state.cv.interests = e.target.value.split(",").map(s => s.trim());
+  renderCV();
+});
+
   document.getElementById("addSkill").addEventListener("click", () => {
     const input = document.getElementById("skillInput");
     if (input.value) {
