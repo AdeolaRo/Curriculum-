@@ -83,3 +83,78 @@ button {
 .cv-section {
   margin-top: 20px;
 }
+/* ATS général */
+.ats {
+  font-family: 'Arial', sans-serif;
+  color: #222;
+  background: #fff;
+  padding: 30px;
+  max-width: 800px;
+  margin: 20px auto;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+/* Hover effet interactif */
+.ats:hover {
+  transform: scale(1.02);
+}
+
+/* Titres */
+.ats h1 {
+  font-size: 28px;
+  margin-bottom: 5px;
+  color: #1a1a1a;
+}
+.ats h2 {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 15px;
+  color: #555;
+}
+.ats h3 {
+  font-size: 16px;
+  margin-top: 25px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+/* Paragraphes et listes */
+.ats p, .ats li {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Expérience individuelle */
+.ats-experience {
+  margin-bottom: 15px;
+}
+
+/* Compétences */
+.ats p.skills {
+  font-style: italic;
+  color: #333;
+}
+
+/* Centres d'intérêt */
+.ats p.interests {
+  color: #555;
+  font-size: 13px;
+}
+
+/* Animation légère pour les boutons */
+button {
+  padding: 8px 15px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #1a73e8;
+  color: #fff;
+  transition: background 0.3s, transform 0.2s;
+}
+button:hover {
+  background: #155ab6;
+  transform: translateY(-2px);
+}
