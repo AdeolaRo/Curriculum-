@@ -3,6 +3,7 @@ export const state = {
     name: "",
     title: "",
     email: "",
+    phone: "",
     skills: [],
     experiences: []
   }
