@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CV Pro - React style complet</title>
+<title>Création de CV ATS</title>
 <style>
 :root{--bg:#f5f2ec;--paper:#fff;--side:#f0f0f0;--text:#111;--muted:#666;--accent:#0e5d63;--line:#ddd;--shadow:0 12px 28px rgba(0,0,0,.08);--font:Arial,Helvetica,sans-serif}
 body[data-theme='dark']{--bg:#161616;--paper:#1f1f1f;--side:#2a2620;--text:#eee;--muted:#aaa;--line:#3b3b3b;--shadow:0 12px 28px rgba(0,0,0,.35)}
@@ -15,7 +15,7 @@ body[data-theme='dark']{--bg:#161616;--paper:#1f1f1f;--side:#2a2620;--text:#eee;
 <body>
 <div class="wrap">
 <header class="topbar">
-<div class="brand"><div class="logo">CV</div><div class="title"><h1>CV Pro - React style complet</h1><p>Adresse, formation et centres d’intérêts inclus</p></div></div>
+<div class="brand"><div class="logo">CV</div><div class="title"><h1>CV Pro - React style complet</h1><p>Adresse, formation et centres d’intérêts...</p></div></div>
 <div class="actions print-hide">
 <button class="btn" id="themeBtn">Mode sombre</button>
 <button class="btn" id="resetBtn">Réinitialiser</button>
@@ -26,8 +26,8 @@ body[data-theme='dark']{--bg:#161616;--paper:#1f1f1f;--side:#2a2620;--text:#eee;
 </header>
 <main class="layout">
 <section class="panel editor print-hide">
-<div class="intro"><h2>Éditeur</h2><p>Inspiré de ton exemple React, avec toutes les sections demandées.</p></div>
-<div class="section"><div class="grid"><div class="field full"><label>Template</label><select id="layoutSel" class="sel"><option value="split">Split</option><option value="classic">Classic</option><option value="minimal">Minimal</option></select></div></div></div>
+<div class="intro"><h2>Éditeur</h2><p>Créer votre cv plus intuitif.</p></div>
+<div class="section"><div class="grid"><div class="field full"><label>Template</label><select id="layoutSel" class="sel"><option value="split">Deux Colonnes</option><option value="classic">Classic</option><option value="minimal">Minimal</option></select></div></div></div>
 <div class="section"><div class="grid"><div class="field full"><label>Nom</label><input id="name" type="text"></div><div class="field full"><label>Titre</label><input id="title" type="text"></div><div class="field"><label>Téléphone</label><input id="phone" type="text"></div><div class="field"><label>Email</label><input id="email" type="email"></div><div class="field full"><label>Adresse</label><input id="address" type="text"></div><div class="field full"><label>Résumé</label><textarea id="summary"></textarea></div></div></div>
 <div class="section"><div class="row" style="justify-content:space-between;align-items:center"><strong>Expériences</strong><button class="btn btn-primary" id="addExp">+ Ajouter</button></div><div id="expList" class="card-list" style="margin-top:10px"></div></div>
 <div class="section"><div class="row" style="justify-content:space-between;align-items:center"><strong>Formations</strong><button class="btn btn-primary" id="addEdu">+ Ajouter</button></div><div id="eduList" class="card-list" style="margin-top:10px"></div></div>
@@ -35,7 +35,7 @@ body[data-theme='dark']{--bg:#161616;--paper:#1f1f1f;--side:#2a2620;--text:#eee;
 <div class="section"><div class="row" style="justify-content:space-between;align-items:center"><strong>Centres d’intérêt</strong></div><div id="interestList" class="tag-list" style="margin-top:10px"></div><div class="row" style="margin-top:10px"><input id="interestInput" type="text" placeholder="Ex: Lecture, vélo"><button class="btn" id="addInterest">Ajouter</button></div></div>
 <div class="section"><div class="row" style="justify-content:space-between;align-items:center"><strong>Score ATS</strong></div><div class="score" style="margin-top:10px"><div class="ring" id="ring" style="--score:0"><div class="ring-in" id="score">0</div></div><div class="note" id="scoreText">Remplissez les champs pour augmenter le score.</div></div></div>
 </section>
-<aside class="panel preview"><div class="row print-hide" style="justify-content:space-between;align-items:center;margin-bottom:10px"><strong>Aperçu</strong><span class="note">Même structure que l’impression</span></div><div class="shell"><div id="resumePreview"></div></div></aside>
+<aside class="panel preview"><div class="row print-hide" style="justify-content:space-between;align-items:center;margin-bottom:10px"><strong>Aperçu</strong><span class="note">Aperçu avant impression</span></div><div class="shell"><div id="resumePreview"></div></div></aside>
 </main>
 </div>
 <div class="modal" id="lmModal"><div class="lm-editor"><div class="modal-head"><div><strong>Lettre de motivation</strong><div class="note">Modifiable et imprimable</div></div><div class="modal-actions"><button class="btn" id="genLmBtn">Générer</button><button class="btn btn-primary" id="printLmBtn">Imprimer</button><button class="btn" id="closeLmBtn">Fermer</button></div></div><textarea id="lmArea" class="lm-area"></textarea></div></div>
