@@ -248,7 +248,7 @@
       font-weight: 700;
     }
 
-    /* ---------- AFFICHAGE CV (APERÇU) ---------- */
+    /* ---------- AFFICHAGE CV (APERÇU) — lisible, ATS, PDF ---------- */
     .shell {
       background: #fff;
       border-radius: 20px;
@@ -261,7 +261,14 @@
       grid-template-columns: 210px 1fr;
       min-height: 1000px;
       background: #fff;
-      color: #000;
+      color: #111;
+      font-size: 14px;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+    }
+    .resume a {
+      color: #0a4f54;
+      text-decoration: none;
     }
     .side {
       background: var(--side);
@@ -273,8 +280,9 @@
     }
     .name {
       font-size: 34px;
-      line-height: .95;
+      line-height: 1.05;
       font-weight: 700;
+      letter-spacing: -0.02em;
     }
     .role {
       margin-top: 8px;
@@ -300,21 +308,39 @@
       gap: 8px;
       font-size: 13px;
     }
+    .contact-lines {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .contact-lines li {
+      margin-bottom: 4px;
+    }
+    .contact-lines .lbl {
+      font-weight: 700;
+      color: #333;
+      margin-right: 6px;
+    }
     .sec2 {
       margin-bottom: 14px;
       page-break-inside: avoid;
     }
-    .sec2 h3 {
+    .sec2 h2 {
       font-size: 13px;
       letter-spacing: .15em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 10px;
+      margin: 0 0 12px 0;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--accent);
+      font-weight: 700;
     }
     .entry {
-      padding-bottom: 8px;
-      margin-bottom: 8px;
-      border-bottom: 1px solid #e5e5e5;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #e8e8e8;
       page-break-inside: avoid;
     }
     .entry:last-child {
@@ -334,12 +360,23 @@
     }
     .entry-sub {
       font-size: 13px;
-      color: #555;
+      color: #444;
       margin-top: 2px;
+    }
+    .entry-period {
+      font-size: 12px;
+      font-weight: 600;
+      color: #333;
+      white-space: nowrap;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .entry-period time {
+      font-weight: 600;
     }
     .entry-desc {
       margin-top: 8px;
-      font-size: 14px;
+      font-size: 13.5px;
       color: #2c2c2c;
       max-width: 68ch;
     }
@@ -353,15 +390,38 @@
       display: inline-block;
       margin: 0 6px 6px 0;
     }
-    .contact-grid {
+    .skill-list,
+    .interest-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 6px 10px;
+    }
+    .skill-list li,
+    .interest-list li {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 0;
+      border-bottom: 1px solid transparent;
+    }
+    .skill-list li::before,
+    .interest-list li::before {
+      content: "• ";
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .contact-grid {
       font-size: 13px;
-      background: #f9f9f9;
-      padding: 12px 14px;
-      border-radius: 16px;
+      background: #f7f7f7;
+      padding: 14px 16px;
+      border-radius: 12px;
       margin: 16px 0 12px 0;
+      border: 1px solid #eaeaea;
+    }
+    .contact-grid .contact-lines {
+      font-size: 13px;
     }
     .section-separator {
       margin: 24px 0 20px 0;
@@ -430,21 +490,87 @@
       color: var(--muted);
     }
 
-    /* Impression */
+    .date-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .date-row .field label {
+      font-size: 10px;
+    }
+    .chk-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+    .chk-row input {
+      width: auto;
+    }
+
+    /* Impression / PDF */
     @page {
       size: A4 portrait;
-      margin: 10mm;
+      margin: 12mm 14mm;
     }
     @media print {
+      body {
+        background: #fff !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
       .topbar, .editor, .actions, .preview .row, .modal, .print-hide { display: none !important; }
-      .layout { display: block; }
-      .preview, .panel { padding: 0; border: none; box-shadow: none; }
-      .shell { box-shadow: none; border: none; border-radius: 0; }
-      .resume { width: 100%; min-height: auto; break-inside: avoid; background: #fff !important; grid-template-columns: 180px 1fr; }
-      .side { background: var(--side) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .main { background: #fff !important; }
-      .badge { background: #eaf4f4 !important; color: #13484b !important; }
-      .section-separator { background: #ccc !important; margin: 20px 0 !important; }
+      .layout { display: block; margin: 0; }
+      .wrap { max-width: none; padding: 0; }
+      .preview, .panel { padding: 0 !important; border: none !important; box-shadow: none !important; }
+      .shell { box-shadow: none; border: none; border-radius: 0; max-width: 210mm; margin: 0 auto; }
+      .resume {
+        width: 100%;
+        min-height: auto;
+        break-inside: avoid;
+        background: #fff !important;
+        color: #000 !important;
+        grid-template-columns: 32% 1fr;
+        font-size: 10.5pt;
+        line-height: 1.42;
+      }
+      .side {
+        background: #ededed !important;
+        padding: 14px 12px !important;
+        border-right: 1px solid #ccc !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .main { padding: 18px 20px !important; background: #fff !important; }
+      .name { font-size: 22pt; line-height: 1.08; }
+      .role { font-size: 9.5pt; }
+      .entry-title { font-size: 11.5pt; }
+      .entry-sub, .entry-desc { font-size: 10pt; }
+      .entry-period { font-size: 9.5pt; }
+      .sec2 h2 { font-size: 9.5pt; margin-bottom: 8px; }
+      .label2 { font-size: 8pt; }
+      .list, .contact-lines { font-size: 9.5pt; }
+      .badge {
+        background: #e8f2f2 !important;
+        color: #0d3d40 !important;
+        border: 1px solid #cfe4e4;
+        font-size: 8.5pt;
+        padding: 3px 8px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .skill-list li, .interest-list li { font-size: 9pt; }
+      .section-separator {
+        background: #bbb !important;
+        margin: 14px 0 !important;
+        height: 1px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .entry { page-break-inside: avoid; orphans: 3; widows: 3; }
+      .sec2 { page-break-inside: avoid; }
+      a[href^="mailto:"], a[href^="tel:"] { color: #000 !important; text-decoration: none; }
     }
     @media (max-width: 1100px) {
       .layout { grid-template-columns: 1fr; }
@@ -595,6 +721,11 @@
   // --------------------------------------------------------------
   // 1. DONNÉES DE DÉMONSTRATION & STOCKAGE
   // --------------------------------------------------------------
+  const MONTHS_FR = [
+    '', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+    'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
+  ];
+
   const DEMO_DATA = {
     personal: {
       name: 'Sophie Laurent',
@@ -605,24 +736,69 @@
       summary: 'Cheffe de projet digitale avec 6 ans d’expérience, spécialisée dans la coordination d’équipes, la conduite de projets web et l’optimisation des parcours clients. Habituée aux environnements agiles, elle pilote des projets multi-intervenants, structure les priorités et améliore la performance opérationnelle.'
     },
     experiences: [
-      { job: 'Cheffe de projet digital', company: 'Agence Nova', desc: 'Pilotage de 8 projets web, coordination UX/UI, suivi client, animation des ateliers de cadrage et amélioration des délais de livraison de 25%.' },
-      { job: 'Product owner junior', company: 'E-commerce Nord', desc: 'Recueil des besoins métier, rédaction des user stories, priorisation du backlog et suivi des sprints Scrum avec les équipes produit et technique.' },
-      { job: 'Assistante communication', company: 'Studio Pixel', desc: 'Gestion des contenus, mise à jour du site vitrine, préparation des supports commerciaux et coordination avec les prestataires graphiques.' }
+      { job: 'Cheffe de projet digital', company: 'Agence Nova', startMonth: 4, startYear: 2021, endMonth: '', endYear: '', current: true, desc: 'Pilotage de 8 projets web, coordination UX/UI, suivi client, animation des ateliers de cadrage et amélioration des délais de livraison de 25%.' },
+      { job: 'Product owner junior', company: 'E-commerce Nord', startMonth: 9, startYear: 2019, endMonth: 3, endYear: 2021, current: false, desc: 'Recueil des besoins métier, rédaction des user stories, priorisation du backlog et suivi des sprints Scrum avec les équipes produit et technique.' },
+      { job: 'Assistante communication', company: 'Studio Pixel', startMonth: 1, startYear: 2018, endMonth: 8, endYear: 2019, current: false, desc: 'Gestion des contenus, mise à jour du site vitrine, préparation des supports commerciaux et coordination avec les prestataires graphiques.' }
     ],
     educations: [
-      { degree: 'Master Marketing digital', school: 'IAE Lille', desc: 'Spécialisation en gestion de projet, stratégie omnicanale et analyse de la performance digitale.' },
-      { degree: 'Licence Information-communication', school: 'Université de Lille', desc: 'Formation centrée sur la communication de projet, la rédaction professionnelle et la conduite d’entretiens.' }
+      { degree: 'Master Marketing digital', school: 'IAE Lille', startMonth: 9, startYear: 2016, endMonth: 6, endYear: 2018, current: false, desc: 'Spécialisation en gestion de projet, stratégie omnicanale et analyse de la performance digitale.' },
+      { degree: 'Licence Information-communication', school: 'Université de Lille', startMonth: 9, startYear: 2013, endMonth: 6, endYear: 2016, current: false, desc: 'Formation centrée sur la communication de projet, la rédaction professionnelle et la conduite d’entretiens.' }
     ],
     skills: ['Gestion de projet', 'Scrum', 'UX', 'Notion', 'Figma', 'Reporting', 'Organisation', 'Communication'],
     interests: ['Design', 'Voyage', 'Lecture', 'Cinéma', 'Course à pied']
   };
 
-  const STORAGE_KEY = 'cv_react_style_v2';
+  const STORAGE_KEY = 'cv_react_style_v3';
+  const STORAGE_KEY_LEGACY = 'cv_react_style_v2';
+
+  function loadCvFromStorage() {
+    let raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) raw = localStorage.getItem(STORAGE_KEY_LEGACY);
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+
+  function normalizeCv(raw) {
+    const base = structuredClone(DEMO_DATA);
+    const src = raw && typeof raw === 'object' ? raw : base;
+    const personal = { ...base.personal, ...(src.personal || {}) };
+    const mapExp = (e) => ({
+      job: e.job ?? '',
+      company: e.company ?? '',
+      desc: e.desc ?? '',
+      startMonth: e.startMonth === '' || e.startMonth == null ? '' : Number(e.startMonth),
+      startYear: e.startYear === '' || e.startYear == null ? '' : Number(e.startYear),
+      endMonth: e.endMonth === '' || e.endMonth == null ? '' : Number(e.endMonth),
+      endYear: e.endYear === '' || e.endYear == null ? '' : Number(e.endYear),
+      current: !!e.current
+    });
+    const mapEdu = (ed) => ({
+      degree: ed.degree ?? '',
+      school: ed.school ?? '',
+      desc: ed.desc ?? '',
+      startMonth: ed.startMonth === '' || ed.startMonth == null ? '' : Number(ed.startMonth),
+      startYear: ed.startYear === '' || ed.startYear == null ? '' : Number(ed.startYear),
+      endMonth: ed.endMonth === '' || ed.endMonth == null ? '' : Number(ed.endMonth),
+      endYear: ed.endYear === '' || ed.endYear == null ? '' : Number(ed.endYear),
+      current: !!ed.current
+    });
+    return {
+      personal,
+      experiences: Array.isArray(src.experiences) ? src.experiences.map(mapExp) : base.experiences.map(mapExp),
+      educations: Array.isArray(src.educations) ? src.educations.map(mapEdu) : base.educations.map(mapEdu),
+      skills: Array.isArray(src.skills) ? src.skills.filter(Boolean) : base.skills,
+      interests: Array.isArray(src.interests) ? src.interests.filter(Boolean) : base.interests
+    };
+  }
 
   // État global
   let appState = {
     layout: 'split',
-    cv: JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || structuredClone(DEMO_DATA),
+    cv: normalizeCv(loadCvFromStorage()),
     theme: 'light'
   };
 
@@ -632,137 +808,218 @@
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
   }[m]));
 
-  // Sauvegarde locale
+  let persistTimer = null;
   function persistToLocalStorage() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(appState.cv));
+  }
+  function schedulePersist() {
+    clearTimeout(persistTimer);
+    persistTimer = setTimeout(persistToLocalStorage, 400);
+  }
+
+  let previewFrame = null;
+  function scheduleRenderPreview() {
+    if (previewFrame != null) return;
+    previewFrame = requestAnimationFrame(() => {
+      previewFrame = null;
+      renderPreview();
+    });
   }
 
   // --------------------------------------------------------------
   // 2. LOGIQUE MÉTIER : SCORE ATS, RENDU HTML
   // --------------------------------------------------------------
+  function hasCompleteStart(item) {
+    return item.startMonth && item.startYear;
+  }
+
+  function periodHtml(item) {
+    if (!hasCompleteStart(item)) return '';
+    const sm = Number(item.startMonth);
+    const sy = Number(item.startYear);
+    const isoStart = `${sy}-${String(sm).padStart(2, '0')}`;
+    const startHuman = `${MONTHS_FR[sm]} ${sy}`;
+    if (item.current) {
+      return `<div class="entry-period" aria-label="Période"><time datetime="${escapeHtml(isoStart)}">${escapeHtml(startHuman)}</time> – <span>présent</span></div>`;
+    }
+    if (item.endMonth && item.endYear) {
+      const em = Number(item.endMonth);
+      const ey = Number(item.endYear);
+      const isoEnd = `${ey}-${String(em).padStart(2, '0')}`;
+      const endHuman = `${MONTHS_FR[em]} ${ey}`;
+      return `<div class="entry-period" aria-label="Période"><time datetime="${escapeHtml(isoStart)}">${escapeHtml(startHuman)}</time> – <time datetime="${escapeHtml(isoEnd)}">${escapeHtml(endHuman)}</time></div>`;
+    }
+    return `<div class="entry-period" aria-label="Période"><time datetime="${escapeHtml(isoStart)}">${escapeHtml(startHuman)}</time></div>`;
+  }
+
   function computeAtsScore() {
     const cv = appState.cv;
     let score = 0;
-    if (cv.personal.name) score += 10;
-    if (cv.personal.title) score += 10;
-    if (cv.personal.email) score += 10;
-    cv.experiences.forEach(exp => {
-      if ((exp.desc || '').length > 80) score += 10;
-      if (/gestion|pilotage|analyse|projet/i.test(exp.desc || '')) score += 10;
+    if (cv.personal.name) score += 8;
+    if (cv.personal.title) score += 8;
+    if (cv.personal.email) score += 8;
+    if (cv.personal.phone) score += 4;
+    if (cv.personal.address) score += 4;
+    if ((cv.personal.summary || '').length > 120) score += 8;
+    cv.experiences.forEach((exp) => {
+      if ((exp.desc || '').length > 80) score += 7;
+      if (/gestion|pilotage|analyse|projet|coordination|résultat|livraison/i.test(exp.desc || '')) score += 6;
+      if (hasCompleteStart(exp)) score += 8;
+      if (exp.current || (exp.endMonth && exp.endYear)) score += 4;
     });
-    cv.educations.forEach(edu => {
-      if ((edu.desc || '').length > 50) score += 5;
+    cv.educations.forEach((edu) => {
+      if ((edu.desc || '').length > 50) score += 4;
+      if (hasCompleteStart(edu)) score += 5;
     });
-    score += cv.skills.length * 5;
-    score += cv.interests.length * 2;
-    return Math.min(score, 100);
+    score += Math.min(cv.skills.length * 4, 24);
+    score += Math.min(cv.interests.length * 2, 8);
+    return Math.min(Math.round(score), 100);
   }
 
-  // Affiche une entrée (expérience ou formation)
   function renderEntry(item) {
     const title = item.job || item.degree;
     const subtitle = item.company || item.school;
+    const period = periodHtml(item);
     return `
-      <div class="entry">
+      <article class="entry">
         <div class="head">
           <div>
-            <div class="entry-title">${escapeHtml(title)}</div>
-            <div class="entry-sub">${escapeHtml(subtitle)}</div>
+            <h3 class="entry-title">${escapeHtml(title)}</h3>
+            <p class="entry-sub">${escapeHtml(subtitle)}</p>
           </div>
+          ${period}
         </div>
-        <div class="entry-desc">${escapeHtml(item.desc)}</div>
-      </div>
+        <p class="entry-desc">${escapeHtml(item.desc)}</p>
+      </article>
     `;
   }
 
-  // Bloc contact stylisé (pour templates classic/minimal)
   function renderContactBlock(personal) {
-    const items = [];
-    if (personal.phone) items.push(`📞 ${escapeHtml(personal.phone)}`);
-    if (personal.email) items.push(`✉️ ${escapeHtml(personal.email)}`);
-    if (personal.address) items.push(`📍 ${escapeHtml(personal.address)}`);
-    if (items.length === 0) return '';
-    return `<div class="contact-grid">${items.join(' • ')}</div>`;
+    const lines = [];
+    if (personal.phone) {
+      const tel = escapeHtml(personal.phone.replace(/\s/g, ''));
+      lines.push(`<li><span class="lbl">Tél.</span><a href="tel:${tel}">${escapeHtml(personal.phone)}</a></li>`);
+    }
+    if (personal.email) {
+      lines.push(`<li><span class="lbl">Email</span><a href="mailto:${escapeHtml(personal.email)}">${escapeHtml(personal.email)}</a></li>`);
+    }
+    if (personal.address) lines.push(`<li><span class="lbl">Adresse</span>${escapeHtml(personal.address)}</li>`);
+    if (!lines.length) return '';
+    return `<div class="contact-grid"><ul class="contact-lines">${lines.join('')}</ul></div>`;
+  }
+
+  function renderSideContact(p) {
+    const parts = [];
+    if (p.phone) {
+      const tel = escapeHtml(String(p.phone).replace(/\s/g, ''));
+      parts.push(`<li><span class="lbl">Tél.</span> <a href="tel:${tel}">${escapeHtml(p.phone)}</a></li>`);
+    }
+    if (p.email) parts.push(`<li><span class="lbl">Email</span> <a href="mailto:${escapeHtml(p.email)}">${escapeHtml(p.email)}</a></li>`);
+    if (p.address) parts.push(`<li><span class="lbl">Adresse</span> ${escapeHtml(p.address)}</li>`);
+    if (!parts.length) return '';
+    return `<ul class="contact-lines">${parts.join('')}</ul>`;
+  }
+
+  function monthOptions(selected) {
+    let html = '<option value="">Mois</option>';
+    for (let m = 1; m <= 12; m++) {
+      const sel = Number(selected) === m ? ' selected' : '';
+      html += `<option value="${m}"${sel}>${MONTHS_FR[m]}</option>`;
+    }
+    return html;
+  }
+
+  function skillsListHtml(skills) {
+    if (!skills.length) return '<p class="entry-sub">Aucune compétence</p>';
+    return `<ul class="skill-list">${skills.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}</ul>`;
+  }
+  function interestsListHtml(list) {
+    if (!list.length) return '<p class="entry-sub">Aucun centre d’intérêt</p>';
+    return `<ul class="interest-list">${list.map((i) => `<li>${escapeHtml(i)}</li>`).join('')}</ul>`;
   }
 
   // Générateur d'aperçu selon le template
   function renderPreview() {
     const cv = appState.cv;
     const p = cv.personal;
-    const skillsHtml = cv.skills.map(s => `<span class="badge">${escapeHtml(s)}</span>`).join('');
-    const interestsHtml = cv.interests.map(i => `<span class="badge">${escapeHtml(i)}</span>`).join('');
+    const skillsHtml = skillsListHtml(cv.skills);
+    const interestsHtml = interestsListHtml(cv.interests);
     const contactHtml = renderContactBlock(p);
 
-    const experiencesHtml = cv.experiences.map(renderEntry).join('') || '<div class="entry-desc">Ajoutez vos expériences.</div>';
-    const educationsHtml = cv.educations.map(renderEntry).join('') || '<div class="entry-desc">Ajoutez vos formations.</div>';
+    const experiencesHtml = cv.experiences.map(renderEntry).join('') || '<p class="entry-desc">Ajoutez vos expériences.</p>';
+    const educationsHtml = cv.educations.map(renderEntry).join('') || '<p class="entry-desc">Ajoutez vos formations.</p>';
     const separator = '<hr class="section-separator">';
 
     if (appState.layout === 'split') {
-      // Deux colonnes
       const preview = `
-        <section class="resume">
-          <div class="side">
-            <h1 class="name">${escapeHtml(p.name) || 'Votre nom'}</h1>
-            <div class="role">${escapeHtml(p.title) || 'Titre professionnel'}</div>
-            <div class="block"><div class="label2">Contact</div><div class="list">${escapeHtml(p.phone || '')}<br>${escapeHtml(p.email || '')}<br>${escapeHtml(p.address || '')}</div></div>
-            <div class="block"><div class="label2">Résumé</div><div class="entry-desc">${escapeHtml(p.summary || '')}</div></div>
-            <div class="block"><div class="label2">Compétences</div>${skillsHtml || '<div class="entry-sub">Aucune compétence</div>'}</div>
-            <div class="block"><div class="label2">Centres d’intérêt</div>${interestsHtml || '<div class="entry-sub">Aucun centre d’intérêt</div>'}</div>
-          </div>
+        <article class="resume" itemscope itemtype="https://schema.org/Person">
+          <aside class="side" aria-label="Informations complémentaires">
+            <h1 class="name" itemprop="name">${escapeHtml(p.name) || 'Votre nom'}</h1>
+            <p class="role">${escapeHtml(p.title) || 'Titre professionnel'}</p>
+            <div class="block"><div class="label2">Contact</div>${renderSideContact(p) || '<p class="entry-sub">—</p>'}</div>
+            <div class="block"><div class="label2">Profil</div><p class="entry-desc" itemprop="description">${escapeHtml(p.summary || '')}</p></div>
+            <div class="block"><div class="label2">Compétences</div>${skillsHtml}</div>
+            <div class="block"><div class="label2">Centres d’intérêt</div>${interestsHtml}</div>
+          </aside>
           <div class="main">
-            <section class="sec2"><h3>Expériences</h3>${experiencesHtml}</section>
+            <section class="sec2" aria-label="Expériences professionnelles"><h2>Expériences</h2>${experiencesHtml}</section>
             ${separator}
-            <section class="sec2"><h3>Formations</h3>${educationsHtml}</section>
+            <section class="sec2" aria-label="Formations"><h2>Formations</h2>${educationsHtml}</section>
           </div>
-        </section>
+        </article>
       `;
       $('#resumePreview').innerHTML = preview;
-    } 
-    else if (appState.layout === 'classic') {
-      // Classique : tout en large, avec contact enrichi
+    } else if (appState.layout === 'classic') {
       const preview = `
-        <section class="resume" style="grid-template-columns:1fr">
+        <article class="resume" style="grid-template-columns:1fr" itemscope itemtype="https://schema.org/Person">
           <div class="main" style="padding-top:0">
-            <h1 class="name" style="font-size:46px">${escapeHtml(p.name) || 'Votre nom'}</h1>
-            <div class="role">${escapeHtml(p.title) || 'Titre professionnel'}</div>
+            <header>
+              <h1 class="name" style="font-size:46px" itemprop="name">${escapeHtml(p.name) || 'Votre nom'}</h1>
+              <p class="role">${escapeHtml(p.title) || 'Titre professionnel'}</p>
+            </header>
             ${contactHtml}
-            <div class="entry-desc" style="margin-top:10px">${escapeHtml(p.summary || '')}</div>
-            <section class="sec2"><h3>Expériences</h3>${experiencesHtml}</section>
+            <p class="entry-desc" style="margin-top:10px" itemprop="description">${escapeHtml(p.summary || '')}</p>
+            <section class="sec2"><h2>Expériences</h2>${experiencesHtml}</section>
             ${separator}
-            <section class="sec2"><h3>Formations</h3>${educationsHtml}</section>
-            <section class="sec2"><h3>Compétences</h3>${skillsHtml || '<div class="entry-sub">Aucune compétence</div>'}</section>
-            <section class="sec2"><h3>Centres d’intérêt</h3>${interestsHtml || '<div class="entry-sub">Aucun centre d’intérêt</div>'}</section>
+            <section class="sec2"><h2>Formations</h2>${educationsHtml}</section>
+            <section class="sec2"><h2>Compétences</h2>${skillsHtml}</section>
+            <section class="sec2"><h2>Centres d’intérêt</h2>${interestsHtml}</section>
           </div>
-        </section>
+        </article>
       `;
       $('#resumePreview').innerHTML = preview;
-    } 
-    else {
-      // Minimal : affiche toutes les sections (contact, compétences, loisirs)
+    } else {
       const preview = `
-        <section class="resume" style="grid-template-columns:1fr">
+        <article class="resume" style="grid-template-columns:1fr" itemscope itemtype="https://schema.org/Person">
           <div class="main" style="padding-top:0">
-            <h1 class="name" style="font-size:46px">${escapeHtml(p.name) || 'Votre nom'}</h1>
-            <div class="role">${escapeHtml(p.title) || 'Titre professionnel'}</div>
+            <header>
+              <h1 class="name" style="font-size:46px" itemprop="name">${escapeHtml(p.name) || 'Votre nom'}</h1>
+              <p class="role">${escapeHtml(p.title) || 'Titre professionnel'}</p>
+            </header>
             ${contactHtml}
-            <div class="entry-desc" style="margin-top:10px; margin-bottom:20px;">${escapeHtml(p.summary || '')}</div>
-            <section class="sec2"><h3>Expériences</h3>${experiencesHtml}</section>
+            <p class="entry-desc" style="margin-top:10px; margin-bottom:20px;" itemprop="description">${escapeHtml(p.summary || '')}</p>
+            <section class="sec2"><h2>Expériences</h2>${experiencesHtml}</section>
             ${separator}
-            <section class="sec2"><h3>Formations</h3>${educationsHtml}</section>
-            <section class="sec2"><h3>Compétences</h3>${skillsHtml || '<div class="entry-sub">Aucune compétence</div>'}</section>
-            <section class="sec2"><h3>Centres d’intérêt</h3>${interestsHtml || '<div class="entry-sub">Aucun centre d’intérêt</div>'}</section>
+            <section class="sec2"><h2>Formations</h2>${educationsHtml}</section>
+            <section class="sec2"><h2>Compétences</h2>${skillsHtml}</section>
+            <section class="sec2"><h2>Centres d’intérêt</h2>${interestsHtml}</section>
           </div>
-        </section>
+        </article>
       `;
       $('#resumePreview').innerHTML = preview;
     }
 
-    // Mise à jour du score ATS
     const ats = computeAtsScore();
     $('#score').textContent = ats;
     $('#ring').style.setProperty('--score', ats / 100);
-    $('#scoreText').textContent = `Score ATS : ${ats}%`;
-    persistToLocalStorage();
+    const hints = [];
+    if (!p.phone) hints.push('téléphone');
+    if (!p.address) hints.push('adresse');
+    if (!cv.experiences.some(hasCompleteStart)) hints.push('dates d’expérience (mois / année)');
+    $('#scoreText').textContent = hints.length
+      ? `Score ATS : ${ats}% — Complétez : ${hints.join(', ')}.`
+      : `Score ATS : ${ats}% — Bonne base pour les parseurs ATS et le PDF.`;
+    schedulePersist();
   }
 
   // --------------------------------------------------------------
@@ -781,28 +1038,50 @@
     // Expériences
     const expContainer = $('#expList');
     expContainer.innerHTML = '';
+    const yearVal = (y) => (y === '' || y == null ? '' : escapeHtml(String(y)));
     cv.experiences.forEach((exp, idx) => {
       const card = document.createElement('div');
       card.className = 'card';
-      card.dataset.i = idx;
+      card.dataset.i = String(idx);
       card.innerHTML = `
-        <div class="field"><label>Poste</label><input data-k="job" value="${escapeHtml(exp.job)}"></div>
-        <div class="field"><label>Entreprise</label><input data-k="company" value="${escapeHtml(exp.company)}"></div>
+        <div class="grid">
+          <div class="field full"><label>Poste</label><input data-k="job" value="${escapeHtml(exp.job)}"></div>
+          <div class="field full"><label>Entreprise</label><input data-k="company" value="${escapeHtml(exp.company)}"></div>
+        </div>
+        <div class="date-row">
+          <div class="field"><label>Début — mois</label><select data-k="startMonth">${monthOptions(exp.startMonth)}</select></div>
+          <div class="field"><label>Début — année</label><input data-k="startYear" type="number" inputmode="numeric" min="1970" max="2038" placeholder="ex. 2020" value="${yearVal(exp.startYear)}"></div>
+        </div>
+        <div class="date-row">
+          <div class="field"><label>Fin — mois</label><select data-k="endMonth">${monthOptions(exp.endMonth)}</select></div>
+          <div class="field"><label>Fin — année</label><input data-k="endYear" type="number" inputmode="numeric" min="1970" max="2038" placeholder="ex. 2023" value="${yearVal(exp.endYear)}"></div>
+        </div>
+        <div class="chk-row"><label><input type="checkbox" data-k="current" ${exp.current ? 'checked' : ''}> En poste / actuel</label></div>
         <div class="field"><label>Description</label><textarea data-k="desc">${escapeHtml(exp.desc)}</textarea></div>
       `;
       expContainer.appendChild(card);
     });
 
-    // Formations
     const eduContainer = $('#eduList');
     eduContainer.innerHTML = '';
     cv.educations.forEach((edu, idx) => {
       const card = document.createElement('div');
       card.className = 'card';
-      card.dataset.i = idx;
+      card.dataset.i = String(idx);
       card.innerHTML = `
-        <div class="field"><label>Diplôme</label><input data-k="degree" value="${escapeHtml(edu.degree)}"></div>
-        <div class="field"><label>École</label><input data-k="school" value="${escapeHtml(edu.school)}"></div>
+        <div class="grid">
+          <div class="field full"><label>Diplôme</label><input data-k="degree" value="${escapeHtml(edu.degree)}"></div>
+          <div class="field full"><label>École</label><input data-k="school" value="${escapeHtml(edu.school)}"></div>
+        </div>
+        <div class="date-row">
+          <div class="field"><label>Début — mois</label><select data-k="startMonth">${monthOptions(edu.startMonth)}</select></div>
+          <div class="field"><label>Début — année</label><input data-k="startYear" type="number" inputmode="numeric" min="1970" max="2038" placeholder="ex. 2018" value="${yearVal(edu.startYear)}"></div>
+        </div>
+        <div class="date-row">
+          <div class="field"><label>Fin — mois</label><select data-k="endMonth">${monthOptions(edu.endMonth)}</select></div>
+          <div class="field"><label>Fin — année</label><input data-k="endYear" type="number" inputmode="numeric" min="1970" max="2038" placeholder="ex. 2020" value="${yearVal(edu.endYear)}"></div>
+        </div>
+        <div class="chk-row"><label><input type="checkbox" data-k="current" ${edu.current ? 'checked' : ''}> En cours</label></div>
         <div class="field"><label>Description</label><textarea data-k="desc">${escapeHtml(edu.desc)}</textarea></div>
       `;
       eduContainer.appendChild(card);
@@ -812,37 +1091,49 @@
     $('#skillsList').innerHTML = cv.skills.map((s, i) => `<span class="tag">${escapeHtml(s)} <button data-rm-skill="${i}">×</button></span>`).join('');
     $('#interestList').innerHTML = cv.interests.map((h, i) => `<span class="tag">${escapeHtml(h)} <button data-rm-int="${i}">×</button></span>`).join('');
 
-    // Bind dynamique sur les cartes (expériences et formations)
-    document.querySelectorAll('#expList .card input, #expList .card textarea').forEach(input => {
-      input.oninput = (e) => {
-        const card = e.target.closest('.card');
-        const idx = parseInt(card.dataset.i);
-        const key = e.target.dataset.k;
-        appState.cv.experiences[idx][key] = e.target.value;
-        renderPreview();
-      };
-    });
-    document.querySelectorAll('#eduList .card input, #eduList .card textarea').forEach(input => {
-      input.oninput = (e) => {
-        const card = e.target.closest('.card');
-        const idx = parseInt(card.dataset.i);
-        const key = e.target.dataset.k;
-        appState.cv.educations[idx][key] = e.target.value;
-        renderPreview();
-      };
-    });
+    function bindCollectionCards(listSelector, key) {
+      document.querySelectorAll(`${listSelector} .card input, ${listSelector} .card textarea, ${listSelector} .card select`).forEach((el) => {
+        const onEdit = () => {
+          const card = el.closest('.card');
+          const idx = parseInt(card.dataset.i, 10);
+          const k = el.dataset.k;
+          const row = appState.cv[key][idx];
+          if (el.type === 'checkbox') {
+            row[k] = el.checked;
+            if (k === 'current' && el.checked) {
+              row.endMonth = '';
+              row.endYear = '';
+            }
+          } else if (el.tagName === 'SELECT') {
+            row[k] = el.value === '' ? '' : Number(el.value);
+          } else if (el.type === 'number') {
+            const v = el.value.trim();
+            row[k] = v === '' ? '' : Number(v);
+          } else {
+            row[k] = el.value;
+          }
+          scheduleRenderPreview();
+          if (el.type === 'checkbox' && k === 'current') refreshEditorFromState();
+        };
+        el.addEventListener('input', onEdit);
+        el.addEventListener('change', onEdit);
+      });
+    }
+    bindCollectionCards('#expList', 'experiences');
+    bindCollectionCards('#eduList', 'educations');
 
-    // Suppression compétences / centres
-    document.querySelectorAll('[data-rm-skill]').forEach(btn => {
+    document.querySelectorAll('[data-rm-skill]').forEach((btn) => {
       btn.onclick = () => {
-        appState.cv.skills.splice(parseInt(btn.dataset.rmSkill), 1);
+        appState.cv.skills.splice(parseInt(btn.dataset.rmSkill, 10), 1);
         renderPreview();
+        refreshEditorFromState();
       };
     });
-    document.querySelectorAll('[data-rm-int]').forEach(btn => {
+    document.querySelectorAll('[data-rm-int]').forEach((btn) => {
       btn.onclick = () => {
-        appState.cv.interests.splice(parseInt(btn.dataset.rmInt), 1);
+        appState.cv.interests.splice(parseInt(btn.dataset.rmInt, 10), 1);
         renderPreview();
+        refreshEditorFromState();
       };
     });
   }
@@ -865,21 +1156,30 @@
     };
 
     // Champs personnels
-    ['name', 'title', 'phone', 'email', 'address', 'summary'].forEach(id => {
+    ['name', 'title', 'phone', 'email', 'address', 'summary'].forEach((id) => {
       $(`#${id}`).oninput = (e) => {
         appState.cv.personal[id] = e.target.value;
-        renderPreview();
+        scheduleRenderPreview();
       };
     });
 
-    // Ajout d'expérience / formation
+    const emptyDates = () => ({
+      startMonth: '',
+      startYear: '',
+      endMonth: '',
+      endYear: '',
+      current: false
+    });
+
     $('#addExp').onclick = () => {
-      appState.cv.experiences.push({ job: 'Nouveau poste', company: 'Entreprise', desc: '' });
+      appState.cv.experiences.push({ job: 'Nouveau poste', company: 'Entreprise', desc: '', ...emptyDates() });
       renderPreview();
+      refreshEditorFromState();
     };
     $('#addEdu').onclick = () => {
-      appState.cv.educations.push({ degree: 'Diplôme', school: 'Établissement', desc: '' });
+      appState.cv.educations.push({ degree: 'Diplôme', school: 'Établissement', desc: '', ...emptyDates() });
       renderPreview();
+      refreshEditorFromState();
     };
 
     // Compétences
@@ -889,6 +1189,7 @@
         appState.cv.skills.push(val);
         $('#skillInput').value = '';
         renderPreview();
+        refreshEditorFromState();
       }
     };
     $('#skillInput').onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); $('#addSkill').click(); } };
@@ -900,22 +1201,26 @@
         appState.cv.interests.push(val);
         $('#interestInput').value = '';
         renderPreview();
+        refreshEditorFromState();
       }
     };
     $('#interestInput').onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); $('#addInterest').click(); } };
 
     // Boutons reset & demo
     $('#resetBtn').onclick = () => {
-      appState.cv = structuredClone(DEMO_DATA);
+      appState.cv = normalizeCv(structuredClone(DEMO_DATA));
       appState.layout = 'split';
       appState.theme = 'light';
       document.body.dataset.theme = 'light';
       $('#themeBtn').textContent = 'Mode sombre';
+      $('#layoutSel').value = 'split';
       renderPreview();
+      refreshEditorFromState();
     };
     $('#demoBtn').onclick = () => {
-      appState.cv = structuredClone(DEMO_DATA);
+      appState.cv = normalizeCv(structuredClone(DEMO_DATA));
       renderPreview();
+      refreshEditorFromState();
     };
 
     // Lettre de motivation
@@ -947,8 +1252,9 @@
     bindEvents();
     document.body.dataset.theme = appState.theme;
     $('#themeBtn').textContent = appState.theme === 'dark' ? 'Mode clair' : 'Mode sombre';
+    $('#layoutSel').value = appState.layout;
     renderPreview();
-    refreshEditorFromState(); // double synchro initiale
+    refreshEditorFromState();
   }
 
   init();
