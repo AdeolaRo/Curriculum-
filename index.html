@@ -337,6 +337,8 @@
     .resume {
       display: grid;
       grid-template-columns: 210px 1fr;
+      grid-template-rows: minmax(min-content, 1fr);
+      align-items: stretch;
       min-height: 1000px;
       background: #fff;
       color: #111;
@@ -344,6 +346,13 @@
       font-size: 14px;
       line-height: 1.45;
       -webkit-font-smoothing: antialiased;
+    }
+    /* Fond colonne gauche = hauteur du bloc CV (évite bande blanche sous la sidebar) */
+    .resume:has(aside.side) {
+      background: linear-gradient(90deg, var(--cv-side) 210px, #fff 210px);
+    }
+    .resume:has(aside.side) .side {
+      background: transparent;
     }
     .resume a {
       color: var(--cv-link);
@@ -354,6 +363,8 @@
       background: var(--cv-side);
       padding: 18px 14px;
       border-right: 1px solid var(--cv-border);
+      align-self: stretch;
+      min-height: 100%;
     }
     .main {
       padding: 26px 28px;
@@ -366,7 +377,7 @@
     }
     .role {
       margin-top: 8px;
-      color: var(--accent);
+      color: var(--cv-accent);
       font-size: 15px;
       font-weight: 700;
       letter-spacing: .08em;
@@ -382,6 +393,9 @@
       color: var(--muted);
       font-weight: 700;
       margin-bottom: 10px;
+    }
+    .resume .label2 {
+      color: rgba(0, 0, 0, 0.55);
     }
     .list {
       display: grid;
@@ -431,8 +445,13 @@
     .head {
       display: flex;
       justify-content: space-between;
-      gap: 14px;
       align-items: flex-start;
+      gap: 12px 14px;
+      flex-wrap: wrap;
+    }
+    .head > div:first-child {
+      flex: 1 1 160px;
+      min-width: 0;
     }
     .entry-title {
       font-size: 16px;
@@ -447,9 +466,14 @@
       font-size: 12px;
       font-weight: 600;
       color: #333;
-      white-space: nowrap;
       text-align: right;
-      flex-shrink: 0;
+      flex: 0 1 auto;
+      min-width: 0;
+      max-width: min(100%, 240px);
+      white-space: normal;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+      hyphens: manual;
     }
     .entry-period time {
       font-weight: 600;
@@ -670,11 +694,21 @@
         width: 100%;
         min-height: auto;
         break-inside: avoid;
-        background: #fff !important;
         color: #000 !important;
         grid-template-columns: 32% 1fr;
         font-size: 10.5pt;
         line-height: 1.42;
+      }
+      .resume:not(:has(aside.side)) {
+        background: #fff !important;
+      }
+      .resume:has(aside.side) {
+        background: linear-gradient(90deg, #ededed 32%, #fff 32%) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .resume:has(aside.side) .side {
+        background: transparent !important;
       }
       .resume a { color: #000 !important; text-decoration: none !important; }
       .resume a:hover { text-decoration: none !important; }
@@ -688,11 +722,11 @@
       .resume .skill-list li::before,
       .resume .interest-list li::before { color: #000 !important; }
       .side {
-        background: #ededed !important;
         padding: 14px 12px !important;
         border-right: 1px solid #ccc !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+      }
+      .resume:not(:has(aside.side)) .side {
+        background: #ededed !important;
       }
       .main { padding: 18px 20px !important; background: #fff !important; }
       .name { font-size: 22pt; line-height: 1.08; }
@@ -737,6 +771,12 @@
       .wrap { padding: 12px; }
       .topbar { flex-direction: column; align-items: flex-start; }
       .grid, .resume { grid-template-columns: 1fr; }
+      .resume:has(aside.side) {
+        background: #fff;
+      }
+      .resume:has(aside.side) .side {
+        background: var(--cv-side);
+      }
       .side { border-right: none; border-bottom: 1px solid #ddd; }
       .main { padding: 24px 18px; }
       .name { font-size: 32px; }
@@ -1533,16 +1573,39 @@
       refreshEditorFromState();
     };
 
-    // Lettre de motivation
-    function generateLetterText() {
+    // Lettre de motivation — 6 modèles, rotation au clic sur « Générer »
+    let letterVariantIndex = 0;
+
+    function buildMotivationLetter(variant) {
       const p = appState.cv.personal;
-      return `Objet : Candidature au poste de ${p.title || 'votre poste'}\n\nMadame, Monsieur,\n\nJe vous adresse ma candidature pour le poste de ${p.title || 'votre poste'}. Mon expérience en gestion de projet, coordination d’équipes et amélioration des parcours clients me permet de contribuer rapidement à vos objectifs.\n\nCordialement,\n${p.name || 'Votre nom'}`;
+      const title = (p.title || 'votre poste').trim();
+      const name = (p.name || 'Votre nom').trim();
+      const v = ((variant % 6) + 6) % 6;
+      const templates = [
+        () =>
+          `Objet : Candidature au poste de ${title}\n\nMadame, Monsieur,\n\nJe vous adresse ma candidature pour le poste de ${title}. Mon expérience en gestion de projet, coordination d’équipes et amélioration des parcours clients me permet de contribuer rapidement à vos objectifs.\n\nCordialement,\n${name}`,
+        () =>
+          `Objet : Candidature — ${title}\n\nMadame, Monsieur,\n\nFortement intéressé(e) par votre structure, je souhaite vous faire part de ma motivation pour le poste de ${title}. J’ai piloté des projets multi-acteurs, sécurisé les livrables et renforcé la qualité des échanges avec les parties prenantes. Je serais ravi(e) d’en discuter avec vous.\n\nCordialement,\n${name}`,
+        () =>
+          `Objet : Poste de ${title}\n\nMadame, Monsieur,\n\nPar la présente, je me permets de vous transmettre ma candidature pour le poste de ${title}. Mon parcours m’a permis de structurer des priorités, d’animer des équipes en mode agile et d’aligner les livraisons sur les objectifs métier. Je reste à votre disposition pour un entretien.\n\nBien cordialement,\n${name}`,
+        () =>
+          `Objet : Candidature spontanée — ${title}\n\nMadame, Monsieur,\n\nVotre organisation et ses enjeux correspondent à la direction que je souhaite donner à ma carrière. En tant que ${title}, je peux apporter une approche rigoureuse de la planification, une communication claire et une culture du résultat. Je vous remercie pour l’attention portée à ma candidature.\n\nCordialement,\n${name}`,
+        () =>
+          `Objet : Candidature au poste de ${title}\n\nMadame, Monsieur,\n\nJe vous écris pour exprimer mon intérêt pour le poste de ${title}. J’ai une solide expérience de la conduite de projet, du cadrage au suivi budgétaire, ainsi qu’une appétence marquée pour l’innovation utile et l’amélioration continue. Je suis disponible pour échanger sur la manière dont je pourrais contribuer à vos équipes.\n\nCordialement,\n${name}`,
+        () =>
+          `Objet : ${title}\n\nMadame, Monsieur,\n\nPermettez-moi de vous présenter ma candidature pour ${title}. Au fil de mes missions, j’ai développé une capacité à fédérer les talents, à rendre les décisions traçables et à sécuriser les délais dans des contextes exigeants. Je serais honoré(e) d’explorer avec vous les synergies possibles.\n\nBien à vous,\n${name}`
+      ];
+      return templates[v]();
     }
+
     $('#lmBtn').onclick = () => {
-      $('#lmArea').value = generateLetterText();
+      $('#lmArea').value = buildMotivationLetter(letterVariantIndex);
       $('#lmModal').classList.add('open');
     };
-    $('#genLmBtn').onclick = () => { $('#lmArea').value = generateLetterText(); };
+    $('#genLmBtn').onclick = () => {
+      letterVariantIndex = (letterVariantIndex + 1) % 6;
+      $('#lmArea').value = buildMotivationLetter(letterVariantIndex);
+    };
     $('#printLmBtn').onclick = () => {
       const win = window.open('', '_blank');
       win.document.write(`<pre style="white-space:pre-wrap;font:16px Arial;padding:24px">${escapeHtml($('#lmArea').value)}</pre>`);
