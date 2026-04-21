@@ -415,7 +415,7 @@
       color: var(--cv-accent);
       font-weight: 600;
     }
-    /* Classic & Minimal : bandeau teinté en tête + un peu d’air */
+    /* Classic : bandeau teinté en tête + un peu d’air */
     .resume.resume--flow {
       padding-top: 22px;
       padding-left: 6px;
@@ -425,17 +425,6 @@
     .resume.resume--flow.resume--classic .name {
       font-size: 46px;
       letter-spacing: -0.035em;
-    }
-    .resume.resume--flow.resume--minimal .name {
-      font-size: 38px;
-      letter-spacing: -0.028em;
-    }
-    .resume.resume--flow.resume--minimal .sec2 {
-      margin-bottom: 18px;
-    }
-    .resume.resume--flow.resume--minimal .entry {
-      padding-bottom: 12px;
-      margin-bottom: 12px;
     }
     /* Bandeau — en-tête pleine largeur */
     .resume.resume--banner.resume--flow {
@@ -737,7 +726,7 @@
       line-height: 1.45;
     }
 
-    /* Panneau thème : minimal (lisible ATS, pas de chrome décoratif) */
+    /* Panneau thème CV (pastilles sobres, lisible ATS) */
     .palette-section { padding-top: 2px; }
     .palette-legend {
       display: block;
@@ -983,7 +972,6 @@
               <option value="split">Deux colonnes</option>
               <option value="metro">Métro (droite)</option>
               <option value="classic">Classic</option>
-              <option value="minimal">Minimal</option>
               <option value="banner">Bandeau</option>
             </select>
           </div>
@@ -1199,9 +1187,13 @@
   }
 
   const loadedBundle = loadBundleFromStorage();
-  const allowedLayouts = new Set(['split', 'metro', 'classic', 'minimal', 'banner']);
+  const allowedLayouts = new Set(['split', 'metro', 'classic', 'banner']);
+  function migrateLayout(layout) {
+    return layout === 'minimal' ? 'classic' : layout;
+  }
+  const storedLayout = migrateLayout(loadedBundle?.layout);
   let appState = {
-    layout: allowedLayouts.has(loadedBundle?.layout) ? loadedBundle.layout : 'split',
+    layout: allowedLayouts.has(storedLayout) ? storedLayout : 'split',
     cv: normalizeCv(loadedBundle?.cv ?? null),
     theme: loadedBundle?.theme === 'dark' ? 'dark' : 'light',
     paletteIndex: clampPaletteIndex(loadedBundle?.paletteIndex ?? loadedBundle?.paletteSplit ?? loadedBundle?.paletteFlow)
@@ -1484,25 +1476,6 @@
         </article>
       `;
       $('#resumePreview').innerHTML = preview;
-    } else if (appState.layout === 'minimal') {
-      const preview = `
-        <article class="resume resume--flow resume--minimal" itemscope itemtype="https://schema.org/Person">
-          <div class="main" style="padding-top:0">
-            <header>
-              <h1 class="name" itemprop="name">${escapeHtml(p.name) || 'Votre nom'}</h1>
-              <p class="role">${escapeHtml(p.title) || 'Titre professionnel'}</p>
-            </header>
-            ${contactHtml}
-            <p class="entry-desc" style="margin-top:10px; margin-bottom:20px;" itemprop="description">${escapeHtml(p.summary || '')}</p>
-            <section class="sec2"><h2>Expériences</h2>${experiencesHtml}</section>
-            ${separator}
-            <section class="sec2"><h2>Formations</h2>${educationsHtml}</section>
-            <section class="sec2"><h2>Compétences</h2>${skillsHtml}</section>
-            <section class="sec2"><h2>Centres d’intérêt</h2>${interestsHtml}</section>
-          </div>
-        </article>
-      `;
-      $('#resumePreview').innerHTML = preview;
     } else if (appState.layout === 'banner') {
       const bannerContact = renderBannerContact(p);
       const preview = `
@@ -1528,9 +1501,9 @@
       `;
       $('#resumePreview').innerHTML = preview;
     } else {
-      appState.layout = 'minimal';
+      appState.layout = 'classic';
       const sel = $('#layoutSel');
-      if (sel) sel.value = 'minimal';
+      if (sel) sel.value = 'classic';
       renderPreview();
       return;
     }
