@@ -345,7 +345,7 @@
       line-height: 1.45;
       -webkit-font-smoothing: antialiased;
     }
-    /* Deux colonnes — largeur sidebar alignée avec le dégradé (évite décalage visuel) */
+    /* 2 colonnes (gauche) — largeur sidebar alignée avec le fond (évite décalage visuel) */
     .resume.resume--split {
       --split-w: min(248px, 34vw);
       grid-template-columns: var(--split-w) 1fr;
@@ -358,9 +358,27 @@
       background: transparent;
     }
     .resume.resume--split .side {
+      position: relative;
       padding: 22px 18px 26px;
-      border-right: 1px solid var(--cv-border);
-      box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.35);
+      border-right: none;
+      box-shadow: none;
+    }
+    /* Séparation verticale : dégradé haut → bas (accent → neutre) */
+    .resume.resume--split .side::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 3px;
+      pointer-events: none;
+      border-radius: 3px 0 0 3px;
+      background: linear-gradient(
+        180deg,
+        var(--cv-accent) 0%,
+        var(--cv-border) 42%,
+        rgba(0, 0, 0, 0.07) 100%
+      );
     }
     .resume.resume--split .main {
       padding: 26px 30px 28px;
@@ -381,7 +399,7 @@
     .resume.resume--split .block:first-of-type {
       margin-top: 22px;
     }
-    /* Sidebar à droite (variante « Métro ») */
+    /* 2 colonnes — barre latérale à droite */
     .resume.resume--metro {
       --split-w: min(248px, 34vw);
       grid-template-columns: 1fr var(--split-w);
@@ -394,10 +412,27 @@
       background: transparent;
     }
     .resume.resume--metro .side {
+      position: relative;
       padding: 22px 18px 26px;
       border-right: none;
-      border-left: 1px solid var(--cv-border);
-      box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.35);
+      border-left: none;
+      box-shadow: none;
+    }
+    .resume.resume--metro .side::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 3px;
+      pointer-events: none;
+      border-radius: 0 3px 3px 0;
+      background: linear-gradient(
+        180deg,
+        var(--cv-accent) 0%,
+        var(--cv-border) 42%,
+        rgba(0, 0, 0, 0.07) 100%
+      );
     }
     .resume.resume--metro .main {
       padding: 26px 30px 28px;
@@ -875,9 +910,16 @@
         padding: 14px 12px !important;
         border-right: 1px solid var(--cv-border) !important;
       }
+      .resume.resume--split .side,
       .resume.resume--metro .side {
         border-right: none !important;
-        border-left: 1px solid var(--cv-border) !important;
+        border-left: none !important;
+      }
+      .resume.resume--split .side::after,
+      .resume.resume--metro .side::before {
+        width: 2.5pt;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .main { padding: 18px 20px !important; background: #fff !important; }
       .name { font-size: 22pt; line-height: 1.08; }
@@ -927,8 +969,9 @@
       .resume.resume--metro:has(aside.side) .side {
         background: var(--cv-side);
       }
-      .resume.resume--metro .side {
-        border-left: none;
+      .resume.resume--split .side::after,
+      .resume.resume--metro .side::before {
+        display: none;
       }
       .side { border-right: none; border-bottom: 1px solid var(--cv-border); }
       .main { padding: 24px 18px; }
@@ -969,8 +1012,8 @@
           <div class="field full">
             <label>Template</label>
             <select id="layoutSel" class="sel">
-              <option value="split">Deux colonnes</option>
-              <option value="metro">Métro (droite)</option>
+              <option value="split">2 colonnes (gauche)</option>
+              <option value="metro">2 colonnes (droite)</option>
               <option value="classic">Classic</option>
               <option value="banner">Bandeau</option>
             </select>
