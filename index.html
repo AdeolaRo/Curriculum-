@@ -609,45 +609,57 @@
       line-height: 1.45;
     }
 
-    .palette-section { padding-top: 4px; }
-    .palette-panel {
-      margin-top: 6px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.45);
+    /* Panneau thème : minimal (lisible ATS, pas de chrome décoratif) */
+    .palette-section { padding-top: 2px; }
+    .palette-legend {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
     }
-    body[data-theme="dark"] .palette-panel {
-      background: rgba(40,38,52,.5);
+    .palette-panel {
+      margin-top: 0;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--paper);
     }
     .palette-swatches {
-      display: grid;
-      grid-template-columns: repeat(8, minmax(0, 1fr));
-      gap: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
     }
     .swatch {
-      width: 100%;
-      aspect-ratio: 1;
-      max-width: 44px;
-      margin: 0 auto;
-      border-radius: 50%;
-      border: 2px solid transparent;
+      width: 22px;
+      height: 22px;
+      flex: 0 0 22px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.18);
       padding: 0;
       cursor: pointer;
-      transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-      box-shadow: 0 6px 14px rgba(25,15,60,.12);
+      transition: border-color 0.12s ease, box-shadow 0.12s ease;
+      box-shadow: none;
     }
-    .swatch:hover { transform: scale(1.06); }
+    body[data-theme="dark"] .swatch {
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+    .swatch:hover {
+      border-color: rgba(0, 0, 0, 0.35);
+    }
+    body[data-theme="dark"] .swatch:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+    }
     .swatch:focus-visible {
       outline: 2px solid var(--accent2);
-      outline-offset: 3px;
+      outline-offset: 2px;
     }
     .swatch[aria-pressed="true"] {
       border-color: var(--text);
-      box-shadow: 0 0 0 3px rgba(14, 93, 99, 0.25);
-    }
-    body[data-theme="dark"] .swatch[aria-pressed="true"] {
-      box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.25);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
     }
 
     .date-row {
@@ -690,51 +702,46 @@
         border-radius: 0;
         max-width: 210mm;
         margin: 0 auto;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
+      /* Conserver les couleurs du thème (--cv-*) comme à l’écran */
       #resumePreview {
-        --cv-accent: #000 !important;
-        --cv-link: #000 !important;
-        --cv-side: #ededed !important;
-        --cv-border: #ccc !important;
-        --cv-soft: #f3f3f3 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .resume,
+      .resume * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .resume {
         width: 100%;
         min-height: auto;
         break-inside: avoid;
-        color: #000 !important;
+        color: #111;
         grid-template-columns: 32% 1fr;
         font-size: 10.5pt;
         line-height: 1.42;
       }
-      .resume:not(:has(aside.side)) {
-        background: #fff !important;
-      }
       .resume:has(aside.side) {
-        background: linear-gradient(90deg, #ededed 32%, #fff 32%) !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+        background: linear-gradient(90deg, var(--cv-side) 32%, #fff 32%) !important;
       }
       .resume:has(aside.side) .side {
         background: transparent !important;
       }
-      .resume a { color: #000 !important; text-decoration: none !important; }
+      .resume.resume--flow {
+        background: linear-gradient(180deg, var(--cv-soft) 0%, #ffffff min(220px, 45%)) !important;
+      }
+      .resume a { text-decoration: none !important; }
       .resume a:hover { text-decoration: none !important; }
-      .resume .role { color: #000 !important; }
       .resume .sec2 h2 {
-        color: #000 !important;
-        border-bottom-color: #000 !important;
         font-size: 9.5pt;
         margin-bottom: 8px;
       }
-      .resume .skill-list li::before,
-      .resume .interest-list li::before { color: #000 !important; }
       .side {
         padding: 14px 12px !important;
-        border-right: 1px solid #ccc !important;
-      }
-      .resume:not(:has(aside.side)) .side {
-        background: #ededed !important;
+        border-right: 1px solid var(--cv-border) !important;
       }
       .main { padding: 18px 20px !important; background: #fff !important; }
       .name { font-size: 22pt; line-height: 1.08; }
@@ -745,30 +752,27 @@
       .label2 { font-size: 8pt; }
       .list, .contact-lines { font-size: 9.5pt; }
       .contact-grid {
-        background: #f3f3f3 !important;
-        border: 1px solid #ccc !important;
-        border-left: 3px solid #666 !important;
+        border-left-color: var(--cv-accent) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .badge {
-        background: #e8f2f2 !important;
-        color: #0d3d40 !important;
-        border: 1px solid #cfe4e4;
         font-size: 8.5pt;
         padding: 3px 8px;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .skill-list li, .interest-list li { font-size: 9pt; }
       .section-separator {
-        background: #bbb !important;
+        background: var(--cv-border) !important;
         margin: 14px 0 !important;
         height: 1px;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        opacity: 1;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .entry { page-break-inside: avoid; orphans: 3; widows: 3; }
       .sec2 { page-break-inside: avoid; }
-      a[href^="mailto:"], a[href^="tel:"] { color: #000 !important; text-decoration: none; }
     }
     @media (max-width: 1100px) {
       .layout { grid-template-columns: 1fr; }
@@ -788,7 +792,6 @@
       .side { border-right: none; border-bottom: 1px solid #ddd; }
       .main { padding: 24px 18px; }
       .name { font-size: 32px; }
-      .palette-swatches { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
   </style>
 </head>
@@ -833,10 +836,11 @@
         </div>
       </div>
 
-      <!-- Panneau couleur CV (unique) -->
+      <!-- Thème couleur (aperçu + PDF — pastilles sobres) -->
       <div class="section palette-section">
+        <span class="palette-legend">Thème</span>
         <div class="palette-panel">
-          <div id="paletteSwatches" class="palette-swatches" role="group" aria-label="Couleur du CV"></div>
+          <div id="paletteSwatches" class="palette-swatches" role="group" aria-label="Thème couleur du CV"></div>
         </div>
       </div>
 
@@ -1114,7 +1118,7 @@
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'swatch';
-      b.style.background = `linear-gradient(145deg, ${c}, ${c}dd)`;
+      b.style.background = c;
       b.title = labels[i];
       b.addEventListener('click', () => {
         appState.paletteIndex = i;
