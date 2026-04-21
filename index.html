@@ -804,7 +804,7 @@
       <div class="logo">CV</div>
       <div class="title">
         <h1>Création de CV ATS</h1>
-        <p>Réinitialiser : CV vide · Démo : exemple · PDF sobre pour l’ATS.</p>
+        <p>Création de CV ATS Friendly</p>
       </div>
     </div>
     <div class="actions print-hide">
@@ -821,7 +821,6 @@
     <section class="panel editor print-hide">
       <div class="intro">
         <h2>Éditeur</h2>
-        <p>Remplissez les blocs à gauche : l’aperçu et le score ATS se mettent à jour en direct.</p>
       </div>
 
       <!-- Template -->
@@ -842,11 +841,8 @@
       <div class="section">
         <div class="row" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
           <strong>Couleurs du CV</strong>
-          <span class="note" id="colorHint">Choisir une harmonie pour l’aperçu.</span>
         </div>
-        <p class="note" style="margin:10px 0 14px;line-height:1.45">Les couleurs s’appliquent à l’écran uniquement : l’impression PDF garde texte noir, filets sobres et fond de colonne gris clair pour les logiciels ATS.</p>
         <div class="palette-block" id="paletteFlowBlock" hidden>
-          <div class="palette-label">Classic &amp; Minimal</div>
           <div class="palette-swatches" id="paletteFlowSwatches" role="group" aria-label="Palettes une colonne"></div>
         </div>
         <div class="palette-block" id="paletteSplitBlock">
@@ -1122,12 +1118,6 @@
     const sb = $('#paletteSplitBlock');
     if (fb) fb.hidden = split;
     if (sb) sb.hidden = !split;
-    const hint = $('#colorHint');
-    if (hint) {
-      hint.textContent = split
-        ? '6 harmonies pour la vue deux colonnes (aperçu écran uniquement).'
-        : '6 harmonies pour Classic et Minimal (aperçu écran uniquement).';
-    }
   }
 
   function refreshPaletteSwatchAria() {
