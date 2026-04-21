@@ -320,20 +320,15 @@
       box-shadow: var(--shadow);
       overflow: visible;
     }
-    /* Palettes sur #resumePreview = parent direct du CV → héritage fiable (Classic / Minimal) */
-    #resumePreview.cv-skin-flow-0 { --cv-accent: #0e5d63; --cv-link: #0a4f54; --cv-side: #f1f5f9; --cv-border: #e2e8f0; --cv-soft: rgba(14,93,99,.14); }
-    #resumePreview.cv-skin-flow-1 { --cv-accent: #1e3a5f; --cv-link: #172554; --cv-side: #f1f5f9; --cv-border: #e2e8f0; --cv-soft: rgba(30,58,95,.14); }
-    #resumePreview.cv-skin-flow-2 { --cv-accent: #6b21a8; --cv-link: #4c1d95; --cv-side: #faf5ff; --cv-border: #ede9fe; --cv-soft: rgba(107,33,168,.16); }
-    #resumePreview.cv-skin-flow-3 { --cv-accent: #166534; --cv-link: #14532d; --cv-side: #f0fdf4; --cv-border: #dcfce7; --cv-soft: rgba(22,101,52,.14); }
-    #resumePreview.cv-skin-flow-4 { --cv-accent: #9a3412; --cv-link: #7c2d12; --cv-side: #fff7ed; --cv-border: #ffedd5; --cv-soft: rgba(154,52,18,.16); }
-    #resumePreview.cv-skin-flow-5 { --cv-accent: #0f766e; --cv-link: #115e59; --cv-side: #f0fdfa; --cv-border: #ccfbf1; --cv-soft: rgba(15,118,110,.14); }
-
-    #resumePreview.cv-skin-split-0 { --cv-accent: #0e5d63; --cv-link: #0a4f54; --cv-side: #e8f4f5; --cv-border: #cfe8e8; --cv-soft: rgba(14,93,99,.14); }
-    #resumePreview.cv-skin-split-1 { --cv-accent: #3730a3; --cv-link: #312e81; --cv-side: #e8e9f6; --cv-border: #d4d6f5; --cv-soft: rgba(55,48,163,.14); }
-    #resumePreview.cv-skin-split-2 { --cv-accent: #9d174d; --cv-link: #831843; --cv-side: #fce7f3; --cv-border: #fbcfe8; --cv-soft: rgba(157,23,77,.16); }
-    #resumePreview.cv-skin-split-3 { --cv-accent: #3f6212; --cv-link: #365314; --cv-side: #ecfccb; --cv-border: #d9f99d; --cv-soft: rgba(63,98,18,.16); }
-    #resumePreview.cv-skin-split-4 { --cv-accent: #b45309; --cv-link: #92400e; --cv-side: #fef3c7; --cv-border: #fde68a; --cv-soft: rgba(180,83,9,.16); }
-    #resumePreview.cv-skin-split-5 { --cv-accent: #44403c; --cv-link: #292524; --cv-side: #e7e5e4; --cv-border: #d6d3d1; --cv-soft: rgba(68,64,60,.14); }
+    /* Une palette unique (#resumePreview.cv-palette-N) pour tous les modèles */
+    #resumePreview.cv-palette-0 { --cv-accent: #0e5d63; --cv-link: #0a4f54; --cv-side: #e8f4f5; --cv-border: #cfe8e8; --cv-soft: rgba(14,93,99,.14); }
+    #resumePreview.cv-palette-1 { --cv-accent: #1e3a5f; --cv-link: #172554; --cv-side: #e8edf5; --cv-border: #c7d4e8; --cv-soft: rgba(30,58,95,.14); }
+    #resumePreview.cv-palette-2 { --cv-accent: #6b21a8; --cv-link: #4c1d95; --cv-side: #faf5ff; --cv-border: #ede9fe; --cv-soft: rgba(107,33,168,.16); }
+    #resumePreview.cv-palette-3 { --cv-accent: #166534; --cv-link: #14532d; --cv-side: #ecfdf3; --cv-border: #bbf7d0; --cv-soft: rgba(22,101,52,.14); }
+    #resumePreview.cv-palette-4 { --cv-accent: #9a3412; --cv-link: #7c2d12; --cv-side: #fff7ed; --cv-border: #fed7aa; --cv-soft: rgba(154,52,18,.16); }
+    #resumePreview.cv-palette-5 { --cv-accent: #0f766e; --cv-link: #115e59; --cv-side: #f0fdfa; --cv-border: #99f6e4; --cv-soft: rgba(15,118,110,.14); }
+    #resumePreview.cv-palette-6 { --cv-accent: #3730a3; --cv-link: #312e81; --cv-side: #e8e9f6; --cv-border: #d4d6f5; --cv-soft: rgba(55,48,163,.14); }
+    #resumePreview.cv-palette-7 { --cv-accent: #9d174d; --cv-link: #831843; --cv-side: #fce7f3; --cv-border: #fbcfe8; --cv-soft: rgba(157,23,77,.16); }
 
     .resume {
       display: grid;
@@ -614,19 +609,20 @@
       line-height: 1.45;
     }
 
-    /* Palettes CV (écran uniquement — PDF neutralisé plus bas) */
-    .palette-block { margin-top: 4px; }
-    .palette-label {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 8px;
+    .palette-section { padding-top: 4px; }
+    .palette-panel {
+      margin-top: 6px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.45);
+    }
+    body[data-theme="dark"] .palette-panel {
+      background: rgba(40,38,52,.5);
     }
     .palette-swatches {
       display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-columns: repeat(8, minmax(0, 1fr));
       gap: 8px;
     }
     .swatch {
@@ -792,7 +788,7 @@
       .side { border-right: none; border-bottom: 1px solid #ddd; }
       .main { padding: 24px 18px; }
       .name { font-size: 32px; }
-      .palette-swatches { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .palette-swatches { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
   </style>
 </head>
@@ -837,17 +833,10 @@
         </div>
       </div>
 
-      <!-- Couleurs CV (aperçu écran) -->
-      <div class="section">
-        <div class="row" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-          <strong>Couleurs du CV</strong>
-        </div>
-        <div class="palette-block" id="paletteFlowBlock" hidden>
-          <div class="palette-swatches" id="paletteFlowSwatches" role="group" aria-label="Palettes une colonne"></div>
-        </div>
-        <div class="palette-block" id="paletteSplitBlock">
-          <div class="palette-label">Deux colonnes</div>
-          <div class="palette-swatches" id="paletteSplitSwatches" role="group" aria-label="Palettes deux colonnes"></div>
+      <!-- Panneau couleur CV (unique) -->
+      <div class="section palette-section">
+        <div class="palette-panel">
+          <div id="paletteSwatches" class="palette-swatches" role="group" aria-label="Couleur du CV"></div>
         </div>
       </div>
 
@@ -995,12 +984,14 @@
             cv: parsed.cv,
             layout: parsed.layout,
             theme: parsed.theme,
-            paletteFlow: parsed.paletteFlow,
-            paletteSplit: parsed.paletteSplit
+            paletteIndex:
+              parsed.paletteIndex ??
+              parsed.paletteSplit ??
+              parsed.paletteFlow
           };
         }
         if (parsed.personal) {
-          return { cv: parsed, layout: 'split', theme: 'light', paletteFlow: 0, paletteSplit: 0 };
+          return { cv: parsed, layout: 'split', theme: 'light', paletteIndex: 0 };
         }
       } catch {
         /* ignore */
@@ -1009,10 +1000,11 @@
     return null;
   }
 
+  const PALETTE_COUNT = 8;
   function clampPaletteIndex(n) {
     const x = Number(n);
     if (Number.isNaN(x)) return 0;
-    return Math.min(5, Math.max(0, Math.round(x)));
+    return Math.min(PALETTE_COUNT - 1, Math.max(0, Math.round(x)));
   }
 
   function normalizeCv(raw) {
@@ -1054,8 +1046,7 @@
     layout: allowedLayouts.has(loadedBundle?.layout) ? loadedBundle.layout : 'split',
     cv: normalizeCv(loadedBundle?.cv ?? null),
     theme: loadedBundle?.theme === 'dark' ? 'dark' : 'light',
-    paletteFlow: clampPaletteIndex(loadedBundle?.paletteFlow),
-    paletteSplit: clampPaletteIndex(loadedBundle?.paletteSplit)
+    paletteIndex: clampPaletteIndex(loadedBundle?.paletteIndex ?? loadedBundle?.paletteSplit ?? loadedBundle?.paletteFlow)
   };
 
   // Utilitaires DOM
@@ -1073,8 +1064,7 @@
           cv: appState.cv,
           layout: appState.layout,
           theme: appState.theme,
-          paletteFlow: appState.paletteFlow,
-          paletteSplit: appState.paletteSplit
+          paletteIndex: appState.paletteIndex
         })
       );
     } catch {
@@ -1103,69 +1093,36 @@
     const root = $('#resumePreview');
     if (!root) return;
     [...root.classList].forEach((c) => {
-      if (c.startsWith('cv-skin-')) root.classList.remove(c);
+      if (c.startsWith('cv-palette-') || c.startsWith('cv-skin-')) root.classList.remove(c);
     });
-    const skin =
-      appState.layout === 'split'
-        ? `cv-skin-split-${appState.paletteSplit}`
-        : `cv-skin-flow-${appState.paletteFlow}`;
-    root.classList.add(skin);
-  }
-
-  function updatePaletteUI() {
-    const split = appState.layout === 'split';
-    const fb = $('#paletteFlowBlock');
-    const sb = $('#paletteSplitBlock');
-    if (fb) fb.hidden = split;
-    if (sb) sb.hidden = !split;
+    root.classList.add(`cv-palette-${appState.paletteIndex}`);
   }
 
   function refreshPaletteSwatchAria() {
-    document.querySelectorAll('#paletteFlowSwatches .swatch').forEach((b, i) => {
-      b.setAttribute('aria-pressed', appState.paletteFlow === i ? 'true' : 'false');
-    });
-    document.querySelectorAll('#paletteSplitSwatches .swatch').forEach((b, i) => {
-      b.setAttribute('aria-pressed', appState.paletteSplit === i ? 'true' : 'false');
+    document.querySelectorAll('#paletteSwatches .swatch').forEach((b, i) => {
+      b.setAttribute('aria-pressed', appState.paletteIndex === i ? 'true' : 'false');
     });
   }
 
   function initPaletteControls() {
-    const flowWrap = $('#paletteFlowSwatches');
-    const splitWrap = $('#paletteSplitSwatches');
-    if (!flowWrap || !splitWrap) return;
-    const flowColors = ['#0e5d63', '#1e3a5f', '#6b21a8', '#166534', '#9a3412', '#0f766e'];
-    const splitColors = ['#0e5d63', '#3730a3', '#9d174d', '#3f6212', '#b45309', '#44403c'];
-    const labelFlow = ['Ardoise', 'Nuit', 'Violet', 'Forêt', 'Brique', 'Lagon'];
-    const labelSplit = ['Lagune', 'Indigo', 'Framboise', 'Olive', 'Miel', 'Graphite'];
-    flowWrap.innerHTML = '';
-    splitWrap.innerHTML = '';
-    flowColors.forEach((c, i) => {
+    const wrap = $('#paletteSwatches');
+    if (!wrap) return;
+    const colors = ['#0e5d63', '#1e3a5f', '#6b21a8', '#166534', '#9a3412', '#0f766e', '#3730a3', '#9d174d'];
+    const labels = ['Lagune', 'Nuit', 'Violet', 'Forêt', 'Brique', 'Lagon', 'Indigo', 'Framboise'];
+    wrap.innerHTML = '';
+    colors.forEach((c, i) => {
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'swatch';
       b.style.background = `linear-gradient(145deg, ${c}, ${c}dd)`;
-      b.title = labelFlow[i];
+      b.title = labels[i];
       b.addEventListener('click', () => {
-        appState.paletteFlow = i;
+        appState.paletteIndex = i;
         refreshPaletteSwatchAria();
         applyCvShellStyle();
         schedulePersist();
       });
-      flowWrap.appendChild(b);
-    });
-    splitColors.forEach((c, i) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'swatch';
-      b.style.background = `linear-gradient(145deg, ${c}, ${c}dd)`;
-      b.title = labelSplit[i];
-      b.addEventListener('click', () => {
-        appState.paletteSplit = i;
-        refreshPaletteSwatchAria();
-        applyCvShellStyle();
-        schedulePersist();
-      });
-      splitWrap.appendChild(b);
+      wrap.appendChild(b);
     });
     refreshPaletteSwatchAria();
   }
@@ -1499,7 +1456,6 @@
     // Changement de template
     $('#layoutSel').onchange = (e) => {
       appState.layout = e.target.value;
-      updatePaletteUI();
       renderPreview();
     };
 
@@ -1559,12 +1515,11 @@
       appState.cv = normalizeCv(null);
       appState.layout = 'split';
       appState.theme = 'light';
-      appState.paletteFlow = 0;
-      appState.paletteSplit = 0;
+      appState.paletteIndex = 0;
       document.body.dataset.theme = 'light';
       $('#themeBtn').textContent = 'Mode sombre';
       $('#layoutSel').value = 'split';
-      updatePaletteUI();
+      refreshPaletteSwatchAria();
       persistBundleImmediate();
       renderPreview();
       refreshEditorFromState();
@@ -1629,7 +1584,6 @@
     $('#themeBtn').textContent = appState.theme === 'dark' ? 'Mode clair' : 'Mode sombre';
     $('#layoutSel').value = appState.layout;
     initPaletteControls();
-    updatePaletteUI();
     renderPreview();
     refreshEditorFromState();
   }
