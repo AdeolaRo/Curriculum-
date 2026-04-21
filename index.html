@@ -332,7 +332,7 @@
 
     .resume {
       display: grid;
-      grid-template-columns: 210px 1fr;
+      grid-template-columns: 1fr;
       grid-template-rows: minmax(min-content, 1fr);
       align-items: stretch;
       min-height: 1000px;
@@ -345,12 +345,75 @@
       line-height: 1.45;
       -webkit-font-smoothing: antialiased;
     }
-    /* Fond colonne gauche = hauteur du bloc CV (évite bande blanche sous la sidebar) */
-    .resume:has(aside.side) {
-      background: linear-gradient(90deg, var(--cv-side) 210px, #fff 210px);
+    /* Deux colonnes — largeur sidebar alignée avec le dégradé (évite décalage visuel) */
+    .resume.resume--split {
+      --split-w: min(248px, 34vw);
+      grid-template-columns: var(--split-w) 1fr;
+      padding-top: 18px;
     }
-    .resume:has(aside.side) .side {
+    .resume.resume--split:has(aside.side) {
+      background: linear-gradient(90deg, var(--cv-side) var(--split-w), #fff var(--split-w));
+    }
+    .resume.resume--split:has(aside.side) .side {
       background: transparent;
+    }
+    .resume.resume--split .side {
+      padding: 22px 18px 26px;
+      border-right: 1px solid var(--cv-border);
+      box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.35);
+    }
+    .resume.resume--split .main {
+      padding: 26px 30px 28px;
+    }
+    .resume.resume--split .name {
+      font-size: 36px;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+    }
+    .resume.resume--split .role {
+      margin-top: 10px;
+      letter-spacing: 0.07em;
+    }
+    .resume.resume--split .side .contact-lines a {
+      color: var(--cv-accent);
+      font-weight: 600;
+    }
+    .resume.resume--split .block:first-of-type {
+      margin-top: 22px;
+    }
+    /* Sidebar à droite (variante « Métro ») */
+    .resume.resume--metro {
+      --split-w: min(248px, 34vw);
+      grid-template-columns: 1fr var(--split-w);
+      padding-top: 18px;
+    }
+    .resume.resume--metro:has(aside.side) {
+      background: linear-gradient(90deg, #fff calc(100% - var(--split-w)), var(--cv-side) calc(100% - var(--split-w)));
+    }
+    .resume.resume--metro:has(aside.side) .side {
+      background: transparent;
+    }
+    .resume.resume--metro .side {
+      padding: 22px 18px 26px;
+      border-right: none;
+      border-left: 1px solid var(--cv-border);
+      box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.35);
+    }
+    .resume.resume--metro .main {
+      padding: 26px 30px 28px;
+    }
+    .resume.resume--metro .name {
+      font-size: 36px;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+    }
+    .resume.resume--metro .role {
+      margin-top: 10px;
+      letter-spacing: 0.07em;
+    }
+    .resume.resume--metro .side .contact-lines a {
+      color: var(--cv-accent);
+      font-weight: 600;
     }
     /* Classic & Minimal : bandeau teinté en tête + un peu d’air */
     .resume.resume--flow {
@@ -358,6 +421,71 @@
       padding-left: 6px;
       padding-right: 6px;
       background: linear-gradient(180deg, var(--cv-soft) 0%, #ffffff min(220px, 45%));
+    }
+    .resume.resume--flow.resume--classic .name {
+      font-size: 46px;
+      letter-spacing: -0.035em;
+    }
+    .resume.resume--flow.resume--minimal .name {
+      font-size: 38px;
+      letter-spacing: -0.028em;
+    }
+    .resume.resume--flow.resume--minimal .sec2 {
+      margin-bottom: 18px;
+    }
+    .resume.resume--flow.resume--minimal .entry {
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+    }
+    /* Bandeau — en-tête pleine largeur */
+    .resume.resume--banner.resume--flow {
+      padding-left: 0;
+      padding-right: 0;
+      background: #fff;
+      padding-top: 16px;
+    }
+    .resume.resume--banner .resume-banner {
+      padding: 26px 28px 22px;
+      background: linear-gradient(165deg, var(--cv-soft) 0%, rgba(255, 255, 255, 0.98) 52%);
+      border-bottom: 3px solid var(--cv-accent);
+    }
+    .resume.resume--banner .resume-banner__inner {
+      max-width: 100%;
+    }
+    .resume.resume--banner .resume-banner-body {
+      padding: 22px 28px 26px;
+    }
+    .resume.resume--banner .banner-contact {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px 6px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #222;
+    }
+    .resume.resume--banner .banner-contact .lbl {
+      font-weight: 700;
+      color: var(--cv-accent);
+      margin-right: 4px;
+    }
+    .resume.resume--banner .banner-contact a {
+      color: var(--cv-accent);
+      font-weight: 600;
+    }
+    .resume.resume--banner .banner-contact-sep {
+      color: rgba(0, 0, 0, 0.22);
+      font-weight: 400;
+      user-select: none;
+    }
+    .resume.resume--banner .resume-banner .name {
+      font-size: 42px;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+    .resume.resume--banner .resume-banner .role {
+      margin-top: 8px;
     }
     .resume a {
       color: var(--cv-link);
@@ -720,18 +848,33 @@
         min-height: auto;
         break-inside: avoid;
         color: #111;
-        grid-template-columns: 32% 1fr;
+        grid-template-columns: 1fr;
         font-size: 10.5pt;
         line-height: 1.42;
       }
-      .resume:has(aside.side) {
+      .resume.resume--split {
+        grid-template-columns: 32% 1fr !important;
+      }
+      .resume.resume--metro {
+        grid-template-columns: 1fr 32% !important;
+      }
+      .resume.resume--split:has(aside.side) {
         background: linear-gradient(90deg, var(--cv-side) 32%, #fff 32%) !important;
       }
-      .resume:has(aside.side) .side {
+      .resume.resume--metro:has(aside.side) {
+        background: linear-gradient(90deg, #fff 68%, var(--cv-side) 68%) !important;
+      }
+      .resume.resume--split:has(aside.side) .side,
+      .resume.resume--metro:has(aside.side) .side {
         background: transparent !important;
       }
-      .resume.resume--flow {
+      .resume.resume--flow:not(.resume--banner) {
         background: linear-gradient(180deg, var(--cv-soft) 0%, #ffffff min(220px, 45%)) !important;
+      }
+      .resume.resume--banner .resume-banner {
+        border-bottom-color: var(--cv-accent) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .resume a { text-decoration: none !important; }
       .resume a:hover { text-decoration: none !important; }
@@ -742,6 +885,10 @@
       .side {
         padding: 14px 12px !important;
         border-right: 1px solid var(--cv-border) !important;
+      }
+      .resume.resume--metro .side {
+        border-right: none !important;
+        border-left: 1px solid var(--cv-border) !important;
       }
       .main { padding: 18px 20px !important; background: #fff !important; }
       .name { font-size: 22pt; line-height: 1.08; }
@@ -782,14 +929,19 @@
     @media (max-width: 760px) {
       .wrap { padding: 12px; }
       .topbar { flex-direction: column; align-items: flex-start; }
-      .grid, .resume { grid-template-columns: 1fr; }
-      .resume:has(aside.side) {
+      .grid, .resume { grid-template-columns: 1fr !important; }
+      .resume.resume--split:has(aside.side),
+      .resume.resume--metro:has(aside.side) {
         background: #fff;
       }
-      .resume:has(aside.side) .side {
+      .resume.resume--split:has(aside.side) .side,
+      .resume.resume--metro:has(aside.side) .side {
         background: var(--cv-side);
       }
-      .side { border-right: none; border-bottom: 1px solid #ddd; }
+      .resume.resume--metro .side {
+        border-left: none;
+      }
+      .side { border-right: none; border-bottom: 1px solid var(--cv-border); }
       .main { padding: 24px 18px; }
       .name { font-size: 32px; }
     }
@@ -828,9 +980,11 @@
           <div class="field full">
             <label>Template</label>
             <select id="layoutSel" class="sel">
-              <option value="split">Deux Colonnes</option>
+              <option value="split">Deux colonnes</option>
+              <option value="metro">Métro (droite)</option>
               <option value="classic">Classic</option>
               <option value="minimal">Minimal</option>
+              <option value="banner">Bandeau</option>
             </select>
           </div>
         </div>
@@ -1045,7 +1199,7 @@
   }
 
   const loadedBundle = loadBundleFromStorage();
-  const allowedLayouts = new Set(['split', 'classic', 'minimal']);
+  const allowedLayouts = new Set(['split', 'metro', 'classic', 'minimal', 'banner']);
   let appState = {
     layout: allowedLayouts.has(loadedBundle?.layout) ? loadedBundle.layout : 'split',
     cv: normalizeCv(loadedBundle?.cv ?? null),
@@ -1225,6 +1379,24 @@
     return `<ul class="contact-lines">${parts.join('')}</ul>`;
   }
 
+  function renderBannerContact(personal) {
+    const parts = [];
+    if (personal.phone) {
+      const tel = escapeHtml(String(personal.phone).replace(/\s/g, ''));
+      parts.push(`<span><span class="lbl">Tél.</span><a href="tel:${tel}">${escapeHtml(personal.phone)}</a></span>`);
+    }
+    if (personal.email) {
+      parts.push(
+        `<span><span class="lbl">Email</span><a href="mailto:${escapeHtml(personal.email)}">${escapeHtml(personal.email)}</a></span>`
+      );
+    }
+    if (personal.address) {
+      parts.push(`<span><span class="lbl">Adresse</span>${escapeHtml(personal.address)}</span>`);
+    }
+    if (!parts.length) return '';
+    return `<div class="banner-contact">${parts.join('<span class="banner-contact-sep"> · </span>')}</div>`;
+  }
+
   function monthOptions(selected) {
     let html = '<option value="">Mois</option>';
     for (let m = 1; m <= 12; m++) {
@@ -1257,7 +1429,7 @@
 
     if (appState.layout === 'split') {
       const preview = `
-        <article class="resume" itemscope itemtype="https://schema.org/Person">
+        <article class="resume resume--split" itemscope itemtype="https://schema.org/Person">
           <aside class="side" aria-label="Informations complémentaires">
             <h1 class="name" itemprop="name">${escapeHtml(p.name) || 'Votre nom'}</h1>
             <p class="role">${escapeHtml(p.title) || 'Titre professionnel'}</p>
@@ -1274,12 +1446,31 @@
         </article>
       `;
       $('#resumePreview').innerHTML = preview;
+    } else if (appState.layout === 'metro') {
+      const preview = `
+        <article class="resume resume--metro" itemscope itemtype="https://schema.org/Person">
+          <div class="main">
+            <section class="sec2" aria-label="Expériences professionnelles"><h2>Expériences</h2>${experiencesHtml}</section>
+            ${separator}
+            <section class="sec2" aria-label="Formations"><h2>Formations</h2>${educationsHtml}</section>
+          </div>
+          <aside class="side" aria-label="Informations complémentaires">
+            <h1 class="name" itemprop="name">${escapeHtml(p.name) || 'Votre nom'}</h1>
+            <p class="role">${escapeHtml(p.title) || 'Titre professionnel'}</p>
+            <div class="block"><div class="label2">Contact</div>${renderSideContact(p) || '<p class="entry-sub">—</p>'}</div>
+            <div class="block"><div class="label2">Profil</div><p class="entry-desc" itemprop="description">${escapeHtml(p.summary || '')}</p></div>
+            <div class="block"><div class="label2">Compétences</div>${skillsHtml}</div>
+            <div class="block"><div class="label2">Centres d’intérêt</div>${interestsHtml}</div>
+          </aside>
+        </article>
+      `;
+      $('#resumePreview').innerHTML = preview;
     } else if (appState.layout === 'classic') {
       const preview = `
-        <article class="resume resume--flow" style="grid-template-columns:1fr" itemscope itemtype="https://schema.org/Person">
+        <article class="resume resume--flow resume--classic" itemscope itemtype="https://schema.org/Person">
           <div class="main" style="padding-top:0">
             <header>
-              <h1 class="name" style="font-size:46px" itemprop="name">${escapeHtml(p.name) || 'Votre nom'}</h1>
+              <h1 class="name" itemprop="name">${escapeHtml(p.name) || 'Votre nom'}</h1>
               <p class="role">${escapeHtml(p.title) || 'Titre professionnel'}</p>
             </header>
             ${contactHtml}
@@ -1293,12 +1484,12 @@
         </article>
       `;
       $('#resumePreview').innerHTML = preview;
-    } else {
+    } else if (appState.layout === 'minimal') {
       const preview = `
-        <article class="resume resume--flow" style="grid-template-columns:1fr" itemscope itemtype="https://schema.org/Person">
+        <article class="resume resume--flow resume--minimal" itemscope itemtype="https://schema.org/Person">
           <div class="main" style="padding-top:0">
             <header>
-              <h1 class="name" style="font-size:46px" itemprop="name">${escapeHtml(p.name) || 'Votre nom'}</h1>
+              <h1 class="name" itemprop="name">${escapeHtml(p.name) || 'Votre nom'}</h1>
               <p class="role">${escapeHtml(p.title) || 'Titre professionnel'}</p>
             </header>
             ${contactHtml}
@@ -1312,6 +1503,36 @@
         </article>
       `;
       $('#resumePreview').innerHTML = preview;
+    } else if (appState.layout === 'banner') {
+      const bannerContact = renderBannerContact(p);
+      const preview = `
+        <article class="resume resume--banner resume--flow" itemscope itemtype="https://schema.org/Person">
+          <div class="main" style="padding:0">
+            <header class="resume-banner">
+              <div class="resume-banner__inner">
+                <h1 class="name" itemprop="name">${escapeHtml(p.name) || 'Votre nom'}</h1>
+                <p class="role">${escapeHtml(p.title) || 'Titre professionnel'}</p>
+                ${bannerContact}
+              </div>
+            </header>
+            <div class="resume-banner-body">
+              <p class="entry-desc" itemprop="description">${escapeHtml(p.summary || '')}</p>
+              <section class="sec2"><h2>Expériences</h2>${experiencesHtml}</section>
+              ${separator}
+              <section class="sec2"><h2>Formations</h2>${educationsHtml}</section>
+              <section class="sec2"><h2>Compétences</h2>${skillsHtml}</section>
+              <section class="sec2"><h2>Centres d’intérêt</h2>${interestsHtml}</section>
+            </div>
+          </div>
+        </article>
+      `;
+      $('#resumePreview').innerHTML = preview;
+    } else {
+      appState.layout = 'minimal';
+      const sel = $('#layoutSel');
+      if (sel) sel.value = 'minimal';
+      renderPreview();
+      return;
     }
 
     const ats = computeAtsScore();
